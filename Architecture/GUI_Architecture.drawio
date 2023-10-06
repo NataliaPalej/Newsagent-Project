@@ -1,0 +1,125 @@
+<mxfile host="app.diagrams.net" modified="2023-10-06T11:51:44.736Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="Bl1BKjth0D98uPpGuEHo" version="22.0.3" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1781" dy="1739" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="U5KE1mDPosTcfufpRosq-2" value="ADMIN OPTIONS:&amp;nbsp;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. Create new user&amp;nbsp;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. Update existing user&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. Delete user&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;4. Read user&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;5. Print user&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="10" y="30" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-3" value="NEWSAGENT OPTIONS:&amp;nbsp;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. Create new customer&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. Update existing customer&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. Delete customer&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;4. Read customer&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;5. Print customer details&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;6. Generate invoice&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="280" y="90" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-9" value="1. CREATE NEW USER&lt;br&gt;Enter user name:&amp;nbsp;&lt;br&gt;Enter user password:&amp;nbsp;&lt;br&gt;Enter user role: (admin/newsagent/driver)&lt;br&gt;&lt;br&gt;2. UPDATE EXISTING USER&lt;br&gt;Enter userID/userName to update details&lt;br&gt;&lt;br&gt;3. DELETE USER&amp;nbsp;&lt;br&gt;Enter userID/userName to delete user&amp;nbsp;&lt;br&gt;&lt;br&gt;4. READ USER/PRINT USER&lt;br&gt;Enter userID/userName to read/print details" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-110" y="260" width="240" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-10" value="1. CREATE NEW USER&lt;br&gt;Enter First Name:&amp;nbsp;&lt;br&gt;Enter Last Name:&amp;nbsp;&lt;br&gt;Enter Address:&amp;nbsp;&lt;br&gt;Enter phoneNo:&amp;nbsp;&lt;br&gt;&lt;br&gt;2. UPDATE EXISTING CUSTOMER DETAILS&lt;br&gt;Enter custID/FirstName to update details&lt;br&gt;&lt;br&gt;3. DELETE CUSTOMER&lt;br&gt;Enter custID/FirstName&amp;nbsp;to delete user&amp;nbsp;&lt;br&gt;&lt;br&gt;4/5. READ/PRINT CUSTOMER&lt;br&gt;Enter custID/FirstName&amp;nbsp;to read/print details&lt;br&gt;&lt;br&gt;6. GENERATE INVOICE&amp;nbsp;&lt;br&gt;OPTIONS&lt;br&gt;&lt;ol&gt;&lt;li&gt;Generate monthly invoice for specific customer&lt;/li&gt;&lt;li&gt;Generate monthly invoice summary&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="215" y="340" width="300" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-11" value="2. UPDATE EXISTING CUSTOMER DETAILS&lt;br&gt;OPTIONS:&amp;nbsp;&lt;br&gt;&lt;ol&gt;&lt;li&gt;Edit first name&lt;/li&gt;&lt;li&gt;Edit last name&lt;/li&gt;&lt;li&gt;Edit address&lt;/li&gt;&lt;li&gt;Edit phone number&lt;/li&gt;&lt;li&gt;Edit subscription status&lt;/li&gt;&lt;/ol&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;3. DELETE CUSTOMER&lt;/div&gt;&lt;div&gt;Are you sure you want to delete &amp;lt;custID&amp;gt; &amp;lt;FirstName&amp;gt; &amp;lt;LastName&amp;gt; from database? YES/NO&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;4/5. READ/PRINT CUSTOMER&lt;/div&gt;&lt;div&gt;*once cust chosen, all the details will appear&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;6. GENERATE INVOICE&lt;/div&gt;&lt;div&gt;&lt;ol&gt;&lt;li&gt;Enter custID/custFirstName&amp;nbsp;&lt;/li&gt;&lt;li&gt;*when selected, generates full report (title -&amp;gt; quantity delivered -&amp;gt; unit price -&amp;gt; total sum -&amp;gt; date)&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="195" y="720" width="340" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-17" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.579;entryY=0.006;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-24" target="U5KE1mDPosTcfufpRosq-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="115" as="sourcePoint" />
+            <mxPoint x="350" y="220" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.447;entryY=0.006;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-24" target="U5KE1mDPosTcfufpRosq-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="375" y="200" as="sourcePoint" />
+            <mxPoint x="350" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-20" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-2" target="U5KE1mDPosTcfufpRosq-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="470" as="sourcePoint" />
+            <mxPoint x="330" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-21" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-3" target="U5KE1mDPosTcfufpRosq-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="470" as="sourcePoint" />
+            <mxPoint x="600" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-10" target="U5KE1mDPosTcfufpRosq-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="970" as="sourcePoint" />
+            <mxPoint x="600" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-23" value="DRIVER OPTIONS:&amp;nbsp;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;1. Read/Print&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;delivery doc&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;2. Print invoices&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="590" y="40" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-24" value="Hello, please log in:&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;[OPTIONS:&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Admin,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Newsagent,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Driver]&lt;/span&gt;&lt;/div&gt;&lt;br&gt;&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Enter userName:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Enter userPassword:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="267.5" y="-250" width="215" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-27" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-24" target="U5KE1mDPosTcfufpRosq-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="385" y="-25" as="sourcePoint" />
+            <mxPoint x="386" y="261" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-28" value="1. PRINT/READ DELIVERY DOC&lt;br&gt;Do you want to print/read delivery doc for &amp;lt;current-date&amp;gt; ? &lt;br&gt;YES/NO&amp;nbsp;&lt;br&gt;&lt;br&gt;2. PRINT MONTHLY INVOICES&lt;br&gt;&lt;ol&gt;&lt;li&gt;If last day of month:&lt;br&gt;Total Invoices: XX&lt;br&gt;Do you want to print them?&amp;nbsp;&lt;br&gt;YES/NO&lt;br&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;If not last day of month:&lt;br&gt;Invoices are available at the last day of each month&lt;/li&gt;&lt;/ol&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="260" width="230" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-29" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-23" target="U5KE1mDPosTcfufpRosq-28">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="170" as="sourcePoint" />
+            <mxPoint x="590" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-30" value="GUI ARCHITECTURE" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#d80073;strokeColor=#A50040;fontColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="266.5" y="-380" width="216" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-32" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="150" y="-75" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-33" value="Newsagent" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="384" y="-10" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-34" value="2" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="490" y="-95" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-35" value="3" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="500" y="-85" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-36" value="4" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="512.5" y="-70" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-37" value="5" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="535" y="-85" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-38" value="6" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="542.5" y="-75" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-39" value="7" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="550" y="-60" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-40" value="8" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="-50" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-43" value="9" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="590" y="-60" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="U5KE1mDPosTcfufpRosq-43" target="U5KE1mDPosTcfufpRosq-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-45" value="10" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="600" y="-50" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-46" value="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="482.5" y="-110" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-47" value="11" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="610" y="-40" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="U5KE1mDPosTcfufpRosq-48" value="12" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="620" y="-30" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

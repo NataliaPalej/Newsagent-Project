@@ -4,10 +4,6 @@ import junit.framework.TestCase;
 
 public class UserTest extends TestCase {
 
-	public void testUser01() {
-		fail("Not yet implemented");
-	}
-
 	public void testCreateUserAccount01() {
 		fail("Not yet implemented");
 	}

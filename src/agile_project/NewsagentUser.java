@@ -35,6 +35,14 @@ public class NewsagentUser {
 	public void generateDeliveryDocketReport() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
+	
+	public boolean verifyCustomerDoesntExist() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
+	}
+	
+	public boolean verifyValidName() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
+	}
 
 }
 

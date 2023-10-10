@@ -28,11 +28,11 @@ public class NewsagentUser {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
-	public void generateInvoice() throws NataliaException {
+	public void printInvoice() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
-	public void generateDeliveryDocketReport() throws NataliaException {
+	public void printDeliveryDocketReport() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
 	

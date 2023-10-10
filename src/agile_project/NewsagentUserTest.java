@@ -139,7 +139,7 @@ public class NewsagentUserTest extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testGenerateInvoice01() {
+	public void testPrintInvoice01() {
 		/** 
 		 * Test #1
 		 * Objective: Verify invoice report is generated successfully 
@@ -160,7 +160,7 @@ public class NewsagentUserTest extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testGenerateDeliveryDocketReport01() {
+	public void testPrintDeliveryDocketReport01() {
 		/** 
 		 * Test #1
 		 * Objective: Verify delivery docket report is generated successfully 

@@ -16,7 +16,7 @@ public class NewsagentUser {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
-	public void deactivateCustomer() throws NataliaException {
+	public boolean deactivateCustomer() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
@@ -36,11 +36,20 @@ public class NewsagentUser {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
-	public boolean verifyCustomerDoesntExist() throws NataliaException {
+	/**
+	 * Verification methods 
+	 * @return
+	 * @throws NataliaException
+	 */
+	public boolean isValidName() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
 	
-	public boolean verifyValidName() throws NataliaException {
+	public boolean isValidCustAddress() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
+	}
+	
+	public boolean isValidPhoneNo() throws NataliaException {
 		throw new NataliaException("Method not yet implemented");
 	}
 

@@ -167,13 +167,13 @@ public class NewsagentUserTest extends TestCase {
 		 * Input: 1
 		 * Output:
 		 * ------------------------------------------------------------------------------------------------------
-		 *|  Date    |  Name  |  Surname  |   Address  |   PhoneNo  |   Publication   | Delivered |      Notes   |
+		 *|  Date    |  Name  |  Surname  |   Address  |   PhoneNo  |   Publication   | Delivered |     Notes    |
 		 * ------------------------------------------------------------------------------------------------------
-		 *| 15/10/23 |  John  |  Kennedy  | 2 Athlone  | 0897481234 | Westmeath News  |  YES/NO   |              |
+		 *| 15/10/23 |  John  |  Kennedy  | 2 Athlone  | 0897481234 | Westmeath News  |  YES/NO   |     N/A      |
 		 * ------------------------------------------------------------------------------------------------------
-		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 | Westmeath News  |  YES/NO   |              |
+		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 | Westmeath News  |  YES/NO   |     N/A      |
 		 * ------------------------------------------------------------------------------------------------------
-		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 |   Makeup Times  |  YES/NO   |              |
+		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 |   Makeup Times  |  YES/NO   |     N/A      |
 		 * ------------------------------------------------------------------------------------------------------
 		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 |    PC World     |  YES/NO   | Out of Stock |
 		 * ------------------------------------------------------------------------------------------------------

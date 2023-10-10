@@ -25,8 +25,22 @@ public class User {
 		
 	}
 	
-	public void printUserAccount() throws NataliaException {
-		throw new NataliaException("No method implemented yet");
+	
+	/**
+	 * Verification methods 
+	 * @return
+	 * @throws NataliaException
+	 */
+	public boolean isValidUsername() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
+	}
+	
+	public boolean isValidPassword() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
+	}
+	
+	public boolean isValidRole() throws NataliaException {
+		throw new NataliaException("Method not yet implemented");
 	}
 	
 

@@ -214,7 +214,7 @@ public class NewsagentUserTest extends TestCase {
 	public void testIsValidCustAddress01() {
 		/** 
 		 * Test #1
-		 * Objective: Verify invalid address > 20
+		 * Objective: Verify invalid address > 25
 		 * Input: AthloneAthloneAthloneAthloneAthloneAthlone
 		 * Output: false
 		 */

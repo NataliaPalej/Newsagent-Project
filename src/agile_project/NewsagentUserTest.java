@@ -145,17 +145,17 @@ public class NewsagentUserTest extends TestCase {
 		 * Objective: Verify invoice report is generated successfully 
 		 * Input: 1
 		 * Outpit: 
-		 * -----------------------------------------------------------------------------------
+		 * ------------------------------------------------------------------------------------
 		 *|  Date    |  Name  |  Surname  |   Address   |   PhoneNo  |   Publication   |  Price |
-		 * -----------------------------------------------------------------------------------
+		 * ------------------------------------------------------------------------------------
 		 *| 15/10/23 |  John  |  Kennedy  |  2 Athlone  | 0897481234 | Westmeath News  |  4.99  |
-		 * -----------------------------------------------------------------------------------
+		 * ------------------------------------------------------------------------------------
 		 *| 16/10/23 |  John  |  Kennedy  |  2 Athlone  | 0897481234 | Westmeath News  |  4.99  |
-		 * -----------------------------------------------------------------------------------
+		 * ------------------------------------------------------------------------------------
 		 *| 17/10/23 |  John  |  Kennedy  |  2 Athlone  | 0897481234 | Westmeath News  |  4.99  |
-		 * -----------------------------------------------------------------------------------
-		 * 																	Total	 | 14.97  |
-		 * -----------------------------------------------------------------------------------
+		 * ------------------------------------------------------------------------------------
+		 * 				   													  Total	   | 14.97  |
+		 * -------------------------------------------------------------------------------------
 		 */
 		fail("Not yet implemented");
 	}
@@ -177,6 +177,96 @@ public class NewsagentUserTest extends TestCase {
 		 * ------------------------------------------------------------------------------------------------------
 		 *| 15/10/23 |  Mary  |   Molly   | 2 Athlone  | 0123456789 |    PC World     |  YES/NO   | Out of Stock |
 		 * ------------------------------------------------------------------------------------------------------
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidName01() {
+		/** 
+		 * Test #1
+		 * Objective: Verify valid 0 < name
+		 * Input: firstName=John
+		 * Output: true
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidName02() {
+		/** 
+		 * Test #2
+		 * Objective: Verify invalid name 0 > name
+		 * Input: " "
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+
+	public void testIsValidName03() {
+		/** 
+		 * Test #3
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidCustAddress01() {
+		/** 
+		 * Test #1
+		 * Objective: Verify invalid address > 20
+		 * Input: AthloneAthloneAthloneAthloneAthloneAthlone
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidCustAddress02() {
+		/** 
+		 * Test #2
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+
+	public void testIsValidCustAddress03() {
+		/** 
+		 * Test #3
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidPhoneNo01() {
+		/** 
+		 * Test #1
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidPhoneNo02() {
+		/** 
+		 * Test #2
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
+		 */
+		fail("Not yet implemented");
+	}
+	
+	public void testIsValidPhoneNo03() {
+		/** 
+		 * Test #3
+		 * Objective: Verify invalid name > 15
+		 * Input: JohnJohnJohnJohnJohn
+		 * Output: false
 		 */
 		fail("Not yet implemented");
 	}

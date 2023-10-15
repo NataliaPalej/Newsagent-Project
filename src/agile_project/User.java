@@ -41,22 +41,24 @@ public class User extends DatabaseConnector {
 	}
 	
 	@SuppressWarnings("resource")
-	public void updateUserAccount(String id) throws NataliaException{
+	public void updateUserAccount(int id) throws NataliaException{
 		PreparedStatement updateUserStatement = null;
 		ResultSet userDataResultSet = null;
 		
 		try {
-			updateUserStatement = connection.prepareStatement(selectUserQuery);
-			updateUserStatement.setString(1, id);
+			updateUserStatement = connection.prepareStatement("SELECT * FROM userdetails WHERE userID = ?");
+			updateUserStatement.setInt(1, id);
 			
 			// Retrieve user details
-			userDataResultSet  = updateUserStatement.executeQuery();
+			userDataResultSet = updateUserStatement.executeQuery();
+			
+			System.out.println(userDataResultSet.toString());
 			
 			if (userDataResultSet.next()) {
-				String userID = userDataResultSet .getString("id");
-	            String username = userDataResultSet .getString("username");
+				String userID = userDataResultSet.getString("userID");
+	            String username = userDataResultSet.getString("username");
 
-	            System.out.println("Are you sure you want to update user " + userID + ": " + username + "?");
+	            System.out.println("Are you sure you want to update user " + userID + ": " + username + "? (Y/N)");
 	            String answer = in.next();
 	            
 	            if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
@@ -89,10 +91,10 @@ public class User extends DatabaseConnector {
                     String newValue = in.next();
                     
                     if (isValidUpdate(updateColumn, newValue)) {
-                        String updateQuery = "UPDATE userdetails SET " + updateColumn + " = ? WHERE id = ?";
+                        String updateQuery = "UPDATE userdetails SET " + updateColumn + " = ? WHERE userID = ?";
                         updateUserStatement = connection.prepareStatement(updateQuery);
                         updateUserStatement.setString(1, newValue);
-                        updateUserStatement.setString(2, id);
+                        updateUserStatement.setInt(2, id);
                         updateUserStatement.executeUpdate();
                         System.out.println(successMessage + newValue);
                     }   		    
@@ -116,13 +118,13 @@ public class User extends DatabaseConnector {
 	}
 	
 	@SuppressWarnings("resource")
-	public void deleteUserAccount(String id) throws NataliaException{
+	public void deleteUserAccount(int id) throws NataliaException{
 		PreparedStatement deleteUserStatement = null;
 		ResultSet userDataResultSet = null;
 		
 		try {
 			deleteUserStatement = connection.prepareStatement(selectUserQuery);
-			deleteUserStatement.setString(1, id);
+			deleteUserStatement.setInt(1, id);
 			
 			// Retrieve user details
 			userDataResultSet = deleteUserStatement.executeQuery();
@@ -131,14 +133,14 @@ public class User extends DatabaseConnector {
 	            String userID = userDataResultSet.getString("id");
 	            String username = userDataResultSet.getString("username");
 	            
-	            System.out.println("Are you sure you want to delete user " + userID + ": " + username + "?");
+	            System.out.println("Are you sure you want to delete user " + userID + ": " + username + "? (Y/N)");
 	            String answer = in.next();
 	            
 	            // Confirm you want to delete the user
 	            if (answer.equalsIgnoreCase("yes") || (answer.equalsIgnoreCase("y"))) {
 	            	String deleteQuery = "DELETE FROM userdetails WHERE id = ?";
 	            	deleteUserStatement = connection.prepareStatement(deleteQuery);
-	            	deleteUserStatement.setString(1, id);
+	            	deleteUserStatement.setInt(1, id);
 	            	deleteUserStatement.executeUpdate();
 	                System.out.println("User " + userID + " " + username + " deleted successfully.");
 	            } else {
@@ -178,22 +180,20 @@ public class User extends DatabaseConnector {
 	 * @throws NataliaException
 	 */
 	private boolean isValidUsername(String username) throws NataliaException {
-		boolean result = false;
 		if (username.length() < 15 && username.length() > 0)  {
-			result = true;
+			return true;
 		}
-		return result;
+		return false;
 	}
 	
 	private boolean isValidPassword(String password) throws NataliaException {
-		boolean result = false;
 		boolean hasUppercase = false;
 		boolean hasDigit = false;
 		
 		try {
 			if (password.length() < 6 || password.length() > 15) {
 		        System.out.println("Password must be between 6 and 15 characters.");
-		        result = false;
+		        return false;
 		    }
 			
 			// Check if password contains upper case and digit 
@@ -203,10 +203,8 @@ public class User extends DatabaseConnector {
 		        } else if (Character.isDigit(c)) {
 		            hasDigit = true;
 		        }
-
-		        // If both conditions are met, no need to continue checking
 		        if (hasUppercase && hasDigit) {
-		        	result = true;
+		        	return true;
 		        }
 		    }
 			
@@ -216,8 +214,7 @@ public class User extends DatabaseConnector {
 			if(!hasDigit) {
 				System.out.println("Password must contain at least one digit");
 			}
-			
-			return result;	
+			return false;	
 		}
 		catch (Exception e) {
 			throw new NataliaException("Error while validating password: " + e.getMessage());
@@ -239,12 +236,13 @@ public class User extends DatabaseConnector {
 		}
 	}
 	
+	// Method to verify if updated name/password/role is valid 
 	private boolean isValidUpdate(String columnName, String value) throws NataliaException {
-	    if (columnName.equals("username")) {
+	    if ("username".equals(columnName)) {
 	        return isValidUsername(value);
-	    } else if (columnName.equals("password")) {
+	    } else if ("password".equals(columnName)) {
 	        return isValidPassword(value);
-	    } else if (columnName.equals("role")) {
+	    } else if ("role".equals(columnName)) {
 	        return isValidRole(value);
 	    }
 	    return false;

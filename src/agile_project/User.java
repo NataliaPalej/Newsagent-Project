@@ -7,62 +7,141 @@ public class User extends DatabaseConnector {
 	
 	private static Scanner in = new Scanner(System.in);
 
+	// Get user deatils from userDetails table
 	static final String userQUERY = "SELECT * FROM userdetails";
+	// Get customer details from customerDetails table 
 	static final String customerQUERY = "SELECT * FROM customerdetails";
 	
 	// Create a connection to the database
     Connection connection = getConnection();
+    
+    // Select details for user
+    String selectUserQuery = "SELECT * FROM userdetails WHERE id = ?";
+    
+    // Select details for customer
+    String selectCustomerQuery = "SELECT * FROM customerdetails WHERE id = ?";
 	
 	private String username, password, role;
 	
-	/** 
-	 * User methods
-	 * @param username between 0-10 characters
-	 * @param password between 6-10 characters 
-	 * @param role
-	 */
+	// User constructor 
 	public User(String username, String password, String role) throws NataliaException {
 		this.username = username;
         this.password = password;
         this.role = role;
 	}
 	
+	/** 
+	 * User methods
+	 * @param username between 1-10 characters
+	 * @param password between 6-10 characters 
+	 * @param role : admin/newsagent/driver
+	 */
 	public static User createUserAccount(String username, String password, String role) throws NataliaException {
 		return new User(username, password, role);
 	}
 	
-	public void updateUserAccount() throws NataliaException{
-		throw new NataliaException("No method implemented yet");
+	@SuppressWarnings("resource")
+	public void updateUserAccount(String id) throws NataliaException{
+		PreparedStatement updateUserStatement = null;
+		ResultSet userDataResultSet = null;
+		
+		try {
+			updateUserStatement = connection.prepareStatement(selectUserQuery);
+			updateUserStatement.setString(1, id);
+			
+			// Retrieve user details
+			userDataResultSet  = updateUserStatement.executeQuery();
+			
+			if (userDataResultSet.next()) {
+				String userID = userDataResultSet .getString("id");
+	            String username = userDataResultSet .getString("username");
+
+	            System.out.println("Are you sure you want to update user " + userID + ": " + username + "?");
+	            String answer = in.next();
+	            
+	            if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
+	            	System.out.println("OPTIONS:\n1. UPDATE Username\n2. UPDATE Password\n3. Update Role");
+	            	System.out.println("Enter option [1/2/3]: ");
+	            	int option = in.nextInt();
+	            	
+	            	// Execute update query depending on the option chosen
+	                String updateQuery = "UPDATE userdetails SET ";
+	                updateUserStatement = connection.prepareStatement(updateQuery);
+	            	
+	            	if (option == 1) {
+	            		System.out.println("Enter new username: ");
+	            		String newUsername = in.next();
+	            		if (isValidUsername(newUsername)) {
+	            			updateQuery += "username = ? WHERE id = ?";
+	            			updateUserStatement = connection.prepareStatement(updateQuery);
+	            			updateUserStatement.setString(1, newUsername);
+	            			updateUserStatement.setString(2, id);
+	            			updateUserStatement.executeUpdate();
+	                        System.out.println("Username updated successfully.");
+	            		} else {
+	            			System.out.println("Invalid username. Username must be between 1-10 characters");
+	            		}	
+	            	} else if (option == 2) {
+	            		System.out.println("Enter new password: ");
+	            		String newPassword = in.next();
+	            		if (isValidPassword(newPassword)) {
+	            			updateQuery += "password = ? WHERE id = ?";
+	            			updateUserStatement = connection.prepareStatement(updateQuery);
+	            			updateUserStatement.setString(1, newPassword);
+	            			updateUserStatement.setString(2, id);
+	            			updateUserStatement.executeUpdate();
+	                        System.out.println("Password updated successfully.");
+	            		} else {
+	            			System.out.println("Invalid password. Password must be between 6-10 characters and contain at least one upper case and one digit.");
+	            		}
+	            	} else if (option == 3) {
+	            		System.out.println("Enter new role: ");
+	            		String newRole = in.next();
+	            		if (isValidRole(newRole)) {
+	            			updateQuery += "role = ? WHERE id = ?";
+	            			updateUserStatement = connection.prepareStatement(updateQuery);
+	            			updateUserStatement.setString(1, newRole);
+	            			updateUserStatement.setString(2, id);
+	            			updateUserStatement.executeUpdate();
+	                        System.out.println("Role updated successfully.");
+	            		} else {
+	            			System.out.println("Invalid role. Available roles: admin/newsagent/driver.");
+	            		}
+	            	}	
+	            }  
+			}
+		}
+		catch (Exception e) {
+			throw new NataliaException("Error when updating user: " + e.getMessage());
+		}
 	}
 	
 	@SuppressWarnings("resource")
 	public void deleteUserAccount(String id) throws NataliaException{
-		PreparedStatement deleteUser = null;
-		ResultSet userToDelete = null;
-		String selectUserQuery = "SELECT id, firstName, lastName FROM userdetails WHERE id = ?";
+		PreparedStatement deleteUserStatement = null;
+		ResultSet userDataResultSet = null;
 		
 		try {
-			deleteUser = connection.prepareStatement(selectUserQuery);
-			deleteUser.setString(1, id);
+			deleteUserStatement = connection.prepareStatement(selectUserQuery);
+			deleteUserStatement.setString(1, id);
 			
 			// Retrieve user details
-			userToDelete = deleteUser.executeQuery();
+			userDataResultSet = deleteUserStatement.executeQuery();
 			
-	        if (userToDelete.next()) {
-	            String userId = userToDelete.getString("id");
-	            String userFirstName = userToDelete.getString("firstName");
-	            String userLastName = userToDelete.getString("lastName");
+	        if (userDataResultSet.next()) {
+	            String userID = userDataResultSet.getString("id");
+	            String username = userDataResultSet.getString("username");
 	            
-	            System.out.println("Are you sure you want to delete user " + userId + ": " + userFirstName + " " + userLastName + "?");
+	            System.out.println("Are you sure you want to delete user " + userID + ": " + username + "?");
 	            String answer = in.next();
 	            
 	            // Confirm you want to delete the user
 	            if (answer.equalsIgnoreCase("yes") || (answer.equalsIgnoreCase("y"))) {
 	            	String deleteQuery = "DELETE FROM userdetails WHERE id = ?";
-	            	deleteUser = connection.prepareStatement(deleteQuery);
-	            	deleteUser.setString(1, id);
-	                deleteUser.executeUpdate();
-	                System.out.println("User " + userId + " " + userFirstName + " " + userLastName + " deleted successfully.");
+	            	deleteUserStatement = connection.prepareStatement(deleteQuery);
+	            	deleteUserStatement.setString(1, id);
+	            	deleteUserStatement.executeUpdate();
+	                System.out.println("User " + userID + " " + username + " deleted successfully.");
 	            } else {
 	            	System.out.println("Delete user operation canceled.");
 	            }
@@ -77,11 +156,11 @@ public class User extends DatabaseConnector {
 		
 		finally {
 			try {
-				if (userToDelete != null) {
-					userToDelete.close();
+				if (userDataResultSet != null) {
+					userDataResultSet.close();
 	            }
-	            if (deleteUser != null) {
-	                deleteUser.close();
+	            if (deleteUserStatement != null) {
+	            	deleteUserStatement.close();
 	            }
 	        } 
 			catch (SQLException e) {

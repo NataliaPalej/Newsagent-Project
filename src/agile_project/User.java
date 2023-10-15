@@ -64,55 +64,54 @@ public class User extends DatabaseConnector {
 	            	System.out.println("Enter option [1/2/3]: ");
 	            	int option = in.nextInt();
 	            	
-	            	// Execute update query depending on the option chosen
-	                String updateQuery = "UPDATE userdetails SET ";
-	                updateUserStatement = connection.prepareStatement(updateQuery);
-	            	
-	            	if (option == 1) {
-	            		System.out.println("Enter new username: ");
-	            		String newUsername = in.next();
-	            		if (isValidUsername(newUsername)) {
-	            			updateQuery += "username = ? WHERE id = ?";
-	            			updateUserStatement = connection.prepareStatement(updateQuery);
-	            			updateUserStatement.setString(1, newUsername);
-	            			updateUserStatement.setString(2, id);
-	            			updateUserStatement.executeUpdate();
-	                        System.out.println("Username updated successfully.");
-	            		} else {
-	            			System.out.println("Invalid username. Username must be between 1-10 characters");
-	            		}	
-	            	} else if (option == 2) {
-	            		System.out.println("Enter new password: ");
-	            		String newPassword = in.next();
-	            		if (isValidPassword(newPassword)) {
-	            			updateQuery += "password = ? WHERE id = ?";
-	            			updateUserStatement = connection.prepareStatement(updateQuery);
-	            			updateUserStatement.setString(1, newPassword);
-	            			updateUserStatement.setString(2, id);
-	            			updateUserStatement.executeUpdate();
-	                        System.out.println("Password updated successfully.");
-	            		} else {
-	            			System.out.println("Invalid password. Password must be between 6-10 characters and contain at least one upper case and one digit.");
-	            		}
-	            	} else if (option == 3) {
-	            		System.out.println("Enter new role: ");
-	            		String newRole = in.next();
-	            		if (isValidRole(newRole)) {
-	            			updateQuery += "role = ? WHERE id = ?";
-	            			updateUserStatement = connection.prepareStatement(updateQuery);
-	            			updateUserStatement.setString(1, newRole);
-	            			updateUserStatement.setString(2, id);
-	            			updateUserStatement.executeUpdate();
-	                        System.out.println("Role updated successfully.");
-	            		} else {
-	            			System.out.println("Invalid role. Available roles: admin/newsagent/driver.");
-	            		}
-	            	}	
-	            }  
+	                String updateColumn = "";
+                    String updatePrompt = "";
+                    String successMessage = "";
+                    
+                    if (option == 1) {
+                        updateColumn = "username";
+                        updatePrompt = "Enter new username: ";
+                        successMessage = "Username updated successfully. New username: ";
+                    } else if (option == 2) {
+                        updateColumn = "password";
+                        updatePrompt = "Enter new password: ";
+                        successMessage = "Password updated successfully. New password: ";
+                    } else if (option == 3) {
+                        updateColumn = "role";
+                        updatePrompt = "Enter new role: ";
+                        successMessage = "Role updated successfully. New role: ";
+                    } else {
+                        System.out.println("Invalid option.");
+                        return;
+                    }
+
+                    System.out.println(updatePrompt);
+                    String newValue = in.next();
+                    
+                    if (isValidUpdate(updateColumn, newValue)) {
+                        String updateQuery = "UPDATE userdetails SET " + updateColumn + " = ? WHERE id = ?";
+                        updateUserStatement = connection.prepareStatement(updateQuery);
+                        updateUserStatement.setString(1, newValue);
+                        updateUserStatement.setString(2, id);
+                        updateUserStatement.executeUpdate();
+                        System.out.println(successMessage + newValue);
+                    }   		    
+	            }
 			}
 		}
 		catch (Exception e) {
 			throw new NataliaException("Error when updating user: " + e.getMessage());
+		} finally {
+	        try {
+	            if (userDataResultSet != null) {
+	                userDataResultSet.close();
+	            }
+	            if (updateUserStatement != null) {
+	                updateUserStatement.close();
+	            }
+	        } catch (SQLException e) {
+	            throw new NataliaException("Error: " + e.getMessage());
+	        }
 		}
 	}
 	
@@ -178,7 +177,7 @@ public class User extends DatabaseConnector {
 	 * Verification methods for username, password, role entry
 	 * @throws NataliaException
 	 */
-	public boolean isValidUsername(String username) throws NataliaException {
+	private boolean isValidUsername(String username) throws NataliaException {
 		boolean result = false;
 		if (username.length() < 15 && username.length() > 0)  {
 			result = true;
@@ -186,7 +185,7 @@ public class User extends DatabaseConnector {
 		return result;
 	}
 	
-	public boolean isValidPassword(String password) throws NataliaException {
+	private boolean isValidPassword(String password) throws NataliaException {
 		boolean result = false;
 		boolean hasUppercase = false;
 		boolean hasDigit = false;
@@ -225,7 +224,7 @@ public class User extends DatabaseConnector {
 		}		
 	}
 	
-	public boolean isValidRole(String role) throws NataliaException {
+	private boolean isValidRole(String role) throws NataliaException {
 		String admin = "admin";
 		String newsagent = "newsagent";
 		String driver = "driver";
@@ -238,6 +237,17 @@ public class User extends DatabaseConnector {
 		catch (Exception e) {
 			throw new NataliaException("Role " + role + " not allowed.\nAvailable roles: admin/newsagent/driver");
 		}
+	}
+	
+	private boolean isValidUpdate(String columnName, String value) throws NataliaException {
+	    if (columnName.equals("username")) {
+	        return isValidUsername(value);
+	    } else if (columnName.equals("password")) {
+	        return isValidPassword(value);
+	    } else if (columnName.equals("role")) {
+	        return isValidRole(value);
+	    }
+	    return false;
 	}
 
 	/**

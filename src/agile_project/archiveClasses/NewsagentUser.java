@@ -1,15 +1,51 @@
-package agile_project;
+package agile_project.archiveClasses;
 
-public class NewsagentUser {
+import java.sql.*;
+
+import agile_project.DatabaseConnector;
+import agile_project.NataliaException;
+
+public class NewsagentUser extends DatabaseConnector {
 	private int newsagentID;
 	private String username, password, role;
 	
 	public NewsagentUser(int newsagentID, String username, String password, String role) throws NataliaException {
-		throw new NataliaException("Constructor not yet implemented");
+		this.newsagentID = newsagentID;
+		this.username = username;
+		this.password =  password;
+		this.role = role;
 	}
 	
-	public void createNewCustomer(int customerID, String firstName, String lastName, String custAddress, String phoneNo) throws NataliaException {
-		throw new NataliaException("Method not yet implemented");
+	public void insertNewCustomer(int customerID, String firstName, String lastName, String custAddress, String phoneNo) throws NataliaException, SQLException {
+		Connection connection = null;
+		PreparedStatement insertCustomer = null;
+		
+		try {
+			connection = getConnection();
+			
+			// Defining SQL statement to insert new customer
+			String insert = "INSERT INTO customerDetails (firstName, lastName, custAddress, phoneNo) VALUES (?, ?, ?, ?)";
+			insertCustomer = connection.prepareStatement(insert);
+			
+			// Setting the parameters to insert cust to database
+			insertCustomer.setString(1, firstName);
+			insertCustomer.setString(2, lastName);
+			insertCustomer.setString(3, custAddress);
+			insertCustomer.setString(4, phoneNo);
+			
+			insertCustomer.executeUpdate();	
+		}
+		catch (SQLException e){
+			throw new NataliaException("Couldn't INSERT into database: \n" + e.getMessage());
+		}
+		finally {
+			if (insertCustomer != null) {
+				insertCustomer.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
 	
 	public void updateNewCustomer() throws NataliaException {

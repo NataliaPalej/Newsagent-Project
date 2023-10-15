@@ -1,4 +1,4 @@
-package agile_project;
+package agile_project.archiveClasses;
 
 public class NataliaBranchTest {
 

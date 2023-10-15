@@ -1,10 +1,10 @@
-package agile_project;
+package agile_project.archiveClasses;
 
 import junit.framework.TestCase;
 
 public class AdminTest extends TestCase {
 
-	public void testAdmin01() {
+	public void testAdminUser01() {
 		fail("Not yet implemented");
 	}
 

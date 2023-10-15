@@ -1,5 +1,6 @@
 package agile_project;
 
+import java.sql.SQLException;
 import java.sql.*;
 
 public class DatabaseConnector {
@@ -14,8 +15,26 @@ public class DatabaseConnector {
 			Class.forName(DB_DRIVER);
 			return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
 		}
-		catch (ClassNotFoundException | SQLException e) {
-			throw new RuntimeException("COULDN'T CONNECT TO DATABASE:\n " + e.getMessage());
+		catch (SQLException e) {
+			throw new RuntimeException("COULDN'T CONNECT TO DATABASE:\n " + e.getMessage(), e);
 		}
+		catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't find the database driver:\n" + e.getMessage(), e);
+		}
+	}
+
+	public void insertNewCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
+	}
+	
+	public void updateCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
+		
+	}
+	
+	public void deleteCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
+		
+	}
+	
+	public String readCustomer() {
+		return null;	
 	}
 }

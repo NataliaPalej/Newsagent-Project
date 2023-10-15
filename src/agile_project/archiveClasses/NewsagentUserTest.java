@@ -1,10 +1,10 @@
-package agile_project;
+package agile_project.archiveClasses;
 
 import junit.framework.TestCase;
 
 public class NewsagentUserTest extends TestCase {
 
-	public void testCreateNewCustomer01() {
+	public void testInsertNewCustomer01() {
 		/** 
 		 * Test #1
 		 * Objective: Verify customer created successfully
@@ -14,7 +14,7 @@ public class NewsagentUserTest extends TestCase {
 		fail("Not yet implemented");
 	}
 	
-	public void testCreateNewCustomer02() {
+	public void testInsertNewCustomer02() {
 		/** 
 		 * Test #2
 		 * Objective: Verify invalid values are handled 

@@ -100,3 +100,14 @@ SELECT * FROM publications;
 SELECT * FROM customerdetails;
 SELECT * FROM orders;
 SELECT * FROM userdetails;
+
+-- Desirable order display wit custName , custLasName
+SELECT 
+    o.orderID,
+    o.dateCreated,
+    c.firstName AS custFirstName,
+    c.lastName AS custLastName,
+    o.title,
+    o.subscriptionType
+FROM orders AS o
+INNER JOIN customerdetails AS c ON o.custID = c.custID;

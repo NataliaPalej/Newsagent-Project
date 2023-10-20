@@ -25,10 +25,10 @@ CREATE TABLE orders (
     dateCreated TIMESTAMP NOT NULL,
     custID INT,
     title VARCHAR(50) NOT NULL,
-    subscriptionType ENUM('daily', 'weekly', 'monthly') NOT NULL,
+    orderType ENUM('daily', 'weekly', 'monthly') NOT NULL,
     FOREIGN KEY (custID) REFERENCES customerdetails (custID),
     FOREIGN KEY (title) REFERENCES publications (title),
-    CONSTRAINT unique_orders UNIQUE (orderID,dateCreated,custID,title,subscriptionType)
+    CONSTRAINT unique_orders UNIQUE (orderID,dateCreated,custID,title,orderType)
 );
 -- Makes sure there wont be duplicates
 
@@ -67,7 +67,7 @@ INSERT INTO orders (dateCreated, custID, title, subscriptionType) VALUES
 ('2023-10-25', 7, 'Academic Paper 1', 'daily'),
 ('2023-10-26', 8, 'Comic Book 1', 'weekly'), 
 ('2023-10-27', 9, 'Technical Manual 1', 'monthly'), 
-('2023-10-28', 10, 'Children''s Book 1', 'daily'),
+('2023-10-28', 10, 'Children''s Book 1', 'daily');
 
 
 -- Create the 'userdetails' table admins/drivers/newsagents

@@ -57,7 +57,7 @@ INSERT INTO customerdetails (firstName, lastName, address, phoneNo) VALUES('John
 
 
 -- INSERT INTO ORDERS
-INSERT INTO orders (dateCreated, custID, title, subscriptionType) VALUES 
+INSERT INTO orders (dateCreated, custID, title, orderType) VALUES 
 ('2023-10-19', 1, 'Book Title 1', 'daily'),
 ('2023-10-20', 2, 'Magazine 1', 'weekly'),
 ('2023-10-21', 3, 'Book Title 2', 'monthly'),
@@ -108,6 +108,6 @@ SELECT
     c.firstName AS custFirstName,
     c.lastName AS custLastName,
     o.title,
-    o.subscriptionType
+    o.orderType
 FROM orders AS o
 INNER JOIN customerdetails AS c ON o.custID = c.custID;

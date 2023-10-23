@@ -1,5 +1,6 @@
 package agile_project;
 
+@SuppressWarnings("serial")
 public class NataliaException extends Exception {
 	String message;
 	

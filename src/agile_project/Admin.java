@@ -1,8 +1,7 @@
-package agile_project.archiveClasses;
+package agile_project;
 
-import agile_project.NataliaException;
+public class Admin {
 
-public class AdminUser {
 	private int adminID;
 	private String username, password, role;
 	

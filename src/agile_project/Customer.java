@@ -8,6 +8,14 @@ public class Customer {
 	public Customer(int customerID, String firstName, String lastName, String custAddress, String phoneNo) throws NataliaException {
 		throw new NataliaException("Constructor not done yet");
 	}
+	
+	public String getCustomerDetails(int id) throws NataliaException {
+		throw new NataliaException("Method not implemented yet");
+	}
+	
+	public String getCustomerOrder(int id) throws NataliaException {
+		throw new NataliaException("Method not implemented yet");
+	}
 
 	public int getCustomerID() {
 		return customerID;
@@ -48,5 +56,4 @@ public class Customer {
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
-
 }

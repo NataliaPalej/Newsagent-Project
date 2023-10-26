@@ -57,6 +57,9 @@ public class Admin extends DatabaseConnector {
 	 * @param role: admin/newsagent/driver
 	 */
 	public boolean isValidUsername(String username) {
+		if (username.length() >= 1 && username.length() <= 10) {
+			return true;
+		}
 		return false;
 	}
 	

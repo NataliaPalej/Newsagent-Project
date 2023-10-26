@@ -2,7 +2,6 @@ package agile_project;
 
 import java.sql.*;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Customer {
 	
@@ -19,6 +18,7 @@ public class Customer {
 		this.phoneNo = phoneNo;
 	}
 	
+	// Empty Constructor
 	public Customer() {
 	}
 	
@@ -157,12 +157,6 @@ public class Customer {
 	        }
 		} 
 	}
-	
-	
-	/**
-	 * Validation Methods
-	 */
-	// EMPTY //
 	
 	
 	/**

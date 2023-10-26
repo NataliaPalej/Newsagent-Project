@@ -1,20 +1,25 @@
 package agile_project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Customer {
 	
-	private static Scanner in = new Scanner(System.in);
-	
 	private int customerID;
-	private String firstName, lastName, custAddress, phoneNo;
+	private String firstName, lastName, address, phoneNo;
 	
-	public Customer(int customerID, String firstName, String lastName, String custAddress, String phoneNo) throws NataliaException {
-		throw new NataliaException("Constructor not done yet");
+	public Customer(String firstName, String lastName, String address, String phoneNo) throws NataliaException {
+		if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty()) {
+            throw new NataliaException("Invalid customer attributes");
+		}
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phoneNo = phoneNo;
+	}
+	
+	public Customer() {
 	}
 	
 	// Get customer by ID
@@ -71,25 +76,24 @@ public class Customer {
 	    try {
 			connection = DatabaseConnector.getConnection();
 			
-			String query = "SELECT * FROM customerdetails";
+			String query = "SELECT * FROM customerdetails ORDER BY custID ASC";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
-			StringBuilder allCustomersDetails = new StringBuilder();
+			String allCustomersDetails = "";
 			
 			while (resultSet.next()) {
 				// Retrieve customer details from the result set
-				String custID = resultSet.getString("customerID");
+				String custID = resultSet.getString("custID");
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
 	            String address = resultSet.getString("address");
 	            String phoneNo = resultSet.getString("phoneNo");
 	            
-	            // Append customer details to the list
-	            allCustomersDetails.append("\nCustomer ID: ").append(custID).append("\tFirst Name: ").append(firstName)
-	                    .append("\tLast Name: ").append(lastName).append("\tAddress: ").append(address).append("\tPhone Number: ").append(phoneNo);
+	            allCustomersDetails += "Customer ID: " + custID + "\tFirst Name: " + firstName +
+	                    "\tLast Name: " + lastName + "\tAddress: " + address + "\tPhone Number: " + phoneNo + "\n";
 			}
 			if (allCustomersDetails.length() == 0) {
-				throw new NataliaException("Database is empty or not found.");
+				throw new NataliaException("Customer database empty or not found.");
 			}
 			return allCustomersDetails.toString();
 		} catch (SQLException error) {
@@ -151,7 +155,7 @@ public class Customer {
 	        } catch (SQLException e) {
 	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
 	        }
-		}
+		} 
 	}
 	
 	
@@ -159,6 +163,37 @@ public class Customer {
 	 * Validation Methods
 	 */
 	// EMPTY //
+	
+	
+	/**
+	 * Extra method to remove everything from database - needed for testing purposes?
+	 * @throws SQLException
+	 * @throws NataliaException 
+	 */
+//	public void removeAllCustomersFromDatabase() throws SQLException, NataliaException {
+//		Connection connection = null;
+//		java.sql.Statement statement = null;
+//	    try {
+//	    	connection = DatabaseConnector.getConnection();
+//	    	statement = connection.createStatement();
+//	    	String deleteInvoice = "DELETE FROM invoice";
+//	    	String deleteOrder = "DELETE FROM orders";
+//	        String deleteQuery = "DELETE FROM customerdetails";
+//	        statement.executeUpdate(deleteInvoice);
+//	        statement.executeUpdate(deleteOrder);
+//	        statement.executeUpdate(deleteQuery);
+//	    } catch (SQLException e) {
+//	        throw new NataliaException("Couldn't remove database.\n" + e.getMessage());
+//	    } finally {
+//	        if (statement != null) {
+//	            statement.close();
+//	        }
+//	        if (connection != null) {
+//	            connection.close();
+//	        }
+//	    }
+//	}
+	
 	
 	/**
 	 * Getters & Setters
@@ -188,12 +223,12 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public String getCustAddress() {
-		return custAddress;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setCustAddress(String custAddress) {
-		this.custAddress = custAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getPhoneNo() {

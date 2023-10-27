@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 import agile_project.FINISHED.User;
@@ -14,20 +15,25 @@ public class Admin extends User {
 	static Scanner in = new Scanner(System.in);
 	
 	public Admin(String username, String password, String role) throws NataliaException {
-//        super(username, password, role);
-//        if (username.isEmpty() || !isValidUsername(username)) {
-//            throw new NataliaException("Username must be between 1-10 characters");
-//        } else if (password.isEmpty() || !isValidPassword(password)) {
-//            throw new NataliaException("Password must be between 6-10 characters and contain at least one uppercase and digit.");
-//        } else if (!isValidRole(role)) {
-//            throw new NataliaException("Role invalid. Available roles: admin/driver/newsagent.");
-//        }
-        this.username = username;
-        this.password = password;
-        this.role = role;
+        super(username, password, role);
+        if (username.isEmpty() || username.length() < 1 || username.length() > 10 || password.isEmpty() || password.length() < 6 || password.length() > 10 || !password.matches(".*\\d.*")) {
+		    throw new NataliaException("Invalid user attributes.");
+		}
+		if (role.equalsIgnoreCase("driver") || role.equalsIgnoreCase("newsagent") || role.equalsIgnoreCase("admin")) {
+			this.username = username;
+		    this.password = password;
+		    this.role = role;
+		}
+		else {
+			throw new NataliaException("Invalid role. Available roles: driver/newsagent/admin.");
+		}
     }
 	
 	
+	public Admin() {
+	}
+
+
 	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
         if (!isValidUsername(username)) {
             throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
@@ -38,20 +44,27 @@ public class Admin extends User {
         if (!isValidRole(role)) {
             throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
         }
-        User user = new User();
-
-        String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
-
+        
         Connection connection = null;
         try {
             connection = DatabaseConnector.getConnection();
-
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getRole());
+            String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
             stmt.executeUpdate();
-            System.out.println("User: " + user.getID() + " " + user.getUsername() + " was successfully created!");
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+            	int userID = generatedKeys.getInt(1);
+                this.setID(userID);
+                this.setUsername(username);
+                this.setPassword(password);
+                this.setRole(role);
+                
+                System.out.println("User: " + this.getID() + " " + this.getUsername() + " was successfully created!");
+            }
         } catch (SQLException e) {
             throw new NataliaException("Couldn't create User.\n" + e.getMessage());
         } finally {

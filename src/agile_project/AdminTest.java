@@ -1,5 +1,8 @@
 package agile_project;
 
+import java.sql.SQLException;
+
+import agile_project.FINISHED.User;
 import junit.framework.TestCase;
 
 public class AdminTest extends TestCase {
@@ -12,20 +15,28 @@ public class AdminTest extends TestCase {
 	 */
 	public void testAdmin001() throws NataliaException{
 		try {
-			
+			Admin admin = new Admin("admin", "Admin1", "admin");
+			assertEquals("admin", admin.getUsername());
+			assertEquals("Admin1", admin.getPassword());
+			assertEquals("admin", admin.getRole());
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
 	}
 	
-	/**
+	/** 
 	 * Test #2
-	 * Objective: Verify exception thrown when invalid username
+	 * Objective: Verify exception thrown when invalid attributes
 	 * Input: Admin admin = new Admin(" ", "Admin1", "admin");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
 	public void testAdmin002() throws NataliaException{
-		fail("Not yet implemented");
+		try {
+			Admin admin = new Admin(" ", "Admin1", "admin");
+			fail("Exception expected. Invalid username.");
+		} catch (NataliaException e) {
+			assertEquals("Invalid user attributes.", e.getMessage());
+		}
 	}
 
 	/**
@@ -33,9 +44,20 @@ public class AdminTest extends TestCase {
 	 * Objective: Verify admin can create new admin
 	 * Input: createUser("test", "Test11", "admin")
 	 * Output: "User: ID USERNAME was successfully created!" 
+	 * @throws SQLException 
 	 */
-	public void testCreateUser001() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser001() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+	        admin.createUser("test", "Test11", "admin");
+	        admin.setID(1);
+	        System.out.println(admin.getUsername() + "\n" + admin.getID());
+	        String userCreated = "User: " + admin.getID() + " " + admin.getUsername() + " was successfully created!";
+	        String expectedUser = "User: 1 test was successfully created!";
+	        assertEquals(expectedUser, userCreated);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**

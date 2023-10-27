@@ -10,8 +10,12 @@ public class AdminTest extends TestCase {
 	 * Input: Admin admin = new User("admin", "Admin1", "admin");
 	 * Output: Admin object is created without any exceptions.
 	 */
-	public void testAdmin001() {
-		fail("Not yet implemented");
+	public void testAdmin001() throws NataliaException{
+		try {
+			
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -20,7 +24,7 @@ public class AdminTest extends TestCase {
 	 * Input: Admin admin = new Admin(" ", "Admin1", "admin");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
-	public void testAdmin002() {
+	public void testAdmin002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -30,7 +34,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("test", "Test11", "admin")
 	 * Output: "User: ID USERNAME was successfully created!" 
 	 */
-	public void testCreateUser001() {
+	public void testCreateUser001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -40,7 +44,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("test", "Test11", "driver")
 	 * Output: "User: ID USERNAME was successfully created!" 
 	 */
-	public void testCreateUser002() {
+	public void testCreateUser002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -50,7 +54,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("newsagent", "Test11", "newsagent")
 	 * Output: "User: ID USERNAME was successfully created!" 
 	 */
-	public void testCreateUser003() {
+	public void testCreateUser003() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -60,7 +64,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("newsagent", "Test11", "owner")
 	 * Output: Invalid role. Available roles: admin/newsagent/driver.
 	 */
-	public void testCreateUser004() {
+	public void testCreateUser004() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -70,7 +74,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("newsagent", "test", "newsagent")
 	 * Output: Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.
 	 */
-	public void testCreateUser005() {
+	public void testCreateUser005() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -80,7 +84,7 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("n", "Test11", "newsagent")
 	 * Output: Invalid username. Username must be between 1-10 characters.
 	 */
-	public void testCreateUser006() {
+	public void testCreateUser006() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -90,7 +94,7 @@ public class AdminTest extends TestCase {
 	 * Input: id = 13
 	 * Output: User 13 has been successfully deleted.
 	 */
-	public void testDeleteUser001() {
+	public void testDeleteUser001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -100,7 +104,7 @@ public class AdminTest extends TestCase {
 	 * Input: id = 12
 	 * Output: Username updated successfully. New username: + username
 	 */
-	public void testUpdateUser001() {
+	public void testUpdateUser001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -110,7 +114,7 @@ public class AdminTest extends TestCase {
 	 * Input: id = 12
 	 * Output: Password updated successfully. New password: + password
 	 */
-	public void testUpdateUser002() {
+	public void testUpdateUser002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -120,7 +124,7 @@ public class AdminTest extends TestCase {
 	 * Input: id = 12
 	 * Output: Role updated successfully. New role: + role
 	 */
-	public void testUpdateUser003() {
+	public void testUpdateUser003() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -130,7 +134,7 @@ public class AdminTest extends TestCase {
 	 * Input: username = "admin"
 	 * Output: true
 	 */
-	public void testIsValidUsername001() {
+	public void testIsValidUsername001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -140,7 +144,7 @@ public class AdminTest extends TestCase {
 	 * Input: username = "n"
 	 * Output: false
 	 */
-	public void testIsValidUsername002() {
+	public void testIsValidUsername002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -150,7 +154,7 @@ public class AdminTest extends TestCase {
 	 * Input: username = "AdminAdminAdmin"
 	 * Output: false
 	 */
-	public void testIsValidUsername003() {
+	public void testIsValidUsername003() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -160,7 +164,7 @@ public class AdminTest extends TestCase {
 	 * Input: password = "Admin1"
 	 * Output: true
 	 */
-	public void testIsValidPassword001() {
+	public void testIsValidPassword001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -170,7 +174,7 @@ public class AdminTest extends TestCase {
 	 * Input: password = "Ad1"
 	 * Output: false
 	 */
-	public void testIsValidPassword002() {
+	public void testIsValidPassword002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -180,7 +184,7 @@ public class AdminTest extends TestCase {
 	 * Input: password = "AdminAdminAdmin1"
 	 * Output: false
 	 */
-	public void testIsValidPassword003() {
+	public void testIsValidPassword003() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -190,7 +194,7 @@ public class AdminTest extends TestCase {
 	 * Input: password = "AdminA"
 	 * Output: false
 	 */
-	public void testIsValidPassword004() {
+	public void testIsValidPassword004() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -200,7 +204,7 @@ public class AdminTest extends TestCase {
 	 * Input: password = "admin1"
 	 * Output: false
 	 */
-	public void testIsValidPassword005() {
+	public void testIsValidPassword005() throws NataliaException{
 		fail("Not yet implemented");
 	}
 
@@ -210,7 +214,7 @@ public class AdminTest extends TestCase {
 	 * Input: role = "driver"
 	 * Output: true
 	 */
-	public void testIsValidRole001() {
+	public void testIsValidRole001() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -220,7 +224,7 @@ public class AdminTest extends TestCase {
 	 * Input: role = "newsagent"
 	 * Output: true
 	 */
-	public void testIsValidRole002() {
+	public void testIsValidRole002() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -230,7 +234,7 @@ public class AdminTest extends TestCase {
 	 * Input: role = "admin"
 	 * Output: true
 	 */
-	public void testIsValidRole003() {
+	public void testIsValidRole003() throws NataliaException{
 		fail("Not yet implemented");
 	}
 	
@@ -240,7 +244,7 @@ public class AdminTest extends TestCase {
 	 * Input: role = "owner"
 	 * Output: false
 	 */
-	public void testIsValidRole004() {
+	public void testIsValidRole004() throws NataliaException{
 		fail("Not yet implemented");
 	}
 

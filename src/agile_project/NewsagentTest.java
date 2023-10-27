@@ -13,6 +13,36 @@ public class NewsagentTest extends TestCase {
 	public void testNewsagent001() {
 		fail("Not yet implemented");
 	}
+	
+	/**
+	 * Test #2
+	 * Objective: Verify invalid username throws exception
+	 * Inputs: new Newsagent("", "Newsagent1", "newsagent")
+	 * Output: Invalid username. Username must be between 1-10 characters.
+	 */
+	public void testNewsagent002() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test #3
+	 * Objective: Verify invalid password throws exception
+	 * Inputs: new Newsagent("newsagent", "newsagent", "newsagent")
+	 * Output: Invalid password. Password must be between 6-10 characters, include at least one digit and uppercase letter.
+	 */
+	public void testNewsagent003() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	 * Test #4
+	 * Objective: Verify invalid role throws exception
+	 * Inputs: new Newsagent("newsagent", "Newsagent1", "owner")
+	 * Output: Invalid role. Available roles: driver/newsagent/admin.
+	 */
+	public void testNewsagent004() {
+		fail("Not yet implemented");
+	}
 
 	/**
 	 * Test #1

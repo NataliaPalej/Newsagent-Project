@@ -48,9 +48,12 @@ public class CustomerTest extends TestCase {
 		try {
 			int custID = 1;
 			Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-123-4567");
-			String getCustomerDetails = customer.getCustomerDetails(custID);
-			String expectedCustomerDetails = "Customer ID: " + custID + "\nFirst Name: Natalia\nLast Name: Palej\nAddress: 123 Main St\nPhone Number: 555-123-4567";
-			assertEquals(expectedCustomerDetails, getCustomerDetails);
+			Customer retrievedCustomer = customer.getCustomer(custID);
+			assertEquals(custID, retrievedCustomer.getCustID());
+		    assertEquals("Natalia", retrievedCustomer.getFirstName());
+		    assertEquals("Palej", retrievedCustomer.getLastName());
+		    assertEquals("123 Main St", retrievedCustomer.getAddress());
+		    assertEquals("555-123-4567", retrievedCustomer.getPhoneNo());
 		} catch (NataliaException e) {
             fail("Exception NOT expected.\n" + e.getMessage());
         }
@@ -65,8 +68,8 @@ public class CustomerTest extends TestCase {
 	public void testGetCustomerDetails002() throws NataliaException {
 		int custID = -1;
 		try {
-			Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-555-555");
-			String getCustomerDetails = customer.getCustomerDetails(custID);
+			Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-123-4567");
+			Customer getCustomerDetails = customer.getCustomer(custID);
 			fail("Exception expected. Invalid customer ID.");
 		} catch (NataliaException e) {
 			assertEquals("Customer with " + custID + " NOT found.", e.getMessage());
@@ -82,7 +85,7 @@ public class CustomerTest extends TestCase {
 	public void testGetAllCustomersDetails001() throws NataliaException {
 		try {
 			Customer customer = new Customer();
-            String allCustomersDetails = customer.getAllCustomersDetails();
+            String allCustomersDetails = customer.getAllCustomers();
             String expectedCustomerDetails = 
             		"Customer ID: 1\tFirst Name: Natalia\tLast Name: Palej\tAddress: 123 Main St\tPhone Number: 555-123-4567" + "\n" +
                     "Customer ID: 2\tFirst Name: Ivan\tLast Name: Lapickij\tAddress: 456 Elm St\tPhone Number: 555-234-5678" + "\n" +
@@ -112,8 +115,8 @@ public class CustomerTest extends TestCase {
 		 */
 		try {
 			Customer customer = new Customer();
-			customer.getAllCustomersDetails();
-			if (customer.getAllCustomersDetails().isEmpty()) {
+			customer.getAllCustomers();
+			if (customer.getAllCustomers().isEmpty()) {
 				fail("Exception expected.");
 			}
 		} catch (NataliaException e) {

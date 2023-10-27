@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import agile_project.DatabaseConnector;
 import agile_project.NataliaException;
 
 public class User {
@@ -15,7 +14,11 @@ public class User {
 	protected String password;
 	protected String role;
 	
-	// User constructor 
+	/**
+	 * Constructors
+	 * User(String username, String password, String role)
+	 * User()
+	 */
 	public User(String username, String password, String role) throws NataliaException {
 		if (username.isEmpty() || username.length() < 1 || username.length() > 10 || password.isEmpty() || password.length() < 6 || password.length() > 10 || !password.matches(".*\\d.*")) {
 		    throw new NataliaException("Invalid user attributes.");
@@ -34,17 +37,20 @@ public class User {
 		
 	}
 	
+	/**
+	 * Methods
+	 * getUser(int id)
+	 * getAllUsers()
+	 * 
+	 */
 	public User getUser(int id) throws NataliaException {
-		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
 	    
-	    
 	    String query = "SELECT * FROM userdetails WHERE userID = ?";
 	    User user = new User();
 	    
-		
 		try {
 			connection = DatabaseConnector.getConnection();
 			

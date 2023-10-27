@@ -7,13 +7,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import agile_project.DatabaseConnector;
 import agile_project.NataliaException;
 
 public class Admin extends User {
 	private int adminID;
 	
 	static Scanner in = new Scanner(System.in);
+	
+	/**
+	 * Constructors
+	 * Admin(String username, String password, String role)
+	 * Admin()
+	 */
 	
 	public Admin(String username, String password, String role) throws NataliaException {
         super(username, password, role);
@@ -30,10 +35,20 @@ public class Admin extends User {
 		}
     }
 	
-	
 	public Admin() {
 	}
-
+	
+	/**
+	 * Methods
+	 * createUser
+	 * deleteUser
+	 * updateUser
+	 * getUser
+	 * isValidUsername
+	 * isValidPassword
+	 * isValidRole
+	 * isValidUpdate
+	 */
 
 	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
         if (!isValidUsername(username)) {
@@ -282,29 +297,5 @@ public class Admin extends User {
 
 	public void setAdminID(int adminID) {
 		this.adminID = adminID;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 }

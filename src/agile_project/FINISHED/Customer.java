@@ -3,14 +3,19 @@ package agile_project.FINISHED;
 import java.sql.*;
 import java.sql.SQLException;
 
-import agile_project.DatabaseConnector;
 import agile_project.NataliaException;
 
 public class Customer {
 	
-	private int customerID;
-	private String firstName, lastName, address, phoneNo;
+	protected int custID;
+	protected String firstName, lastName, address;
+	protected String phoneNo;
 	
+	/**
+	 * Constructors
+	 * Customer(String firstName, String lastName, String address, String phoneNo)
+	 * Customer()
+	 */
 	public Customer(String firstName, String lastName, String address, String phoneNo) throws NataliaException {
 		if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty()) {
             throw new NataliaException("Invalid customer attributes");
@@ -21,37 +26,42 @@ public class Customer {
 		this.phoneNo = phoneNo;
 	}
 	
-	// Empty Constructor
 	public Customer() {
 	}
 	
-	// Get customer by ID
-	public String getCustomerDetails(int id) throws NataliaException {
+
+	/**
+	 * Methods
+	 * getCustomerDetails(int id)
+	 * getAllCustomersDetails
+	 * getCustomerOrder(int id)
+	 */
+	public Customer getCustomer(int id) throws NataliaException {
 		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
+	    
+	    Customer customer = new Customer();
 		
 		try {
 			connection = DatabaseConnector.getConnection();
 			
 			String query = "SELECT * FROM customerdetails WHERE custID = ?";
-			// Prep query to be executed
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, id);
-			// Execute query
 			resultSet = preparedStatement.executeQuery();
 			
 			if (resultSet.next()) {
-				 // Retrieve customer details from the result set
-	            String firstName = resultSet.getString("firstName");
-	            String lastName = resultSet.getString("lastName");
-	            String address = resultSet.getString("address");
-	            String phoneNo = resultSet.getString("phoneNo");
+				// Retrieve customer details from the result set
+				customer.setCustID(id);
+				customer.setFirstName(resultSet.getString("firstName"));
+				customer.setLastName(resultSet.getString("lastName"));
+				customer.setAddress(resultSet.getString("address"));
+				customer.setPhoneNo(resultSet.getString("phoneNo"));
 	            
-	            // Return customer details
-	            return "Customer ID: " + id + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\n" +
-	                    "Address: " + address + "\nPhone Number: " + phoneNo;
+	            //return "Customer ID: " + id + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\n" +
+	            //        "Address: " + address + "\nPhone Number: " + phoneNo;
 			} else {
 				throw new NataliaException("Customer with " + id + " NOT found.");
 			}
@@ -68,10 +78,10 @@ public class Customer {
 	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
 	        }
 		}
+		return customer;
 	}
 	
-	// Get all customer details 
-	public String getAllCustomersDetails() throws NataliaException {
+	public String getAllCustomers() throws NataliaException {
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -85,7 +95,6 @@ public class Customer {
 			String allCustomersDetails = "";
 			
 			while (resultSet.next()) {
-				// Retrieve customer details from the result set
 				String custID = resultSet.getString("custID");
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
@@ -132,14 +141,12 @@ public class Customer {
 			resultSet = preparedStatement.executeQuery();
 			
 			if (resultSet.next()) {
-	            // Retrieve customer and order details
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
 	            String address = resultSet.getString("address");
 	            String title = resultSet.getString("title");
 	            String orderType = resultSet.getString("orderType");
 
-	            // Build the result as a string
 	            customerOrder.append("Customer ").append(firstName).append(" ").append(lastName).append(" order details:\n")
 	                    .append("Address: ").append(address).append("\n")
 	                    .append("Publication Title: ").append(title).append("\n")
@@ -196,12 +203,12 @@ public class Customer {
 	 * Getters & Setters
 	 * @return
 	 */
-	public int getCustomerID() {
-		return customerID;
+	public int getCustID() {
+		return custID;
 	}
 
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
+	public void setCustID(int custID) {
+		this.custID = custID;
 	}
 
 	public String getFirstName() {

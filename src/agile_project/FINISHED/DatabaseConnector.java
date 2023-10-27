@@ -1,6 +1,9 @@
-package agile_project;
+package agile_project.FINISHED;
 
 import java.sql.SQLException;
+
+import agile_project.NataliaException;
+
 import java.sql.*;
 
 public class DatabaseConnector {

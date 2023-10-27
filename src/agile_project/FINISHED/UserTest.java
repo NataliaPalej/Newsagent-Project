@@ -1,4 +1,5 @@
-package agile_project;
+package agile_project.FINISHED;
+import agile_project.NataliaException;
 import junit.framework.TestCase;
 
 public class UserTest extends TestCase {

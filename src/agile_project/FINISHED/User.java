@@ -1,9 +1,12 @@
-package agile_project;
+package agile_project.FINISHED;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import agile_project.DatabaseConnector;
+import agile_project.NataliaException;
 
 public class User {
 	

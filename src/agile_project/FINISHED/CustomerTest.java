@@ -1,7 +1,6 @@
-package agile_project;
+package agile_project.FINISHED;
 
-import java.sql.SQLException;
-
+import agile_project.NataliaException;
 import junit.framework.TestCase;
 
 public class CustomerTest extends TestCase {
@@ -9,13 +8,12 @@ public class CustomerTest extends TestCase {
 	/**
 	 * Test #1
 	 * Objective: Verify that a Customer object can be created with valid attributes
-	 * Input: Customer c1 = new Customer("Natalia", "Palej", "123 Main St", "555-555-555");
+	 * Input: Customer customer = new Customer("Test", "Test", "Test", "Test");
 	 * Output: Customer object is created without any exceptions.
 	 */
 	public void testCustomer001() throws NataliaException {
 		try {
-			Customer customer = new Customer("Test", "Test", "Test", "Test");
-			
+			Customer customer = new Customer("Test", "Test", "Test", "Test");	
 	        assertEquals("Test", customer.getFirstName());
 	        assertEquals("Test", customer.getLastName());
 	        assertEquals("Test", customer.getAddress());
@@ -40,13 +38,13 @@ public class CustomerTest extends TestCase {
 	    }
 	}
 
+	/**
+	 * Test #1
+	 * Objective: Verify customer details can be successfully retrieved 
+	 * Input: custID = 1
+	 * Output: Customer details have been retrieved
+	 */
 	public void testGetCustomerDetails001() throws NataliaException {
-		/**
-		 * Test #1
-		 * Objective: Verify customer details can be successfully retrieved 
-		 * Input: custID = 1
-		 * Output: Customer details have been retrieved
-		 */
 		try {
 			int custID = 1;
 			Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-123-4567");
@@ -58,13 +56,13 @@ public class CustomerTest extends TestCase {
         }
 	}
 	
+	/**
+	 * Test #1
+	 * Objective: Verify exception raised with invalid ID
+	 * Input: custID = -1
+	 * Output: NataliaException throws "Customer with ID doesn't exist"
+	 */
 	public void testGetCustomerDetails002() throws NataliaException {
-		/**
-		 * Test #1
-		 * Objective: Verify exception raised with invalid ID
-		 * Input: custID = -1
-		 * Output: NataliaException throws "Customer with ID doesn't exist"
-		 */
 		int custID = -1;
 		try {
 			Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-555-555");
@@ -75,14 +73,13 @@ public class CustomerTest extends TestCase {
         }
 	}
 	
-
+	/**
+	 * Test #1
+	 * Objective: Verify all customers details have been successfully retrieved 
+	 * Input: getAllCustomersDetails();
+	 * Output: Customer details successfully retrieved 
+	 */
 	public void testGetAllCustomersDetails001() throws NataliaException {
-		/**
-		 * Test #1
-		 * Objective: Verify all customers details have been successfully retrieved 
-		 * Input: getAllCustomersDetails();
-		 * Output: Customer details successfully retrieved 
-		 */
 		try {
 			Customer customer = new Customer();
             String allCustomersDetails = customer.getAllCustomersDetails();

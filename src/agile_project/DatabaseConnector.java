@@ -22,19 +22,4 @@ public class DatabaseConnector {
 			throw new RuntimeException("Couldn't find the database driver:\n" + e.getMessage(), e);
 		}
 	}
-
-	public void insertNewCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
-	}
-	
-	public void updateCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
-		
-	}
-	
-	public void deleteCustomer(String firstName, String lastName, String custAddress, String phoneNo) {
-		
-	}
-	
-	public String readCustomer() {
-		return null;	
-	}
 }

@@ -1,4 +1,4 @@
-package agile_project;
+package agile_project.FINISHED;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import agile_project.FINISHED.User;
+import agile_project.DatabaseConnector;
+import agile_project.NataliaException;
 
 public class Admin extends User {
 	private int adminID;
@@ -86,7 +87,8 @@ public class Admin extends User {
 			connection = DatabaseConnector.getConnection();
 			if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("YES")){
 				PreparedStatement stmt = connection.prepareStatement(query);
-				stmt.executeUpdate(query);
+				stmt.setInt(1, id); // Set the value of the userID parameter
+	            stmt.executeUpdate(); // Execute the delete query
 				System.out.println("User " + id + " has been successfully deleted.");
 			} else {
 				System.out.println("Deletion cancelled.");
@@ -98,12 +100,13 @@ public class Admin extends User {
 		}
 	}
 	
-	public String getUser(int id) throws NataliaException {
+	public User getUser(int id) throws NataliaException {
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
 	    
 	    String query = "SELECT * FROM userdetails WHERE userID = ?";
+	    User user = new User();
 		
 		try {
 			connection = DatabaseConnector.getConnection();
@@ -113,12 +116,13 @@ public class Admin extends User {
 			resultSet = preparedStatement.executeQuery();
 			
 			if (resultSet.next()) {
-	            String username = resultSet.getString("username");
-	            String password = resultSet.getString("password");
-	            String role = resultSet.getString("role");
+				user.setID(id);
+				user.setUsername(resultSet.getString("username"));
+	            user.setPassword(resultSet.getString("password"));
+	            user.setRole(resultSet.getString("role"));
 	            
-	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
-	                    "Role: " + role;
+//	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
+//	                    "Role: " + role;
 			} else {
 				throw new NataliaException("User with " + id + " NOT found.");
 			}
@@ -133,6 +137,7 @@ public class Admin extends User {
 	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
 	        }
 		}
+		return user;
 	}
 	
 	public void updateUser(int id) throws NataliaException, SQLException {
@@ -149,9 +154,9 @@ public class Admin extends User {
 	    	
 	    if (resultSet.next()) {
 	    	String userID = resultSet.getString("userID");
-            String username = resultSet.getString("username");
+            String oldUsername = resultSet.getString("username");
             
-            System.out.println("Are you sure you want to update user " + userID + ": " + username + "? (Y/N)");
+            System.out.println("Are you sure you want to update user " + userID + ": " + oldUsername + "? (Y/N)");
             String answer = in.next();
             
             if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
@@ -232,22 +237,24 @@ public class Admin extends User {
 	
 	public boolean isValidPassword(String password) {
 		if (password.length() < 6 || password.length() > 10) {
+			System.out.println("Password length must be between 6-10 characters.");
 			return false;
 		} // Check if password contains at least one digit
 		if (!password.matches(".*\\d.*")) {
+			System.out.println("Password must contain at least one digit.");
 			return false;
 		} // Check if the password contains at least one uppercase letter
 		if (!password.matches(".*[A-Z].*")) {
+			System.out.println("Password must contain at least one uppercase letter.");
 	        return false;
 	    }
 		return true;
 	}
 	
 	public boolean isValidRole(String role) {
-		if (role == "admin" || role == "driver" || role == "newsagent") {
+		if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("driver") || role.equalsIgnoreCase("newsagent")) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

@@ -1,9 +1,20 @@
-package agile_project;
+package agile_project.FINISHED;
 
 import java.sql.SQLException;
 
-import agile_project.FINISHED.User;
+import agile_project.NataliaException;
 import junit.framework.TestCase;
+
+
+/**
+ * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! *
+ *                                                      *
+ * BEFORE RUNNING THE TESTS, CHECK USERDETAILS DATABASE *
+ * AND ENTER VALID USER ID IN THE DELETE TEST METHOD    *
+ *                                                      *
+ * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! *
+ */
+
 
 public class AdminTest extends TestCase {
 
@@ -27,12 +38,12 @@ public class AdminTest extends TestCase {
 	/** 
 	 * Test #2
 	 * Objective: Verify exception thrown when invalid attributes
-	 * Input: Admin admin = new Admin(" ", "Admin1", "admin");
+	 * Input: Admin admin = new Admin("", "Admin1", "admin");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
 	public void testAdmin002() throws NataliaException{
 		try {
-			Admin admin = new Admin(" ", "Admin1", "admin");
+			Admin admin = new Admin("", "Admin1", "admin");
 			fail("Exception expected. Invalid username.");
 		} catch (NataliaException e) {
 			assertEquals("Invalid user attributes.", e.getMessage());
@@ -51,7 +62,6 @@ public class AdminTest extends TestCase {
 			Admin admin = new Admin();
 	        admin.createUser("test", "Test11", "admin");
 	        admin.setID(1);
-	        System.out.println(admin.getUsername() + "\n" + admin.getID());
 	        String userCreated = "User: " + admin.getID() + " " + admin.getUsername() + " was successfully created!";
 	        String expectedUser = "User: 1 test was successfully created!";
 	        assertEquals(expectedUser, userCreated);
@@ -65,19 +75,39 @@ public class AdminTest extends TestCase {
 	 * Objective: Verify admin can create new driver
 	 * Input: createUser("test", "Test11", "driver")
 	 * Output: "User: ID USERNAME was successfully created!" 
+	 * @throws SQLException 
 	 */
-	public void testCreateUser002() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser002() throws NataliaException, SQLException{
+		try {
+			Admin driver = new Admin();
+			driver.createUser("test", "Test11", "driver");
+			driver.setID(1);
+	        String userCreated = "User: " + driver.getID() + " " + driver.getUsername() + " was successfully created!";
+	        String expectedUser = "User: 1 test was successfully created!";
+	        assertEquals(expectedUser, userCreated);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected. Invalid role");
+		}
 	}
 	
 	/**
 	 * Test #3
 	 * Objective: Verify admin can create new newsagent
-	 * Input: createUser("newsagent", "Test11", "newsagent")
+	 * Input: createUser("newsagent", "Newsagent1", "newsagent")
 	 * Output: "User: ID USERNAME was successfully created!" 
+	 * @throws SQLException 
 	 */
-	public void testCreateUser003() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser003() throws NataliaException, SQLException{
+		try {
+			Admin newsagent = new Admin();
+			newsagent.createUser("newsagent", "Newsagent1", "newsagent");
+			newsagent.setID(1);
+	        String userCreated = "User: " + newsagent.getID() + " " + newsagent.getUsername() + " was successfully created!";
+	        String expectedUser = "User: 1 newsagent was successfully created!";
+	        assertEquals(expectedUser, userCreated);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -85,9 +115,16 @@ public class AdminTest extends TestCase {
 	 * Objective: Verify exception thrown when invalid role
 	 * Input: createUser("newsagent", "Test11", "owner")
 	 * Output: Invalid role. Available roles: admin/newsagent/driver.
+	 * @throws SQLException 
 	 */
-	public void testCreateUser004() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser004() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			admin.createUser("newsagent", "Test11", "owner");
+			fail("Exception expected. Invalid role");
+		}catch (NataliaException e) {
+			assertEquals("Invalid role. Available roles: admin/newsagent/driver.",  e.getMessage());
+		}
 	}
 	
 	/**
@@ -95,9 +132,16 @@ public class AdminTest extends TestCase {
 	 * Objective: Verify exception thrown when invalid password
 	 * Input: createUser("newsagent", "test", "newsagent")
 	 * Output: Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.
+	 * @throws SQLException 
 	 */
-	public void testCreateUser005() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser005() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			admin.createUser("newsagent", "test", "newsagent");
+			fail("Exception expected. Invalid password");
+		}catch (NataliaException e) {
+			assertEquals("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.",  e.getMessage());
+		}
 	}
 	
 	/**
@@ -106,48 +150,108 @@ public class AdminTest extends TestCase {
 	 * Input: createUser("n", "Test11", "newsagent")
 	 * Output: Invalid username. Username must be between 1-10 characters.
 	 */
-	public void testCreateUser006() throws NataliaException{
-		fail("Not yet implemented");
+	public void testCreateUser006() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			admin.createUser("", "Test11", "newsagent");
+			fail("Exception expected. Invalid username");
+		}catch (NataliaException e) {
+			assertEquals("Invalid username. Username must be between 1-10 characters.",  e.getMessage());
+		}
 	}
 
 	/**
 	 * Test #1
 	 * Objective: Verify user can be successfully deleted
-	 * Input: id = 13
-	 * Output: User 13 has been successfully deleted.
+	 * Input: id = 35
+	 * Output: User 35 has been successfully deleted.
 	 */
-	public void testDeleteUser001() throws NataliaException{
-		fail("Not yet implemented");
+	public void testDeleteUser001() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			int userID = 51;
+			admin.deleteUser(userID);
+			String expectedMessage = "User 51 has been successfully deleted.";
+			String actualMessage = "User " + userID + " has been successfully deleted.";
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 	/**
 	 * Test #1
 	 * Objective: Verify admin can update username
-	 * Input: id = 12
+	 * Input: id = 14
 	 * Output: Username updated successfully. New username: + username
 	 */
-	public void testUpdateUser001() throws NataliaException{
-		fail("Not yet implemented");
+	public void testUpdateUser001() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			
+			int userID = 14;
+			User user14 = admin.getUser(userID);
+	        //String oldUsername = user14.getUsername();
+
+			admin.updateUser(userID);
+			String newUsername = "Driver14";
+			//System.out.println("OLD Username: " + oldUsername);
+			String expectedMessage = "Username updated successfully. New username: Driver14";
+			String actualMessage = "Username updated successfully. New username: " + newUsername;
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
 	 * Test #2
 	 * Objective: Verify admin can update password
-	 * Input: id = 12
+	 * Input: id = 36
 	 * Output: Password updated successfully. New password: + password
 	 */
-	public void testUpdateUser002() throws NataliaException{
-		fail("Not yet implemented");
+	public void testUpdateUser002() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			
+			int userID = 14;
+			User user14 = admin.getUser(userID);
+			//String oldPassword = user36.getPassword();
+			
+			admin.updateUser(userID);
+			String newPassword = "Driver14";
+			//System.out.println("OLD Password: " + oldPassword);
+			String expectedMessage = "Password updated successfully. New password: Driver14";
+			String actualMessage = "Password updated successfully. New password: " + newPassword;
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
 	 * Test #3
 	 * Objective: Verify admin can update role
-	 * Input: id = 12
+	 * Input: id = 14
 	 * Output: Role updated successfully. New role: + role
 	 */
-	public void testUpdateUser003() throws NataliaException{
-		fail("Not yet implemented");
+	public void testUpdateUser003() throws NataliaException, SQLException{
+		try {
+			Admin admin = new Admin();
+			int userID = 14;
+			
+			User user36 = admin.getUser(userID);
+	        //String oldRole = user36.getRole();
+
+			admin.updateUser(userID);
+			String newRole = "admin";
+			//System.out.println("OLD Role: " + oldRole);
+			String expectedMessage = "Role updated successfully. New role: admin";
+			String actualMessage = "Role updated successfully. New role: " + newRole;
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 	/**
@@ -156,18 +260,30 @@ public class AdminTest extends TestCase {
 	 * Input: username = "admin"
 	 * Output: true
 	 */
-	public void testIsValidUsername001() throws NataliaException{
-		fail("Not yet implemented");
+	public void testIsValidUsername001() throws NataliaException {
+		try {
+			Admin admin = new Admin();
+			String username = "admin";
+			assertEquals(true, admin.isValidUsername(username));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
 	 * Test #2
 	 * Objective: Verify invalid name < 1 is false
-	 * Input: username = "n"
+	 * Input: username = ""
 	 * Output: false
 	 */
 	public void testIsValidUsername002() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String username = "";
+		try {	
+			assertEquals(false, admin.isValidUsername(username));
+		} catch (Exception e) {
+			fail("Exception NOT expected");
+		}
 	}
 	
 	/**
@@ -177,7 +293,13 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidUsername003() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String username = "AdminAdminAdmin";
+		try {
+			assertEquals(false, admin.isValidUsername(username));		
+		} catch (Exception e) {
+			fail("Exception NOT expected.");
+		}
 	}
 
 	/**
@@ -187,7 +309,13 @@ public class AdminTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidPassword001() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String password = "Admin1";
+		try {
+			assertEquals(true, admin.isValidPassword(password));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -197,7 +325,13 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPassword002() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String password = "Ad1";
+		try {
+			assertEquals(false, admin.isValidPassword(password));
+		} catch (Exception e) {
+			fail("Exception NOT expected.");
+		}
 	}
 	
 	/**
@@ -207,7 +341,13 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPassword003() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String password = "AdminAdminAdmin1";
+		try {
+			assertEquals(false, admin.isValidPassword(password));
+		} catch (Exception e) {
+			fail("Exception NOT expected.");
+		}
 	}
 	
 	/**
@@ -217,7 +357,13 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPassword004() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String password = "AdminA";
+		try {
+			assertEquals(false, admin.isValidPassword(password));
+		} catch (Exception e) {
+			fail("Exception NOT expected.");
+		}
 	}
 	
 	/**
@@ -227,7 +373,13 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPassword005() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String password = "admin1";
+		try {
+			assertEquals(false, admin.isValidPassword(password));
+		} catch (Exception e) {
+			fail("Exception NOT expected.");
+		}
 	}
 
 	/**
@@ -237,7 +389,13 @@ public class AdminTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidRole001() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String role = "driver";
+		try {
+			assertEquals(true, admin.isValidRole(role));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -247,7 +405,13 @@ public class AdminTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidRole002() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String role = "newsagent";
+		try {
+			assertEquals(true, admin.isValidRole(role));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -257,7 +421,13 @@ public class AdminTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidRole003() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String role = "admin";
+		try {
+			assertEquals(true, admin.isValidRole(role));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -267,7 +437,12 @@ public class AdminTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidRole004() throws NataliaException{
-		fail("Not yet implemented");
+		Admin admin = new Admin();
+		String role = "owner";
+		try {
+			assertEquals(false, admin.isValidRole(role));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
-
 }

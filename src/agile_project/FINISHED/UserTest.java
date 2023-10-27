@@ -61,9 +61,11 @@ public class UserTest extends TestCase {
 		try {
 			int userID = 1;
 			User user = new User();
-			String getUser = user.getUser(userID);
-			String expectedUser = "User ID: " + userID + "\nUsername: admin1\nPassword: Admin1\nRole: admin";
-			assertEquals(expectedUser, getUser);
+			User retrievedUser = user.getUser(userID);
+			assertEquals(userID, retrievedUser.getID());
+		    assertEquals("admin1", retrievedUser.getUsername());
+		    assertEquals("Admin1", retrievedUser.getPassword());
+		    assertEquals("admin", retrievedUser.getRole());
 		} catch (NataliaException e) {
             fail("Exception NOT expected.\n" + e.getMessage());
         }

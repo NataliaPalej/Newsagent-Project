@@ -34,27 +34,31 @@ public class User {
 		
 	}
 	
-	public String getUser(int id) throws NataliaException {
+	public User getUser(int id) throws NataliaException {
 		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
+	    
+	    
+	    String query = "SELECT * FROM userdetails WHERE userID = ?";
+	    User user = new User();
+	    
 		
 		try {
 			connection = DatabaseConnector.getConnection();
 			
-			String query = "SELECT * FROM userdetails WHERE userID = ?";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, id);
 			resultSet = preparedStatement.executeQuery();
 			
 			if (resultSet.next()) {
-	            String username = resultSet.getString("username");
-	            String password = resultSet.getString("password");
-	            String role = resultSet.getString("role");
-	            
-	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
-	                    "Role: " + role;
+				user.setID(id);
+	            user.setUsername(resultSet.getString("username"));
+	            user.setPassword(resultSet.getString("password"));
+	            user.setRole(resultSet.getString("role"));
+//	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
+//	                    "Role: " + role;
 			} else {
 				throw new NataliaException("User with " + id + " NOT found.");
 			}
@@ -69,6 +73,7 @@ public class User {
 	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
 	        }
 		}
+		return user;
 	}
 	
 	public String getAllUsers() throws NataliaException {

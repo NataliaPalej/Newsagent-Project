@@ -55,6 +55,8 @@ public class Application extends DatabaseConnector {
 				        case 4:
 				            // Call deleteUser(int id) from Admin class
 				            break;
+				        case 5:
+				        	// Log out option
 				        default:
 				            System.out.println("Invalid option.");
 				            break;

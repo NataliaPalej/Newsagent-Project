@@ -2,53 +2,207 @@ package agile_project;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
-public class Admin extends DatabaseConnector {
-	
-	// Create connection to the database
-	Connection connection = getConnection();
+import agile_project.FINISHED.User;
 
+public class Admin extends User {
 	private int adminID;
-	private String username, password, role;
 	
-	public Admin(int adminID, String username, String password, String role) throws NataliaException {
-		throw new NataliaException("Constructor not yet implemented");
-	}
+	static Scanner in = new Scanner(System.in);
+	
+	public Admin(String username, String password, String role) throws NataliaException {
+//        super(username, password, role);
+//        if (username.isEmpty() || !isValidUsername(username)) {
+//            throw new NataliaException("Username must be between 1-10 characters");
+//        } else if (password.isEmpty() || !isValidPassword(password)) {
+//            throw new NataliaException("Password must be between 6-10 characters and contain at least one uppercase and digit.");
+//        } else if (!isValidRole(role)) {
+//            throw new NataliaException("Role invalid. Available roles: admin/driver/newsagent.");
+//        }
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+	
 	
 	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
-		connection = DatabaseConnector.getConnection();
-		User user = new User(username, password, role);
-		saveUserToDatabase(user);
+        if (!isValidUsername(username)) {
+            throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
+        }
+        if (!isValidPassword(password)) {
+            throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
+        }
+        if (!isValidRole(role)) {
+            throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
+        }
+        User user = new User();
+
+        String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
+
+        Connection connection = null;
+        try {
+            connection = DatabaseConnector.getConnection();
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getRole());
+            stmt.executeUpdate();
+            System.out.println("User: " + user.getID() + " " + user.getUsername() + " was successfully created!");
+        } catch (SQLException e) {
+            throw new NataliaException("Couldn't create User.\n" + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+	
+	public void deleteUser(int id) throws NataliaException, SQLException {
+		
+		System.out.println("Are you sure you want to delete user: " + id + "?");
+		String answer = in.next();
+		
+		Connection connection = null;
+		String query = "DELETE FROM userdetails WHERE userID = ?";
+		
+		try {
+			connection = DatabaseConnector.getConnection();
+			if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("YES")){
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.executeUpdate(query);
+				System.out.println("User " + id + " has been successfully deleted.");
+			} else {
+				System.out.println("Deletion cancelled.");
+			}
+		} catch (SQLException e) {
+			throw new NataliaException("Couldn't delete user");
+		} finally {
+			connection.close();
+		}
 	}
 	
-	public void deleteUser(int id) {
-		connection = DatabaseConnector.getConnection();
+	public String getUser(int id) throws NataliaException {
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    
+	    String query = "SELECT * FROM userdetails WHERE userID = ?";
+		
+		try {
+			connection = DatabaseConnector.getConnection();
+
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.next()) {
+	            String username = resultSet.getString("username");
+	            String password = resultSet.getString("password");
+	            String role = resultSet.getString("role");
+	            
+	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
+	                    "Role: " + role;
+			} else {
+				throw new NataliaException("User with " + id + " NOT found.");
+			}
+		} catch (SQLException error) {
+			throw new NataliaException("Database error.\n" + error.getMessage());
+		} finally {
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            if (connection != null) connection.close();
+	        } catch (SQLException e) {
+	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
+	        }
+		}
 	}
 	
-	public String readUser(int id) {
-		connection = DatabaseConnector.getConnection();
-		return null;
+	public void updateUser(int id) throws NataliaException, SQLException {
+		String query = "SELECT * FROM userdetails WHERE userID = ?";
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    
+	    try {
+	    	connection = DatabaseConnector.getConnection();
+	    	preparedStatement = connection.prepareStatement(query);
+	        preparedStatement.setInt(1, id);
+	        resultSet = preparedStatement.executeQuery();
+	    	
+	    if (resultSet.next()) {
+	    	String userID = resultSet.getString("userID");
+            String username = resultSet.getString("username");
+            
+            System.out.println("Are you sure you want to update user " + userID + ": " + username + "? (Y/N)");
+            String answer = in.next();
+            
+            if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
+                System.out.println("OPTIONS:\n1. UPDATE username\n2. UPDATE password\n3. UPDATE role");
+                System.out.print("Enter option [1/2/3]: ");
+                int option = in.nextInt();
+
+                String updateColumn = "";
+                String updatePrompt = "";
+                String successMessage = "";
+
+                switch (option) {
+                    case 1:
+                        updateColumn = "username";
+                        updatePrompt = "Enter new username: ";
+                        successMessage = "Username updated successfully. New username: ";
+                        break;
+                    case 2:
+                        updateColumn = "password";
+                        updatePrompt = "Enter new password: ";
+                        successMessage = "Password updated successfully. New password: ";
+                        break;
+                    case 3:
+                        updateColumn = "role";
+                        updatePrompt = "Enter new role: ";
+                        successMessage = "Role updated successfully. New role: ";
+                        break;
+                    default:
+                        System.out.println("Invalid option.");
+                        return;
+                }
+                System.out.println(updatePrompt);
+                String newValue = in.next();
+                
+                if (isValidUpdate(updateColumn, newValue)) {
+                	String updateQuery = "UPDATE userdetails SET " + updateColumn + " = ? WHERE userID = ?";
+                	preparedStatement = connection.prepareStatement(updateQuery);
+                    preparedStatement.setString(1, newValue);
+                    preparedStatement.setInt(2, id);
+                    preparedStatement.executeUpdate();
+                    System.out.println(successMessage + newValue);
+                    }
+                }
+            }
+	    }
+	    catch (SQLException e) {
+	        throw new NataliaException("Database error: " + e.getMessage());
+	    } finally {
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } catch (SQLException e) {
+	            throw new NataliaException("Error while closing database resources: " + e.getMessage());
+	        }
+	        if (connection != null) {
+	            connection.close();
+	        }
+	    }
 	}
 	
-	public void updateUser() {
-		connection = DatabaseConnector.getConnection();
-	}
-	
-	public void givePermission() throws NataliaException {
-		throw new NataliaException("Method not yet implemented");
-	}
-	
-	public void saveUserToDatabase(User user) throws NataliaException, SQLException {
-		String query = "INSERT INTO userdetails VALUES (?, ?, ?)";
-		PreparedStatement stmt = connection.prepareStatement(query);
-		stmt.setString(1, user.getUsername());
-		stmt.setString(2, user.getPassword());
-		stmt.setString(3, user.getRole());
-		stmt.execute(query);
-		stmt.executeUpdate();
-		System.out.println("User : " + user + " was successfully created!");
-	}
 
 	/** 
 	 * Validation methods
@@ -83,6 +237,18 @@ public class Admin extends DatabaseConnector {
 		else {
 			return false;
 		}
+	}
+	
+	private boolean isValidUpdate(String updateColumn, String newValue) {
+	    // Validation logic for the updateColumn and newValue
+	    if (updateColumn.equals("username")) {
+	        return isValidUsername(newValue);
+	    } else if (updateColumn.equals("password")) {
+	        return isValidPassword(newValue);
+	    } else if (updateColumn.equals("role")) {
+	        return isValidRole(newValue);
+	    }
+	    return false;
 	}
 	
 	/**

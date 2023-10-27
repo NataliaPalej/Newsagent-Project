@@ -1,7 +1,6 @@
 package agile_project;
 
 import java.sql.Connection;
-
 import junit.framework.TestCase;
 
 public class DatabaseConnectorTest extends TestCase {

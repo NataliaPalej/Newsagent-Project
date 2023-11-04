@@ -4,30 +4,6 @@ import junit.framework.TestCase;
 
 public class PublicationTest extends TestCase {
 
-	public void testPublication() {
-		fail("Not yet implemented");
-	}
-
-	public void testCreateNewPublication() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdatePublication() {
-		fail("Not yet implemented");
-	}
-
-	public void testDeletePublication() {
-		fail("Not yet implemented");
-	}
-
-	public void testReadPublication() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdateStock() {
-		fail("Not yet implemented");
-	}
-
 //	TestNumber:1
 //	Objective: Verify stock >= 0
 //	Input: 10
@@ -74,14 +50,44 @@ public class PublicationTest extends TestCase {
 		}
 	}
 	
-//	TestNumber:4
-//	Objective: Verify stock >= 0
-//	Output: 1
+//	TestNumber: 4
+//	Objective: Verify Publication object is created
+//	Input: Publication(1, "Test", 1, "Test", 2.5, 5);
+//	Output: True
+	
+
+	public void testPublication() throws RonanException {
+		Publication stockTest004 = new Publication(1, "Test", 1, "Test", 2.5, 5);
+		assertEquals(1, stockTest004.getId());
+		assertEquals("Test", stockTest004.getTitle());
+		assertEquals(1, stockTest004.getIssueNo());
+		assertEquals("Test", stockTest004.getAuthor());
+		assertEquals(2.5, stockTest004.getPrice());
+		assertEquals(5, stockTest004.getQuantity());
+	}
+
+	public void testCreateNewPublication() {
+		fail("Not yet implemented");
+	}
+
+	public void testUpdatePublication() {
+		fail("Not yet implemented");
+	}
+
+	public void testDeletePublication() {
+		fail("Not yet implemented");
+	}
+
+	public void testReadPublication() {
+		fail("Not yet implemented");
+	}
+
+	public void testUpdateStock() {
+		fail("Not yet implemented");
+	}
 	
 	public void testGetId() throws RonanException {
-		Publication stockTest004 = new Publication(1, "Offaly Topic", 1, "Myself", 2.5, 5);
-		int result = stockTest004.getId();
-		assertEquals(1, result);
+		
 	}
 
 	public void testSetId() {

@@ -9,6 +9,11 @@ public class Publication {
 	private double price;
 	private int quantity;
 	
+	public Publication() {
+		// TODO Auto-generated constructor stub
+		
+	}
+	
 	public Publication(int id, String title, int issueNo, String author, double price, int quantity) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
@@ -38,6 +43,14 @@ public class Publication {
 	
 	public void updateStock() throws RonanException {
 		throw new RonanException("updateStock() not implemented");
+	}
+	
+	public boolean isValidStock(int stock) throws RonanException {
+		if (stock >= 0) {
+			return true;
+		}
+		return false;
+		
 	}
 
 	public int getId() {

@@ -29,7 +29,7 @@ public class PublicationTest extends TestCase {
 	}
 
 //	TestNumber:1
-//	Objective: Verify stock > 0
+//	Objective: Verify stock >= 0
 //	Input: 10
 //	Output: True
 	
@@ -45,7 +45,7 @@ public class PublicationTest extends TestCase {
 	}
 
 //	TestNumber:2
-//	Objective: Verify stock = 0
+//	Objective: Verify stock >= 0
 //	Input: 0
 //	Output: True
 	
@@ -60,7 +60,7 @@ public class PublicationTest extends TestCase {
 	}
 	
 //	TestNumber:3
-//	Objective: Verify stock < 0
+//	Objective: Verify stock >= 0
 //	Input: -5
 //	Output: False
 	
@@ -74,8 +74,14 @@ public class PublicationTest extends TestCase {
 		}
 	}
 	
-	public void testGetId() {
-		fail("Not yet implemented");
+//	TestNumber:4
+//	Objective: Verify stock >= 0
+//	Output: 1
+	
+	public void testGetId() throws RonanException {
+		Publication stockTest004 = new Publication(1, "Offaly Topic", 1, "Myself", 2.5, 5);
+		int result = stockTest004.getId();
+		assertEquals(1, result);
 	}
 
 	public void testSetId() {

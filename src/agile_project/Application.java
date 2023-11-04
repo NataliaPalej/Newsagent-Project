@@ -74,7 +74,7 @@ public class Application extends DatabaseConnector {
 			        	System.out.println("\tCUSTOMER OPTIONS\t");
 			        	System.out.println("1. CREATE new customer\n2. UPDATE existing customer");
 						System.out.println("3. GET customer details\n4. GET *all* customers details\n");
-						System.err.println("5. DELETE customer\n6. BACK");
+						System.out.println("5. DELETE customer\n6. BACK");
 						// Prompt to pick option
 						// Swtich case based on the option
 			            break;
@@ -89,6 +89,7 @@ public class Application extends DatabaseConnector {
 			            System.out.println("1. GENERATE Delivery Report\n2. BACK");
 			            // Prompt to pick option
 						// Swtich case based on the option
+			            break;
 			        case 4:
 			        	// Log out
 			        default:

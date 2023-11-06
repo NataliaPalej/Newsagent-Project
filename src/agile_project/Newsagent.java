@@ -35,7 +35,6 @@ public class Newsagent extends Customer {
     }
 	
 	public Newsagent() {
-		
 	}
 	
 	
@@ -160,6 +159,24 @@ public class Newsagent extends Customer {
                 in.nextLine();
                 String newValue = in.nextLine();
                 
+                // Verify the updated input is valid
+                boolean isInputValid = isValidUpdate(updateColumn, newValue);
+                if (isInputValid) {
+                    if (updateColumn.equals("firstName") && !isValidName(newValue)) {
+                        System.out.println("Invalid first name. Name must be between 1-15 characters.");
+                        return;
+                    } else if (updateColumn.equals("lastName") && !isValidName(newValue)) {
+                        System.out.println("Invalid last name. Name must be between 1-15 characters.");
+                        return;
+                    } else if (updateColumn.equals("address") && !isValidAddress(newValue)) {
+                        System.out.println("Invalid address. Address must be between 1-20 characters.");
+                        return;
+                    } else if (updateColumn.equals("phoneNo") && !isValidPhoneNo(newValue)) {
+                        System.out.println("Invalid phone number. Number must be in format 111-222-3333.");
+                        return;
+                    }
+                }
+
                 if (isValidUpdate(updateColumn, newValue)) {
                 	String updateQuery = "UPDATE customerdetails SET " + updateColumn + " = ? WHERE custID = ?";
                 	preparedStatement = connection.prepareStatement(updateQuery);
@@ -295,6 +312,53 @@ public class Newsagent extends Customer {
 	        }
 		}	
 	}
+	
+	// Docket is generated based on date? -- SHOULD BE IN DOCKET CLASS ???
+//	public void generateDocketReport() throws NataliaException {
+//		Connection connection = null;
+//	    PreparedStatement preparedStatement = null;
+//	    ResultSet resultSet = null;
+//	  
+//	}
+	
+	// Invoice is generated based on customer ID - SHOULD BE IN INVOICES ???
+//	public void generateInvoice(int id) throws NataliaException {
+//		Connection connection = null;
+//	    PreparedStatement preparedStatement = null;
+//	    ResultSet resultSet = null;
+//	    
+//	    Invoice invoice = new Invoice();
+//	    
+//	    try {
+//	        connection = DatabaseConnector.getConnection();
+//	        String query = "SELECT * FROM invoice WHERE custID = ?";
+//	        preparedStatement = connection.prepareStatement(query);
+//	        preparedStatement.setInt(1, id);
+//	        resultSet = preparedStatement.executeQuery();
+//	        
+//	        if (resultSet.next()) {
+//	        	invoice.setInvoiceID(id);
+//	        	invoice.setcustID(resultSet.getString("custID"));
+//	        	invoice.setPublicationID(resultSet.getString("publicationID"));
+//	        	invoice.setOrderID(resultSet.getString("orderID"));
+//	        	invoice.setTotalPrice(resultSet.getString("totalPrice"));
+//	        	invoice.setQuantityDelivered(resultSet.getString("totalQuantityDelivered"));
+//			} else {
+//				throw new NataliaException("Customer with " + id + " NOT found.");
+//			} 
+//	    } catch (SQLException e) {
+//	        throw new NataliaException("Database error: " + e.getMessage());
+//	    } finally {
+//	        try {
+//	            if (resultSet != null) resultSet.close();
+//	            if (preparedStatement != null) preparedStatement.close();
+//	            if (connection != null) connection.close();
+//	        } catch (SQLException e) {
+//	            throw new NataliaException("Error while closing database resources: " + e.getMessage());
+//	        }
+//	    }
+//	}
+	
 	
 	public boolean doesCustomerExist(int id) throws SQLException, NataliaException {
 		Connection connection = null;

@@ -7,24 +7,23 @@ public class Publication {
 	private int issueNo;
 	private String author;
 	private double price;
-	private int quantity;
+	private int stock;
 	
-	public Publication() {
+	public Publication() throws RonanException {
 		// TODO Auto-generated constructor stub
 		
 	}
 	
-	public Publication(int id, String title, int issueNo, String author, double price, int quantity) {
+	public Publication(String title, int issueNo, String author, double price, int stock) throws RonanException {
 		// TODO Auto-generated constructor stub
-		this.id = id;
 		this.title = title;
 		this.issueNo = issueNo;
 		this.author = author;
 		this.price = price;
-		this.quantity = quantity;
+		this.stock = stock;
 	}
 	
-	public void createNewPublication(int id, String title, int issueNo, String author, double price, int quantity) throws RonanException {
+	public void createNewPublication(String title, int issueNo, String author, double price, int quantity) throws RonanException {
 //		Publication p = new Publication(id, title, issueNo, author, price, quantity);
 		throw new RonanException("createNewPublication() not implemented");
 	}
@@ -50,7 +49,6 @@ public class Publication {
 			return true;
 		}
 		return false;
-		
 	}
 
 	public int getId() {
@@ -103,13 +101,13 @@ public class Publication {
 	}
 
 
-	public int getQuantity() {
-		return quantity;
+	public int getStock() {
+		return stock;
 	}
 
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 

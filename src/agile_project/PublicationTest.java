@@ -36,7 +36,7 @@ public class PublicationTest extends TestCase {
 	}
 	
 //	TestNumber:3
-//	Objective: Verify stock >= 0
+//	Objective: Verify invalid throws exception
 //	Input: -5
 //	Output: False
 	
@@ -46,7 +46,7 @@ public class PublicationTest extends TestCase {
 			boolean result = stockTest003.isValidStock(-5);
 			assertEquals(false, result);
 		} catch (RonanException e) {
-			fail("exception expected");
+			fail("exception not expected");
 		}
 	}
 	
@@ -57,13 +57,17 @@ public class PublicationTest extends TestCase {
 	
 
 	public void testPublication() throws RonanException {
-		Publication stockTest004 = new Publication(1, "Test", 1, "Test", 2.5, 5);
-		assertEquals(1, stockTest004.getId());
-		assertEquals("Test", stockTest004.getTitle());
-		assertEquals(1, stockTest004.getIssueNo());
-		assertEquals("Test", stockTest004.getAuthor());
-		assertEquals(2.5, stockTest004.getPrice());
-		assertEquals(5, stockTest004.getQuantity());
+		try {
+			Publication stockTest004 = new Publication("Test", 1, "Test", 2.5, 5);
+			assertEquals(1, stockTest004.getId());
+			assertEquals("Test", stockTest004.getTitle());
+			assertEquals(1, stockTest004.getIssueNo());
+			assertEquals("Test", stockTest004.getAuthor());
+			assertEquals(2.5, stockTest004.getPrice());
+			assertEquals(5, stockTest004.getStock());
+		} catch (RonanException e) {
+			fail("Exception not expected");
+		}
 	}
 
 	public void testCreateNewPublication() {
@@ -126,11 +130,11 @@ public class PublicationTest extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testGetQuantity() {
+	public void testGetStock() {
 		fail("Not yet implemented");
 	}
 
-	public void testSetQuantity() {
+	public void testSetStock() {
 		fail("Not yet implemented");
 	}
 

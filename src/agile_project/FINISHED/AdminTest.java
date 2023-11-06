@@ -61,10 +61,9 @@ public class AdminTest extends TestCase {
 		try {
 			Admin admin = new Admin();
 	        admin.createUser("test", "Test11", "admin");
-	        admin.setID(1);
-	        String userCreated = "User: " + admin.getID() + " " + admin.getUsername() + " was successfully created!";
-	        String expectedUser = "User: 1 test was successfully created!";
-	        assertEquals(expectedUser, userCreated);
+	        assertEquals("test", admin.getUsername());
+	        assertEquals("Test11", admin.getPassword());
+	        assertEquals("admin", admin.getRole());
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -81,10 +80,9 @@ public class AdminTest extends TestCase {
 		try {
 			Admin driver = new Admin();
 			driver.createUser("test", "Test11", "driver");
-			driver.setID(1);
-	        String userCreated = "User: " + driver.getID() + " " + driver.getUsername() + " was successfully created!";
-	        String expectedUser = "User: 1 test was successfully created!";
-	        assertEquals(expectedUser, userCreated);
+			assertEquals("test", driver.getUsername());
+	        assertEquals("Test11", driver.getPassword());
+	        assertEquals("driver", driver.getRole());
 		}catch (NataliaException e) {
 			fail("Exception NOT expected. Invalid role");
 		}
@@ -101,10 +99,9 @@ public class AdminTest extends TestCase {
 		try {
 			Admin newsagent = new Admin();
 			newsagent.createUser("newsagent", "Newsagent1", "newsagent");
-			newsagent.setID(1);
-	        String userCreated = "User: " + newsagent.getID() + " " + newsagent.getUsername() + " was successfully created!";
-	        String expectedUser = "User: 1 newsagent was successfully created!";
-	        assertEquals(expectedUser, userCreated);
+			assertEquals("newsagent", newsagent.getUsername());
+	        assertEquals("Newsagent1", newsagent.getPassword());
+	        assertEquals("newsagent", newsagent.getRole());
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -169,11 +166,9 @@ public class AdminTest extends TestCase {
 	public void testDeleteUser001() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			int userID = 51;
+			int userID = 35;
 			admin.deleteUser(userID);
-			String expectedMessage = "User 51 has been successfully deleted.";
-			String actualMessage = "User " + userID + " has been successfully deleted.";
-	        assertEquals(expectedMessage, actualMessage);
+			assertEquals(false, admin.doesUserExist(userID));
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -189,16 +184,13 @@ public class AdminTest extends TestCase {
 		try {
 			Admin admin = new Admin();
 			
-			int userID = 14;
-			User user14 = admin.getUser(userID);
-	        //String oldUsername = user14.getUsername();
-
+			int userID = 15;
+			String newUsername = "test";
+			
 			admin.updateUser(userID);
-			String newUsername = "Driver14";
-			//System.out.println("OLD Username: " + oldUsername);
-			String expectedMessage = "Username updated successfully. New username: Driver14";
-			String actualMessage = "Username updated successfully. New username: " + newUsername;
-	        assertEquals(expectedMessage, actualMessage);
+			User updatedUser = admin.getUser(userID);
+			String actualUsername = updatedUser.getUsername();
+	        assertEquals(newUsername, actualUsername);
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -214,16 +206,13 @@ public class AdminTest extends TestCase {
 		try {
 			Admin admin = new Admin();
 			
-			int userID = 14;
-			User user14 = admin.getUser(userID);
-			//String oldPassword = user36.getPassword();
-			
+			int userID = 15;
+			String newPassword = "Test123";
+
 			admin.updateUser(userID);
-			String newPassword = "Driver14";
-			//System.out.println("OLD Password: " + oldPassword);
-			String expectedMessage = "Password updated successfully. New password: Driver14";
-			String actualMessage = "Password updated successfully. New password: " + newPassword;
-	        assertEquals(expectedMessage, actualMessage);
+			User updatedUser = admin.getUser(userID);
+			String actualPassword = updatedUser.getPassword();
+	        assertEquals(newPassword, actualPassword);
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -238,17 +227,14 @@ public class AdminTest extends TestCase {
 	public void testUpdateUser003() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			int userID = 14;
 			
-			User user14 = admin.getUser(userID);
-	        //String oldRole = user36.getRole();
+			int userID = 15;
+			String newRole = "driver";
 
 			admin.updateUser(userID);
-			String newRole = "admin";
-			//System.out.println("OLD Role: " + oldRole);
-			String expectedMessage = "Role updated successfully. New role: admin";
-			String actualMessage = "Role updated successfully. New role: " + newRole;
-	        assertEquals(expectedMessage, actualMessage);
+			User updatedUser = admin.getUser(userID);
+			String actualRole = updatedUser.getRole();
+	        assertEquals(newRole, actualRole);
 		}catch (NataliaException e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}

@@ -44,10 +44,7 @@ public class Admin extends User {
 	 * deleteUser
 	 * updateUser
 	 * getUser
-	 * isValidUsername
-	 * isValidPassword
-	 * isValidRole
-	 * isValidUpdate
+	 * doesUserExist
 	 */
 
 	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
@@ -135,9 +132,6 @@ public class Admin extends User {
 				user.setUsername(resultSet.getString("username"));
 	            user.setPassword(resultSet.getString("password"));
 	            user.setRole(resultSet.getString("role"));
-	            
-//	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
-//	                    "Role: " + role;
 			} else {
 				throw new NataliaException("User with " + id + " NOT found.");
 			}
@@ -155,6 +149,7 @@ public class Admin extends User {
 		return user;
 	}
 	
+	@SuppressWarnings("resource")
 	public void updateUser(int id) throws NataliaException, SQLException {
 		String query = "SELECT * FROM userdetails WHERE userID = ?";
 	    Connection connection = null;
@@ -169,9 +164,9 @@ public class Admin extends User {
 	    	
 	    if (resultSet.next()) {
 	    	String userID = resultSet.getString("userID");
-            String oldUsername = resultSet.getString("username");
+            String username = resultSet.getString("username");
             
-            System.out.println("Are you sure you want to update user " + userID + ": " + oldUsername + "? (Y/N)");
+            System.out.println("Are you sure you want to update user " + userID + ": " + username + "? (Y/N)");
             String answer = in.next();
             
             if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
@@ -232,6 +227,32 @@ public class Admin extends User {
 	        }
 	        if (connection != null) {
 	            connection.close();
+	        }
+	    }
+	}
+	
+	public boolean doesUserExist(int userID) throws NataliaException {
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+		
+	    try {
+	        connection = DatabaseConnector.getConnection();
+	        String query = "SELECT * FROM userdetails WHERE userID = ?";
+	        preparedStatement = connection.prepareStatement(query);
+	        preparedStatement.setInt(1, userID);
+	        resultSet = preparedStatement.executeQuery();
+	        // If a record exists, resultSet.next() will be true.
+	        return resultSet.next(); 
+	    } catch (SQLException e) {
+	        throw new NataliaException("Database error: " + e.getMessage());
+	    } finally {
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            if (connection != null) connection.close();
+	        } catch (SQLException e) {
+	            throw new NataliaException("Error while closing database resources: " + e.getMessage());
 	        }
 	    }
 	}

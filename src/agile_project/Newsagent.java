@@ -37,7 +37,6 @@ public class Newsagent extends Customer {
 	public Newsagent() {
 	}
 	
-	
 	/**
 	 * Methods
 	 * +createUser
@@ -158,24 +157,6 @@ public class Newsagent extends Customer {
                 // Allow for spaces in new input
                 in.nextLine();
                 String newValue = in.nextLine();
-                
-                // Verify the updated input is valid
-                boolean isInputValid = isValidUpdate(updateColumn, newValue);
-                if (isInputValid) {
-                    if (updateColumn.equals("firstName") && !isValidName(newValue)) {
-                        System.out.println("Invalid first name. Name must be between 1-15 characters.");
-                        return;
-                    } else if (updateColumn.equals("lastName") && !isValidName(newValue)) {
-                        System.out.println("Invalid last name. Name must be between 1-15 characters.");
-                        return;
-                    } else if (updateColumn.equals("address") && !isValidAddress(newValue)) {
-                        System.out.println("Invalid address. Address must be between 1-20 characters.");
-                        return;
-                    } else if (updateColumn.equals("phoneNo") && !isValidPhoneNo(newValue)) {
-                        System.out.println("Invalid phone number. Number must be in format 111-222-3333.");
-                        return;
-                    }
-                }
 
                 if (isValidUpdate(updateColumn, newValue)) {
                 	String updateQuery = "UPDATE customerdetails SET " + updateColumn + " = ? WHERE custID = ?";

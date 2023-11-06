@@ -1,5 +1,6 @@
 package agile_project;
 
+import agile_project.FINISHED.Admin;
 import junit.framework.TestCase;
 
 public class NewsagentTest extends TestCase {
@@ -164,7 +165,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidName001() {
-		fail("Not yet implemented");
+		Newsagent testIsValidName001 = new Newsagent();
+		String firstName = "Test";
+		try {
+			assertEquals(true, testIsValidName001.isValidName(firstName));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -174,7 +181,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidName002() {
-		fail("Not yet implemented");
+		Newsagent testIsValidName001 = new Newsagent();
+		String firstName = "";
+		try {
+			assertEquals(false, testIsValidName001.isValidName(firstName));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -184,7 +197,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidName003() {
-		fail("Not yet implemented");
+		Newsagent testIsValidName003 = new Newsagent();
+		String firstName = "TestTestTestTestTestTest";
+		try {
+			assertEquals(false, testIsValidName003.isValidName(firstName));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 	/**
@@ -194,7 +213,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidAddress001() {
-		fail("Not yet implemented");
+		Newsagent testIsValidAddress001 = new Newsagent();
+		String address = "Test";
+		try {
+			assertEquals(true, testIsValidAddress001.isValidAddress(address));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -204,7 +229,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidAddress002() {
-		fail("Not yet implemented");
+		Newsagent testIsValidAddress002 = new Newsagent();
+		String address = "T";
+		try {
+			assertEquals(false, testIsValidAddress002.isValidAddress(address));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -214,7 +245,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidAddress003() {
-		fail("Not yet implemented");
+		Newsagent testIsValidPhoneNo001 = new Newsagent();
+		String phoneNo = "555-555-5555";
+		try {
+			assertEquals(true, testIsValidPhoneNo001.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 	/**
@@ -224,7 +261,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: true
 	 */
 	public void testIsValidPhoneNo001() {
-		fail("Not yet implemented");
+		Newsagent testIsValidPhoneNo001 = new Newsagent();
+		String phoneNo = "555-555-5555";
+		try {
+			assertEquals(true, testIsValidPhoneNo001.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -234,7 +277,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPhoneNo002() {
-		fail("Not yet implemented");
+		Newsagent testIsValidPhoneNo002 = new Newsagent();
+		String phoneNo = "555-111-222";
+		try {
+			assertEquals(false, testIsValidPhoneNo002.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -244,7 +293,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPhoneNo003() {
-		fail("Not yet implemented");
+		Newsagent testIsValidPhoneNo003 = new Newsagent();
+		String phoneNo = "555-1111-2222";
+		try {
+			assertEquals(false, testIsValidPhoneNo003.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -254,7 +309,13 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidPhoneNo004() {
-		fail("Not yet implemented");
+		Newsagent testIsValidPhoneNo004 = new Newsagent();
+		String phoneNo = "5551112222";
+		try {
+			assertEquals(false, testIsValidPhoneNo004.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 }

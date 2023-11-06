@@ -240,7 +240,7 @@ public class AdminTest extends TestCase {
 			Admin admin = new Admin();
 			int userID = 14;
 			
-			User user36 = admin.getUser(userID);
+			User user14 = admin.getUser(userID);
 	        //String oldRole = user36.getRole();
 
 			admin.updateUser(userID);

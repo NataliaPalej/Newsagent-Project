@@ -3,6 +3,7 @@ package agile_project.FINISHED;
 import java.sql.SQLException;
 
 import agile_project.NataliaException;
+import agile_project.Newsagent;
 import junit.framework.TestCase;
 
 
@@ -166,7 +167,7 @@ public class AdminTest extends TestCase {
 	public void testDeleteUser001() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			int userID = 35;
+			int userID = 16;
 			admin.deleteUser(userID);
 			assertEquals(false, admin.doesUserExist(userID));
 		}catch (NataliaException e) {
@@ -431,4 +432,37 @@ public class AdminTest extends TestCase {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Test #1
+	 * Objective: Verify valid userID returns true
+	 * Input: userID = 1
+	 * Output: true
+	 */
+	public void testDoesUserExist001() throws NataliaException {
+		Admin testDoesUserExist001 = new Admin();
+		int id = 1;
+		try {
+			assertEquals(true, testDoesUserExist001.doesUserExist(id));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Test #2
+	 * Objective: Verify invalid userID returns false
+	 * Input: userID = 100
+	 * Output: false
+	 */
+	public void testDoesUserExist002() throws NataliaException {
+		Admin testDoesUserExist002 = new Admin();
+		int id = 100;
+		try {
+			assertEquals(false, testDoesUserExist002.doesUserExist(id));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
+	}
+	
 }

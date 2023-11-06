@@ -182,7 +182,7 @@ public class Newsagent extends Customer {
 	}
 	
 	public void deleteCustomer(int id) throws NataliaException, SQLException {
-		System.out.println("Are you sure you want to delete customer: " + id + "?");
+		System.out.println("Are you sure you want to delete customer: " + id + "? (Y/N)");
 		String answer = in.next();
 		
 		Connection connection = null;
@@ -194,7 +194,7 @@ public class Newsagent extends Customer {
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, id); // Set the value of the userID parameter
 	            stmt.executeUpdate(); // Execute the delete query
-				System.out.println("Customer" + id + " has been successfully deleted.");
+				System.out.println("Customer " + id + " has been successfully deleted.");
 			} else {
 				System.out.println("Deletion cancelled.");
 			}

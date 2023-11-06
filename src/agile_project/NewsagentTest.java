@@ -1,6 +1,10 @@
 package agile_project;
 
+import java.sql.SQLException;
+
 import agile_project.FINISHED.Admin;
+import agile_project.FINISHED.Customer;
+import agile_project.FINISHED.User;
 import junit.framework.TestCase;
 
 public class NewsagentTest extends TestCase {
@@ -11,7 +15,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("newsagent", "Newsagent1", "newsagent")
 	 * Output: Newsagent constructor works as expected
 	 */
-	public void testNewsagent001() {
+	public void testNewsagent001() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -21,7 +25,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("", "Newsagent1", "newsagent")
 	 * Output: Invalid username. Username must be between 1-10 characters.
 	 */
-	public void testNewsagent002() {
+	public void testNewsagent002() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -31,7 +35,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("newsagent", "newsagent", "newsagent")
 	 * Output: Invalid password. Password must be between 6-10 characters, include at least one digit and uppercase letter.
 	 */
-	public void testNewsagent003() {
+	public void testNewsagent003() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -41,7 +45,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("newsagent", "Newsagent1", "owner")
 	 * Output: Invalid role. Available roles: driver/newsagent/admin.
 	 */
-	public void testNewsagent004() {
+	public void testNewsagent004() throws NataliaException {
 		fail("Not yet implemented");
 	}
 
@@ -51,7 +55,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: firstName = Test, lastName = Test, address = Test, phoneNo = 111-111-1111
 	 * Output: "Customer: " + this.getCustID() + " " + this.getFirstName() + " " + this.getLastName() + " was successfully created!"
 	 */
-	public void testCreateCustomer001() {
+	public void testCreateCustomer001() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -61,7 +65,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: firstName = Test, lastName = Test, address = Test, phoneNo = 111-111-1111
 	 * Output: Invalid first name. Name must be between 1-15 characters.
 	 */
-	public void testCreateCustomer002() {
+	public void testCreateCustomer002() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -71,7 +75,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: firstName = Test, lastName = "", address = Test, phoneNo = 111-111-1111
 	 * Output: Invalid last name. Surname must be between 1-15 characters.
 	 */
-	public void testCreateCustomer003() {
+	public void testCreateCustomer003() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -81,7 +85,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: firstName = Test, lastName = Test, address = "", phoneNo = 111-111-1111
 	 * Output: Invalid address. Address must be between 1-20 characters.
 	 */
-	public void testCreateCustomer004() {
+	public void testCreateCustomer004() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -91,7 +95,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: firstName = Test, lastName = Test, address = Test, phoneNo = 1111111111
 	 * Output: Invalid phone number. Number must be in format 111-222-3333.
 	 */
-	public void testCreateCustomer005() {
+	public void testCreateCustomer005() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -102,7 +106,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: 
 	 * Output: 
 	 */
-	public void testUpdateCustomer001() {
+	public void testUpdateCustomer001() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -112,7 +116,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: 
 	 * Output: s
 	 */
-	public void testUpdateCustomer002() {
+	public void testUpdateCustomer002() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -122,7 +126,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: 
 	 * Output: 
 	 */
-	public void testUpdateCustomer003() {
+	public void testUpdateCustomer003() throws NataliaException {
 		fail("Not yet implemented");
 	}
 	
@@ -132,8 +136,23 @@ public class NewsagentTest extends TestCase {
 	 * Input: 
 	 * Output: 
 	 */
-	public void testUpdateCustomer004() {
-		fail("Not yet implemented");
+	public void testUpdateCustomer004() throws NataliaException {
+		try {
+			Newsagent testUpdateCustomer004 = new Newsagent();
+			
+			int custID = 14;
+			Customer cust14 = testUpdateCustomer004.getCustomer(custID);
+	        String oldPhoneNo = cust14.getPhoneNo();
+
+			testUpdateCustomer004.updateCustomer(custID);
+			String newPhoneNo = "111-111-1111";
+			System.out.println("OLD phoneNo: " + oldPhoneNo);
+			String expectedMessage = "PhoneNo updated successfully. New phoneNo: 111-111-1111";
+			String actualMessage = "PhoneNo updated successfully. New phoneNo: " + newPhoneNo;
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException | SQLException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	// Update tests to verify customer can be deactivated??
@@ -143,9 +162,19 @@ public class NewsagentTest extends TestCase {
 	 * Objective: Verify customer can be successfully deleted
 	 * Input: custID = 15
 	 * Output: "Customer" + id + " has been successfully deleted."
+	 * @throws SQLException 
 	 */
-	public void testDeleteCustomer001() {
-		fail("Not yet implemented");
+	public void testDeleteCustomer001() throws NataliaException {
+		try {
+			Newsagent testDeleteCustomer001 = new Newsagent();
+			int custID = 15;
+			testDeleteCustomer001.deleteCustomer(custID);
+			String expectedMessage = "Customer 15 has been successfully deleted.";
+			String actualMessage = "Customer " + custID + " has been successfully deleted.";
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException | SQLException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 	
 	/**
@@ -154,8 +183,17 @@ public class NewsagentTest extends TestCase {
 	 * Input: custID = 100
 	 * Output: "Customer " + id + " doesn't exist."
 	 */
-	public void testDeleteCustomer002() {
-		fail("Not yet implemented");
+	public void testDeleteCustomer002() throws NataliaException {
+		try {
+			Newsagent testDeleteCustomer002 = new Newsagent();
+			int custID = 100;
+			testDeleteCustomer002.deleteCustomer(custID);
+			String expectedMessage = "Customer 15 has been successfully deleted.";
+			String actualMessage = "Customer " + custID + " has been successfully deleted.";
+	        assertEquals(expectedMessage, actualMessage);
+		}catch (NataliaException | SQLException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
 	/**
@@ -164,7 +202,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: firstName = Test
 	 * Output: true
 	 */
-	public void testIsValidName001() {
+	public void testIsValidName001() throws NataliaException {
 		Newsagent testIsValidName001 = new Newsagent();
 		String firstName = "Test";
 		try {
@@ -180,7 +218,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: firstName = ""
 	 * Output: false
 	 */
-	public void testIsValidName002() {
+	public void testIsValidName002() throws NataliaException {
 		Newsagent testIsValidName001 = new Newsagent();
 		String firstName = "";
 		try {
@@ -196,7 +234,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: firstName = "TestTestTestTestTestTest"
 	 * Output: false
 	 */
-	public void testIsValidName003() {
+	public void testIsValidName003() throws NataliaException {
 		Newsagent testIsValidName003 = new Newsagent();
 		String firstName = "TestTestTestTestTestTest";
 		try {
@@ -212,7 +250,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: address = "Test"
 	 * Output: true
 	 */
-	public void testIsValidAddress001() {
+	public void testIsValidAddress001() throws NataliaException {
 		Newsagent testIsValidAddress001 = new Newsagent();
 		String address = "Test";
 		try {
@@ -228,7 +266,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: address = "T"
 	 * Output: false
 	 */
-	public void testIsValidAddress002() {
+	public void testIsValidAddress002() throws NataliaException {
 		Newsagent testIsValidAddress002 = new Newsagent();
 		String address = "T";
 		try {
@@ -244,7 +282,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: address = "TestTestTestTestTestTest"
 	 * Output: false
 	 */
-	public void testIsValidAddress003() {
+	public void testIsValidAddress003() throws NataliaException {
 		Newsagent testIsValidPhoneNo001 = new Newsagent();
 		String phoneNo = "555-555-5555";
 		try {
@@ -260,7 +298,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: phoneNo = 555-555-5555
 	 * Output: true
 	 */
-	public void testIsValidPhoneNo001() {
+	public void testIsValidPhoneNo001() throws NataliaException {
 		Newsagent testIsValidPhoneNo001 = new Newsagent();
 		String phoneNo = "555-555-5555";
 		try {
@@ -276,7 +314,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: phoneNo = 555-111-222
 	 * Output: false
 	 */
-	public void testIsValidPhoneNo002() {
+	public void testIsValidPhoneNo002() throws NataliaException {
 		Newsagent testIsValidPhoneNo002 = new Newsagent();
 		String phoneNo = "555-111-222";
 		try {
@@ -292,7 +330,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: phoneNo = 555-1111-2222
 	 * Output: false
 	 */
-	public void testIsValidPhoneNo003() {
+	public void testIsValidPhoneNo003() throws NataliaException {
 		Newsagent testIsValidPhoneNo003 = new Newsagent();
 		String phoneNo = "555-1111-2222";
 		try {
@@ -308,7 +346,7 @@ public class NewsagentTest extends TestCase {
 	 * Input: phoneNo = 5551112222
 	 * Output: false
 	 */
-	public void testIsValidPhoneNo004() {
+	public void testIsValidPhoneNo004() throws NataliaException {
 		Newsagent testIsValidPhoneNo004 = new Newsagent();
 		String phoneNo = "5551112222";
 		try {

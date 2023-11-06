@@ -1,7 +1,6 @@
 package agile_project;
 
 import java.sql.SQLException;
-import agile_project.FINISHED.Customer;
 import junit.framework.TestCase;
 
 /**
@@ -38,6 +37,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("", "Newsagent1", "newsagent")
 	 * Output: Invalid username. Username must be between 1-10 characters.
 	 */
+	@SuppressWarnings("unused")
 	public void testNewsagent002() throws NataliaException {
 		try {
 			Newsagent testNewsagent002 = new Newsagent("", "Newsagent1", "newsagent");
@@ -53,6 +53,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("newsagent", "newsagent", "newsagent")
 	 * Output: Invalid password. Password must be between 6-10 characters, include at least one digit and uppercase letter.
 	 */
+	@SuppressWarnings("unused")
 	public void testNewsagent003() throws NataliaException {
 		try {
 			Newsagent testNewsagent003 = new Newsagent("newsagent", "newsagent", "newsagent");
@@ -68,6 +69,7 @@ public class NewsagentTest extends TestCase {
 	 * Inputs: new Newsagent("newsagent", "Newsagent1", "owner")
 	 * Output: Invalid role. Available roles: driver/newsagent/admin.
 	 */
+	@SuppressWarnings("unused")
 	public void testNewsagent004() throws NataliaException {
 		try {
 			Newsagent testNewsagent004 = new Newsagent("newsagent", "Newsagent1", "owner");

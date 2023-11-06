@@ -1,9 +1,7 @@
-package agile_project.FINISHED;
+package agile_project;
 
 import java.sql.*;
 import java.sql.SQLException;
-
-import agile_project.NataliaException;
 
 public class Customer {
 	

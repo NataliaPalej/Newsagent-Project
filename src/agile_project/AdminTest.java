@@ -1,11 +1,7 @@
-package agile_project.FINISHED;
+package agile_project;
 
 import java.sql.SQLException;
-
-import agile_project.NataliaException;
-import agile_project.Newsagent;
 import junit.framework.TestCase;
-
 
 /**
  * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! *
@@ -15,7 +11,6 @@ import junit.framework.TestCase;
  *                                                      *
  * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! *
  */
-
 
 public class AdminTest extends TestCase {
 
@@ -42,6 +37,7 @@ public class AdminTest extends TestCase {
 	 * Input: Admin admin = new Admin("", "Admin1", "admin");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
+	@SuppressWarnings("unused")
 	public void testAdmin002() throws NataliaException{
 		try {
 			Admin admin = new Admin("", "Admin1", "admin");

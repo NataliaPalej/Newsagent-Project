@@ -1,14 +1,7 @@
 package agile_project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
-
-import agile_project.FINISHED.Customer;
-import agile_project.FINISHED.DatabaseConnector;
 
 public class Newsagent extends Customer {
 	

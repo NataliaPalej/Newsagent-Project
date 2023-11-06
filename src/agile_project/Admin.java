@@ -1,13 +1,7 @@
-package agile_project.FINISHED;
+package agile_project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
-
-import agile_project.NataliaException;
 
 public class Admin extends User {
 	private int adminID;
@@ -19,7 +13,6 @@ public class Admin extends User {
 	 * Admin(String username, String password, String role)
 	 * Admin()
 	 */
-	
 	public Admin(String username, String password, String role) throws NataliaException {
         super(username, password, role);
         if (username.isEmpty() || username.length() < 1 || username.length() > 10 || password.isEmpty() || password.length() < 6 || password.length() > 10 || !password.matches(".*\\d.*")) {
@@ -256,7 +249,6 @@ public class Admin extends User {
 	        }
 	    }
 	}
-	
 
 	/** 
 	 * Validation methods
@@ -309,9 +301,7 @@ public class Admin extends User {
 	
 	/**
 	 * Setters & Getters
-	 * @return
 	 */
-	
 	public int getAdminID() {
 		return adminID;
 	}

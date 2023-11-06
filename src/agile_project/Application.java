@@ -1,14 +1,8 @@
-/**
- * 
- */
 package agile_project;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Scanner;
-import agile_project.FINISHED.DatabaseConnector;
-import agile_project.FINISHED.User;
 
 public class Application extends DatabaseConnector {
 	
@@ -148,7 +142,7 @@ public class Application extends DatabaseConnector {
 		}
 	}
 	
-	// Retrive User from database
+	// Retrieve User from database
 	private static User getUser(String username, String password) {
 		User user = null;
 		try {

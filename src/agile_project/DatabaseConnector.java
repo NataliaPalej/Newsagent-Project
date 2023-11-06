@@ -1,8 +1,4 @@
-package agile_project.FINISHED;
-
-import java.sql.SQLException;
-
-import agile_project.NataliaException;
+package agile_project;
 
 import java.sql.*;
 

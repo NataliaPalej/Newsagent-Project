@@ -1,6 +1,5 @@
-package agile_project.FINISHED;
+package agile_project;
 
-import agile_project.NataliaException;
 import junit.framework.TestCase;
 
 public class CustomerTest extends TestCase {
@@ -29,6 +28,7 @@ public class CustomerTest extends TestCase {
      * Input: Customer c1 = new Customer("", "Invalid", "Address", 123);
      * Output: NataliaException throws "Invalid Customer attributes" message.
      */
+	@SuppressWarnings("unused")
 	public void testCustomer002() throws NataliaException {
 		try {
 	        Customer customer = new Customer("", "Invalid", "Address", "123");
@@ -65,6 +65,7 @@ public class CustomerTest extends TestCase {
 	 * Input: custID = -1
 	 * Output: NataliaException throws "Customer with ID doesn't exist"
 	 */
+	@SuppressWarnings("unused")
 	public void testGetCustomerDetails002() throws NataliaException {
 		int custID = -1;
 		try {
@@ -108,7 +109,7 @@ public class CustomerTest extends TestCase {
 	
 	public void testGetAllCustomersDetails002() throws NataliaException {
 		/**
-		 * Test #1
+		 * Test #2
 		 * Objective: Verify errors handled when list empty or not found
 		 * Input: getAllCustomerDetails();
 		 * Output: NataliaException throws "Customer database empty or not found."
@@ -123,29 +124,4 @@ public class CustomerTest extends TestCase {
 			assertEquals("Customer database empty or not found.", e.getMessage());
 		}
 	}
-
-//	public void testGetCustomerOrder001() throws NataliaException {
-//		/**
-//		 * Test #1
-//		 * Objective: Verify customer order can be successfully retrieved 
-//		 * Input: id = 5
-//		 * Output: 
-//		 */
-//		try {
-//			int customerId = 5;
-//	        Customer customer = new Customer("Natalia", "Palej", "123 Main St", "555-555-555");
-//
-//	        // Create an Order object based on the customer and their ID
-//	        // Order order = new Order(customer, customerId);
-//	        
-//	        // Call the method to retrieve customer order
-//	        // String customerOrder = order.getCustomerOrder();
-//
-//	        // Perform assertions to verify the order details
-//	        // assertEquals("Customer order details should match", expectedOrderDetails, customerOrder);
-//	    } catch (NataliaException e) {
-//	        fail("Exception NOT expected.\n" + e.getMessage());
-//	    }
-//	}
-
 }

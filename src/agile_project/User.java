@@ -1,11 +1,5 @@
-package agile_project.FINISHED;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import agile_project.NataliaException;
+package agile_project;
+import java.sql.*;
 
 public class User {
 	
@@ -53,7 +47,6 @@ public class User {
 	    
 		try {
 			connection = DatabaseConnector.getConnection();
-			
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, id);
 			resultSet = preparedStatement.executeQuery();
@@ -63,8 +56,6 @@ public class User {
 	            user.setUsername(resultSet.getString("username"));
 	            user.setPassword(resultSet.getString("password"));
 	            user.setRole(resultSet.getString("role"));
-//	            return "User ID: " + id + "\nUsername: " + username + "\nPassword: " + password + "\n" +
-//	                    "Role: " + role;
 			} else {
 				throw new NataliaException("User with " + id + " NOT found.");
 			}
@@ -89,7 +80,6 @@ public class User {
 	    
 	    try {
 			connection = DatabaseConnector.getConnection();
-			
 			String query = "SELECT * FROM userdetails ORDER BY userID ASC";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();

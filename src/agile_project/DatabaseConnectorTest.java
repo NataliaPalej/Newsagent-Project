@@ -1,8 +1,6 @@
-package agile_project.FINISHED;
+package agile_project;
 
 import java.sql.Connection;
-
-import agile_project.NataliaException;
 import junit.framework.TestCase;
 
 public class DatabaseConnectorTest extends TestCase {
@@ -24,6 +22,7 @@ public class DatabaseConnectorTest extends TestCase {
 	 * Input: DB_DRIVER = "invalid_driver"
 	 * Output: Exception thrown "Invalid DB DRIVER."
 	 */
+	@SuppressWarnings("unused")
 	public void testGetConnection002() throws NataliaException {
 		try {
 			DatabaseConnector.setDB_DRIVER("invalid_driver");
@@ -40,6 +39,7 @@ public class DatabaseConnectorTest extends TestCase {
 	 * Input: JDBC_URL = "jdbc:mysql://localhost:3306/invalid_entry"
 	 * Output: Exception thrown "Invalid JDBC URL."
 	 */
+	@SuppressWarnings("unused")
 	public void testGetConnection003() throws NataliaException {
 		try {
 			// Set DB DRIVER to its original value
@@ -58,6 +58,7 @@ public class DatabaseConnectorTest extends TestCase {
 	 * Input: USERNAME="invalid_username"
 	 * Output: Exception thrown "Invalid database USERNAME."
 	 */
+	@SuppressWarnings("unused")
 	public void testGetConnection004() throws NataliaException {
 		try {
 			// Set JDBC_URL to its original value

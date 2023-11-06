@@ -1,5 +1,4 @@
-package agile_project.FINISHED;
-import agile_project.NataliaException;
+package agile_project;
 import junit.framework.TestCase;
 
 public class UserTest extends TestCase {
@@ -27,6 +26,7 @@ public class UserTest extends TestCase {
 	 * Input: User user = new User(" ", "Admin1", "admin");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
+	@SuppressWarnings("unused")
 	public void testUser002() throws NataliaException {
 		try {
 			User user = new User(" ", "f", "owner");
@@ -42,6 +42,7 @@ public class UserTest extends TestCase {
 	 * Input: User user = new User("admin", "Admin1", "owner");
 	 * Output: Exception thrown "Invalid user attributes."
 	 */
+	@SuppressWarnings("unused")
 	public void testUser003() throws NataliaException {
 		try {
 			User user = new User("admin", "Admin1", "owner");
@@ -101,4 +102,4 @@ public class UserTest extends TestCase {
         	fail("Exception NOT expected.\n" + e.getMessage());
         	}
 		}
-}
+	}

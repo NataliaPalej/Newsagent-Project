@@ -1,11 +1,17 @@
 package agile_project;
 
 import java.sql.SQLException;
-
-import agile_project.FINISHED.Admin;
 import agile_project.FINISHED.Customer;
-import agile_project.FINISHED.User;
 import junit.framework.TestCase;
+
+/**
+ * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! !!! *
+ *                                                          *
+ * BEFORE RUNNING THE TESTS, CHECK CUSTOMERDETAILS DATABASE *
+ * AND ENTER VALID CUST ID IN THE DELETE/UPDATE TEST METHOD *
+ *                                                          *
+ * !!! !!! !!! !!! !!! !!! NOTE !!! !!! !!! !!! !!! !!! !!! *
+ */
 
 public class NewsagentTest extends TestCase {
 
@@ -409,10 +415,10 @@ public class NewsagentTest extends TestCase {
 	 * Output: false
 	 */
 	public void testIsValidAddress003() throws NataliaException {
-		Newsagent testIsValidPhoneNo001 = new Newsagent();
-		String phoneNo = "555-555-5555";
+		Newsagent testIsValidAddress003 = new Newsagent();
+		String address = "TestTestTestTestTestTest";
 		try {
-			assertEquals(true, testIsValidPhoneNo001.isValidPhoneNo(phoneNo));
+			assertEquals(false, testIsValidAddress003.isValidAddress(address));
 		} catch (Exception e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}
@@ -420,7 +426,7 @@ public class NewsagentTest extends TestCase {
 
 	/**
 	 * Test #1
-	 * Objective: Verify valid phoneNo == 12
+	 * Objective: Verify valid phoneNo is 12 digits and in format 111-111-1111
 	 * Input: phoneNo = 555-555-5555
 	 * Output: true
 	 */
@@ -477,6 +483,38 @@ public class NewsagentTest extends TestCase {
 		String phoneNo = "5551112222";
 		try {
 			assertEquals(false, testIsValidPhoneNo004.isValidPhoneNo(phoneNo));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Test #1
+	 * Objective: Verify valid custID returns true
+	 * Input: custID = 1
+	 * Output: true
+	 */
+	public void testDoesCustomerExist001() throws NataliaException {
+		Newsagent testDoesCustomerExist001 = new Newsagent();
+		int id = 1;
+		try {
+			assertEquals(true, testDoesCustomerExist001.doesCustomerExist(id));
+		} catch (Exception e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Test #2
+	 * Objective: Verify invalid custID returns false
+	 * Input: custID = 100
+	 * Output: false
+	 */
+	public void testDoesCustomerExist002() throws NataliaException {
+		Newsagent testDoesCustomerExist002 = new Newsagent();
+		int id = 100;
+		try {
+			assertEquals(false, testDoesCustomerExist002.doesCustomerExist(id));
 		} catch (Exception e) {
 			fail("Exception NOT expected.\n" + e.getMessage());
 		}

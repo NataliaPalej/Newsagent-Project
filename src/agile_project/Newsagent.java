@@ -41,16 +41,21 @@ public class Newsagent extends Customer {
 	
 	/**
 	 * Methods
-	 * createUser
-	 * updateUser
-	 * deleteUser
-	 * getUser
-	 * getAllUsers
-	 * generateDocketReport
-	 * generateInvoice
-	 * @throws SQLException 
+	 * +createUser
+	 * +updateUser
+	 * +deleteUser
+	 * +getUser
+	 * +getAllUsers
+	 * +generateDocketReport
+	 * +generateInvoice
+	 * +doesCustomerExist(int id) : boolean
 	 */
 	public void createCustomer(String firstName, String lastName, String address, String phoneNo) throws NataliaException, SQLException{
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setAddress(address);
+		this.setPhoneNo(phoneNo);
+		
 		if (!isValidName(firstName)) {
             throw new NataliaException("Invalid first name. Name must be between 1-15 characters.");
         }
@@ -61,7 +66,7 @@ public class Newsagent extends Customer {
             throw new NataliaException("Invalid address. Address must be between 1-20 characters.");
         }
         if (!isValidPhoneNo(phoneNo)) {
-        	throw new NataliaException("Invalid phone number. Number must be in format 111-222-3333");
+        	throw new NataliaException("Invalid phone number. Number must be in format 111-222-3333.");
         }
         
         Connection connection = null;
@@ -95,6 +100,7 @@ public class Newsagent extends Customer {
         }
 	}
 	
+	@SuppressWarnings("resource")
 	public void updateCustomer(int id) throws NataliaException, SQLException {
 		String query = "SELECT * FROM customerdetails WHERE custID = ?";
 	    Connection connection = null;
@@ -108,11 +114,11 @@ public class Newsagent extends Customer {
 	        resultSet = preparedStatement.executeQuery();
 	    	
 	    if (resultSet.next()) {
-	    	String custID = resultSet.getString("userID");
-            String oldName = resultSet.getString("firstName");
-            oldName += " " + resultSet.getString("lastName");
+	    	String custID = resultSet.getString("custID");
+            String name = resultSet.getString("firstName");
+            name += " " + resultSet.getString("lastName");
             
-            System.out.println("Are you sure you want to update customer " + custID + ": " + oldName + "? (Y/N)");
+            System.out.println("Are you sure you want to update customer " + custID + ": " + name + "? (Y/N)");
             String answer = in.next();
             
             if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
@@ -128,12 +134,12 @@ public class Newsagent extends Customer {
                     case 1:
                         updateColumn = "firstName";
                         updatePrompt = "Enter new name: ";
-                        successMessage = "Name updated successfully. New name: ";
+                        successMessage = "First name updated successfully. New first name: ";
                         break;
                     case 2:
                         updateColumn = "lastName";
                         updatePrompt = "Enter new surname: ";
-                        successMessage = "Password updated successfully. New password: ";
+                        successMessage = "Last name updated successfully. New last name: ";
                         break;
                     case 3:
                         updateColumn = "address";
@@ -144,12 +150,15 @@ public class Newsagent extends Customer {
                     	updateColumn = "phoneNo";
                     	updatePrompt = "Enter new phone number: ";
                     	successMessage = "Phone number updated successfully. New phone number: ";
+                    	break;
                     default:
                         System.out.println("Invalid option.");
                         return;
                 }
                 System.out.println(updatePrompt);
-                String newValue = in.next();
+                // Allow for spaces in new input
+                in.nextLine();
+                String newValue = in.nextLine();
                 
                 if (isValidUpdate(updateColumn, newValue)) {
                 	String updateQuery = "UPDATE customerdetails SET " + updateColumn + " = ? WHERE custID = ?";
@@ -193,8 +202,12 @@ public class Newsagent extends Customer {
 			if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("YES")){
 				PreparedStatement stmt = connection.prepareStatement(query);
 				stmt.setInt(1, id); // Set the value of the userID parameter
-	            stmt.executeUpdate(); // Execute the delete query
-				System.out.println("Customer " + id + " has been successfully deleted.");
+				int rowsDeleted = stmt.executeUpdate();
+				// stmt.executeUpdate();  //Execute the delete query
+	            
+				if (rowsDeleted > 0) {
+					System.out.println("Customer " + id + " has been successfully deleted.");
+				}
 			} else {
 				System.out.println("Deletion cancelled.");
 			}
@@ -283,6 +296,32 @@ public class Newsagent extends Customer {
 		}	
 	}
 	
+	public boolean doesCustomerExist(int id) throws SQLException, NataliaException {
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+		
+	    try {
+	        connection = DatabaseConnector.getConnection();
+	        String query = "SELECT * FROM customerdetails WHERE custID = ?";
+	        preparedStatement = connection.prepareStatement(query);
+	        preparedStatement.setInt(1, id);
+	        resultSet = preparedStatement.executeQuery();
+	        // If a record exists, resultSet.next() will be true.
+	        return resultSet.next(); 
+	    } catch (SQLException e) {
+	        throw new NataliaException("Database error: " + e.getMessage());
+	    } finally {
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            if (connection != null) connection.close();
+	        } catch (SQLException e) {
+	            throw new NataliaException("Error while closing database resources: " + e.getMessage());
+	        }
+	    }
+	}
+	
 	
 	/**
 	 * Validation methods
@@ -293,14 +332,15 @@ public class Newsagent extends Customer {
 	 */
 	
 	public boolean isValidName(String name) {
-		if (firstName.length() <= 15 && firstName.length() > 0) {
+		if (name.length() <= 15 && name.length() > 1) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 	
 	public boolean isValidAddress(String address) {
-		if (address.length() <= 20 && address.length() > 0) {
+		if (address.length() <= 20 && address.length() > 1) {
 			return true;
 		}
 		return false;
@@ -312,7 +352,17 @@ public class Newsagent extends Customer {
 	}
 	
 	public boolean isValidUpdate(String updateColumn, String newValue) {
-		return false;
+		// Validation logic for the updateColumn and newValue
+	    if (updateColumn.equals("firstName")) {
+	        return isValidName(newValue);
+	    } else if (updateColumn.equals("lastName")) {
+	        return isValidName(newValue);
+	    } else if (updateColumn.equals("address")) {
+	        return isValidAddress(newValue);
+	    } else if (updateColumn.equals("phoneNo")) {
+	    	return isValidPhoneNo(newValue);
+	    }
+	    return false;
 	}
 	
 	
@@ -327,4 +377,27 @@ public class Newsagent extends Customer {
 		this.newsagentID = newsagentID;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

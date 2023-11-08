@@ -1,0 +1,5 @@
+INDEX VERSION 1.4+C:\Users\Palej\OneDrive\Desktop\Software Design with AI for Cloud\Year_3\agile-labs3\Newsagent-Project\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+4058557002.index
+657552171.index
+2377710998.index
+2211814899.index

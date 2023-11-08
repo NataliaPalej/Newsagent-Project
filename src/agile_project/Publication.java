@@ -1,5 +1,7 @@
 package agile_project;
 
+import java.math.BigDecimal;
+
 public class Publication {
 	
 	private int id;
@@ -44,13 +46,33 @@ public class Publication {
 		throw new RonanException("updateStock() not implemented");
 	}
 	
-	public boolean isValidStock(int stock) throws RonanException {
-		if (stock >= 0) {
+	public boolean isValidInt(int x) throws RonanException {
+		if (x >= 0) {
 			return true;
 		}
 		return false;
 	}
-
+	
+	public boolean isValidPrice(double price) throws RonanException {
+		if (BigDecimal.valueOf(price).scale() > 2) {
+			price = Math.round(price);
+		}
+		
+		if (price >= 0.01 & price <= 999.99) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isValidString(String string) throws RonanException {
+		if (string.length() <= 50 & !(string.isBlank())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

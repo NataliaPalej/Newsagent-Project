@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS newsagentdb;
+DROP DATABASE IF EXISTS newsagentdb;
+CREATE DATABASE newsagentdb;
 USE newsagentdb;
 
+DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE customerdetails (
     custID INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(15) NOT NULL,
@@ -10,16 +12,17 @@ CREATE TABLE customerdetails (
     CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
 );
 
+DROP TABLE IF EXISTS publications;
 CREATE TABLE publications (
 	publicationID INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(50) NOT NULL,
     issueNo INT NOT NULL,
-    author VARCHAR(15) NOT NULL,
+    author VARCHAR(50) NOT NULL,
     price DOUBLE NOT NULL,
-    stock INT NOT NULL,
-    CONSTRAINT unique_publications UNIQUE (title,price)
+    stock INT NOT NULL
 );
 
+DROP TABLE IF EXISTS userdetails;
 CREATE TABLE userdetails (
     userID INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(10),
@@ -28,6 +31,7 @@ CREATE TABLE userdetails (
 	CONSTRAINT unique_users UNIQUE (userID,role,username,password)
 );
 
+DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
     dateCreated TIMESTAMP NOT NULL,
@@ -39,6 +43,7 @@ CREATE TABLE orders (
     FOREIGN KEY (publicationID) REFERENCES publications (publicationID)
 );
 
+DROP TABLE IF EXISTS invoice;
 CREATE TABLE invoice (
     invoiceID INT AUTO_INCREMENT PRIMARY KEY,
     custID INT,
@@ -52,46 +57,59 @@ CREATE TABLE invoice (
 );
 
 INSERT INTO userdetails (username, password, role) VALUES 
-('admin1', 'Admin1', 'admin'), 
-('newsagent1', 'Newsagent1', 'newsagent'),
-('driver1', 'Driver1', 'driver'),
-('driver2', 'Driver2', 'driver'),
-('driver3', 'Driver3', 'driver'),
-('driver4', 'Driver4', 'driver'),
-('driver5', 'Driver5', 'driver'),
-('driver6', 'Driver6', 'driver'),
-('driver7', 'Driver7', 'driver'),
-('driver8', 'Driver8', 'driver'),
-('driver9', 'Driver9', 'driver'),
-('driver10', 'Driver10', 'driver'),
-('driver11', 'Driver11', 'driver'),
-('driver12', 'Driver12', 'driver');
+	('admin1', 'Admin1', 'admin'), 
+	('newsagent1', 'Newsagent1', 'newsagent'),
+	('driver1', 'Driver1', 'driver'),
+	('driver2', 'Driver2', 'driver'),
+	('driver3', 'Driver3', 'driver'),
+	('driver4', 'Driver4', 'driver'),
+	('driver5', 'Driver5', 'driver'),
+	('driver6', 'Driver6', 'driver'),
+	('driver7', 'Driver7', 'driver'),
+	('driver8', 'Driver8', 'driver'),
+	('driver9', 'Driver9', 'driver'),
+	('driver10', 'Driver10', 'driver'),
+	('driver11', 'Driver11', 'driver'),
+	('driver12', 'Driver12', 'driver')
+;
 
 INSERT INTO customerdetails (firstName, lastName, address, phoneNo) VALUES
-('Natalia', 'Palej', '123 Main St', '555-123-4567'),
-('Ivan', 'Lapickij', '456 Elm St', '555-234-5678'),
-('Ronan', 'Harris', '789 Oak St', '555-345-6789'),
-('Lilly', 'Lola', '101 Pine St', '555-456-7890'),
-('Kevin', 'Murphy', '202 Maple St', '555-567-8901'),
-('Doja', 'Cot', '303 Cedar St', '555-678-9012'),
-('Miley', 'Cyrus', '404 Birch St', '555-789-0123'),
-('Selena', 'Gomez', '505 Redwood St', '555-890-1234'),
-('Cardi', 'B', '606 Sequoia St', '555-901-2345'),
-('Brad', 'Pitt', '707 Spruce St', '555-012-3456'),
-('Bond', '007', '008 Willow St', '555-001-2345');
+	('Natalia', 'Palej', '123 Main St', '555-123-4567'),
+	('Ivan', 'Lapickij', '456 Elm St', '555-234-5678'),
+	('Ronan', 'Harris', '789 Oak St', '555-345-6789'),
+	('Lilly', 'Lola', '101 Pine St', '555-456-7890'),
+	('Kevin', 'Murphy', '202 Maple St', '555-567-8901'),
+	('Doja', 'Cot', '303 Cedar St', '555-678-9012'),
+	('Miley', 'Cyrus', '404 Birch St', '555-789-0123'),
+	('Selena', 'Gomez', '505 Redwood St', '555-890-1234'),
+	('Cardi', 'B', '606 Sequoia St', '555-901-2345'),
+	('Brad', 'Pitt', '707 Spruce St', '555-012-3456'),
+	('Bond', '007', '008 Willow St', '555-001-2345')
+;
 
 INSERT INTO publications (title, issueNo, author, price, stock) VALUES
-    ('Irish Independent', '1', 'John Doe', 2.5, 100),
-    ('Offaly Topic', '4', 'Tom Smith', 3, 150),
-    ('RTÉ Guide', '10', 'Ryan Tubridy', 1.99, 75),
-    ('Irish Daily Star', '13', 'Enoch Burke', 10.99, 100),
-    ('Book Title 1', '1', 'John Doe', 10.99, 100),
-    ('Irish Independent', '2', 'John Doe', 2.5, 100),
-    ('Book Title 1', '1', 'John Doe', 10.99, 100),
-    ('Book Title 1', '1', 'John Doe', 10.99, 100),
-    ('Book Title 1', '1', 'John Doe', 10.99, 100),
-    ('Book Title 1', '1', 'John Doe', 10.99, 100)
+    ('Irish Independent', 100, 'John Doe', 2.5, 100),
+    ('Irish Times', 123, 'John Smith', 1.99, 350),
+    ('Time', 456, 'Jane Doe', 3.99, 500),
+    ('Offaly Topic', 789, 'Michael Johnson', 2.99, 200),
+    ('Irish Independent', 321, 'John Doe', 2.5, 150),
+    ('Irish Times', 234, 'John Smith', 1.99, 400),
+    ('Westmeath Independent', 567, 'Robert Green', 2.99, 300),
+    ('Vogue', 123, 'Emily White', 4.99, 600),
+    ('Time', 890, 'Jane Doe', 3.99, 250),
+    ('Irish Independent', 432, 'John Doe', 2.5, 350),
+    ('Irish Times', 765, 'John Smith', 1.99, 300),
+    ('Offaly Topic', 109, 'Michael Johnson', 2.99, 450),
+    ('Vogue', 543, 'Emily White', 4.99, 200),
+    ('Rolling Stone', 234, 'Liam Johnson', 1.99, 750),
+    ('Irish Times', 456, 'John Smith', 1.99, 300),
+    ('Offaly Topic', 654, 'Michael Johnson', 2.99, 400),
+    ('Vogue', 987, 'Emily White', 4.99, 350),
+    ('Irish Times', 234, 'John Smith', 1.99, 250),
+    ('Irish Independent', 402, 'John Doe', 2.5, 400),
+    ('Irish Times', 111, 'John Smith', 1.99, 280)
 ;
+
 
 --  3 orders for each customer (1 daily, 1 weekly, and 1 monthly)
 INSERT INTO orders (custID, publicationID, title, orderType, dateCreated)

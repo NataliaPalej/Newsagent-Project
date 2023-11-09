@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="agile_project/Application.java" kind="src" path="src"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Palej/OneDrive/Desktop/Software Design with AI for Cloud/Year_3/agile-labs3/Newsagent-Project">
 		<attributes>
 			<attribute name="module" value="true"/>

@@ -1,0 +1,7 @@
+INDEX VERSION 1.131
+C:\Users\Palej\OneDrive\Desktop\Software Design with AI for Cloud\Year_3\agile-labs3\Newsagent-Project\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2589160788.index
+\Sessions\src\main\java
+C:\Users\Palej\OneDrive\Desktop\Software Design with AI for Cloud\Year_3\agile-labs3\Newsagent-Project\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2103370275.index
+\WK4\src\main\java
+C:\Users\Palej\OneDrive\Desktop\Software Design with AI for Cloud\Year_3\agile-labs3\Newsagent-Project\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4210567520.index
+\WK5\src\main\java

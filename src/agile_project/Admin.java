@@ -40,19 +40,32 @@ public class Admin extends User {
 	 * doesUserExist
 	 */
 
-	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
-        if (!isValidUsername(username)) {
-            throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
-        }
-        if (!isValidPassword(password)) {
-            throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
-        }
-        if (!isValidRole(role)) {
-            throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
-        }
-        
+	public void createUser() throws NataliaException, SQLException {
         Connection connection = null;
         try {
+        	System.out.println("* --------------- *");
+        	System.out.println("| Create New User |");
+        	System.out.println("* --------------- *");
+        	
+        	System.out.print("Enter username: ");
+        	String username = in.next();
+        	if (!isValidUsername(username)) {
+        		//System.out.println("Invalid username. Username must be between 1-10 characters.");
+                throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
+            }
+        	System.out.print("Enter password: ");
+        	String password = in.next();
+            if (!isValidPassword(password)) {
+            	//System.out.println("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
+                throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
+            }
+            System.out.print("Enter role: ");
+        	String role = in.next();
+            if (!isValidRole(role)) {
+            	//System.out.println("Invalid role. Available roles: admin/newsagent/driver.");
+                throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
+            }
+        	
             connection = DatabaseConnector.getConnection();
             String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -82,6 +95,10 @@ public class Admin extends User {
 	
 	public void deleteUser(int id) throws NataliaException, SQLException {
 		
+		System.out.println("* --------------- *");
+    	System.out.println("|   Delete User   |");
+    	System.out.println("* --------------- *");
+		
 		System.out.println("Are you sure you want to delete user: " + id + "?");
 		String answer = in.next();
 		
@@ -106,6 +123,11 @@ public class Admin extends User {
 	}
 	
 	public User getUser(int id) throws NataliaException {
+		
+		System.out.println("* --------------- *");
+    	System.out.println("|    Get User     |");
+    	System.out.println("* --------------- *");
+		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -125,6 +147,8 @@ public class Admin extends User {
 				user.setUsername(resultSet.getString("username"));
 	            user.setPassword(resultSet.getString("password"));
 	            user.setRole(resultSet.getString("role"));
+	            System.out.println("User ID: " + user.getID());
+	            System.out.println("Username: " + user.getUsername() + "\nPassword: " + user.getPassword() + "\nRole: " + user.getRole());
 			} else {
 				throw new NataliaException("User with " + id + " NOT found.");
 			}
@@ -144,6 +168,11 @@ public class Admin extends User {
 	
 	@SuppressWarnings("resource")
 	public void updateUser(int id) throws NataliaException, SQLException {
+		
+		System.out.println("* --------------- *");
+    	System.out.println("|   Update User   |");
+    	System.out.println("* --------------- *");
+		
 		String query = "SELECT * FROM userdetails WHERE userID = ?";
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;

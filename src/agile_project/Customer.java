@@ -36,6 +36,10 @@ public class Customer {
 	 */
 	public Customer getCustomer(int id) throws NataliaException {
 		
+		System.out.println("* ------------------------- *");
+    	System.out.println("|  Print Customer Details   |");
+    	System.out.println("* ------------------------- *");
+		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -58,10 +62,10 @@ public class Customer {
 				customer.setAddress(resultSet.getString("address"));
 				customer.setPhoneNo(resultSet.getString("phoneNo"));
 	            
-	            //return "Customer ID: " + id + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\n" +
-	            //        "Address: " + address + "\nPhone Number: " + phoneNo;
+	            System.out.println("Customer ID: " + customer.getCustID() + "\nFirst Name: " + customer.getFirstName() + "\nLast Name: " 
+	            + customer.getLastName() + "\n" + "Address: " + customer.getAddress() + "\nPhone Number: " + customer.getPhoneNo());
 			} else {
-				throw new NataliaException("Customer with " + id + " NOT found.");
+				throw new NataliaException("Customer with " + customer.getCustID() + " NOT found.");
 			}
 		} catch (SQLException error) {
 			throw new NataliaException("Database error.\n" + error.getMessage());
@@ -80,6 +84,11 @@ public class Customer {
 	}
 	
 	public String getAllCustomers() throws NataliaException {
+		
+		System.out.println("* ----------------------------- *");
+    	System.out.println("|  Print All Customers Details  |");
+    	System.out.println("* ----------------------------- *");
+		
 		Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -90,21 +99,33 @@ public class Customer {
 			String query = "SELECT * FROM customerdetails ORDER BY custID ASC";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
+			
+			boolean customerList = false;
 			String allCustomersDetails = "";
 			
 			while (resultSet.next()) {
+				customerList = true;
 				String custID = resultSet.getString("custID");
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
 	            String address = resultSet.getString("address");
 	            String phoneNo = resultSet.getString("phoneNo");
 	            
-	            allCustomersDetails += "Customer ID: " + custID + "\tFirst Name: " + firstName +
-	                    "\tLast Name: " + lastName + "\tAddress: " + address + "\tPhone Number: " + phoneNo + "\n";
+	            String formattedCustID = String.format("%-8s", custID);
+	            String formattedFirstName = String.format("%-15s", firstName);
+	            String formattedLastName = String.format("%-15s", lastName);
+	            String formattedAddress = String.format("%-20s", address);
+	            String formattedPhoneNo = String.format("%-15s", phoneNo);
+	            
+	            System.out.println("Customer ID: " + formattedCustID +
+	                    "First Name: " + formattedFirstName +
+	                    "Last Name: " + formattedLastName +
+	                    "Address: " + formattedAddress +
+	                    "Phone Number: " + formattedPhoneNo);
 			}
-			if (allCustomersDetails.length() == 0) {
-				throw new NataliaException("Customer database empty or not found.");
-			}
+			if (!customerList) {
+	            throw new NataliaException("Customer database is empty or not found.");
+	        }
 			return allCustomersDetails.toString();
 		} catch (SQLException error) {
 			throw new NataliaException("Database error.\n" + error.getMessage());

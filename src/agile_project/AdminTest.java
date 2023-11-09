@@ -57,7 +57,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser001() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-	        admin.createUser("test", "Test11", "admin");
+	        admin.createUser();
 	        assertEquals("test", admin.getUsername());
 	        assertEquals("Test11", admin.getPassword());
 	        assertEquals("admin", admin.getRole());
@@ -76,7 +76,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser002() throws NataliaException, SQLException{
 		try {
 			Admin driver = new Admin();
-			driver.createUser("test", "Test11", "driver");
+			driver.createUser();
 			assertEquals("test", driver.getUsername());
 	        assertEquals("Test11", driver.getPassword());
 	        assertEquals("driver", driver.getRole());
@@ -95,7 +95,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser003() throws NataliaException, SQLException{
 		try {
 			Admin newsagent = new Admin();
-			newsagent.createUser("newsagent", "Newsagent1", "newsagent");
+			newsagent.createUser();
 			assertEquals("newsagent", newsagent.getUsername());
 	        assertEquals("Newsagent1", newsagent.getPassword());
 	        assertEquals("newsagent", newsagent.getRole());
@@ -114,7 +114,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser004() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			admin.createUser("newsagent", "Test11", "owner");
+			admin.createUser();
 			fail("Exception expected. Invalid role");
 		}catch (NataliaException e) {
 			assertEquals("Invalid role. Available roles: admin/newsagent/driver.",  e.getMessage());
@@ -131,7 +131,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser005() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			admin.createUser("newsagent", "test", "newsagent");
+			admin.createUser();
 			fail("Exception expected. Invalid password");
 		}catch (NataliaException e) {
 			assertEquals("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.",  e.getMessage());
@@ -147,7 +147,7 @@ public class AdminTest extends TestCase {
 	public void testCreateUser006() throws NataliaException, SQLException{
 		try {
 			Admin admin = new Admin();
-			admin.createUser("", "Test11", "newsagent");
+			admin.createUser();
 			fail("Exception expected. Invalid username");
 		}catch (NataliaException e) {
 			assertEquals("Invalid username. Username must be between 1-10 characters.",  e.getMessage());

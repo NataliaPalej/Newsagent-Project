@@ -41,21 +41,29 @@ public class Newsagent extends Customer {
 	 * +generateInvoice
 	 * +doesCustomerExist(int id) : boolean
 	 */
-	public void createCustomer(String firstName, String lastName, String address, String phoneNo) throws NataliaException, SQLException{
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.setAddress(address);
-		this.setPhoneNo(phoneNo);
+	public void createCustomer() throws NataliaException, SQLException{
 		
+		System.out.println("* ------------------- *");
+    	System.out.println("|   Create Customer   |");
+    	System.out.println("* ------------------- *");
+		
+		System.out.print("Enter First Name: ");
+		String firstName = in.next();
 		if (!isValidName(firstName)) {
             throw new NataliaException("Invalid first name. Name must be between 1-15 characters.");
         }
+		System.out.print("Enter Last Name: ");
+		String lastName = in.next();
         if (!isValidName(lastName)) {
             throw new NataliaException("Invalid last name. Surname must be between 1-15 characters.");
         }
+        System.out.print("Enter Address: ");
+		String address = in.next();
         if (!isValidAddress(address)) {
             throw new NataliaException("Invalid address. Address must be between 1-20 characters.");
         }
+        System.out.print("Enter Phone No (XXX-XXX-XXXX): ");
+		String phoneNo = in.next();
         if (!isValidPhoneNo(phoneNo)) {
         	throw new NataliaException("Invalid phone number. Number must be in format 111-222-3333.");
         }
@@ -93,6 +101,11 @@ public class Newsagent extends Customer {
 	
 	@SuppressWarnings("resource")
 	public void updateCustomer(int id) throws NataliaException, SQLException {
+		
+		System.out.println("* ------------------- *");
+    	System.out.println("|   Update Customer   |");
+    	System.out.println("* ------------------- *");
+		
 		String query = "SELECT * FROM customerdetails WHERE custID = ?";
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
@@ -182,6 +195,11 @@ public class Newsagent extends Customer {
 	}
 	
 	public void deleteCustomer(int id) throws NataliaException, SQLException {
+		
+		System.out.println("* ------------------- *");
+    	System.out.println("|   Delete Customer   |");
+    	System.out.println("* ------------------- *");
+		
 		System.out.println("Are you sure you want to delete customer: " + id + "? (Y/N)");
 		String answer = in.next();
 		
@@ -207,84 +225,6 @@ public class Newsagent extends Customer {
 		} finally {
 			connection.close();
 		}
-	}
-	
-	public Customer getCustomer(int id) throws NataliaException {
-		Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-	    ResultSet resultSet = null;
-	    
-	    String query = "SELECT * FROM customerdetails WHERE custID = ?";
-	    Customer customer = new Customer();
-		
-		try {
-			connection = DatabaseConnector.getConnection();
-
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, id);
-			resultSet = preparedStatement.executeQuery();
-			
-			if (resultSet.next()) {
-				customer.setCustID(id);
-				customer.setFirstName(resultSet.getString("firstName"));
-				customer.setLastName(resultSet.getString("lastName"));
-				customer.setAddress(resultSet.getString("address"));
-				customer.setPhoneNo(resultSet.getString("phoneNo"));
-			} else {
-				throw new NataliaException("Customer with " + id + " NOT found.");
-			}
-		} catch (SQLException error) {
-			throw new NataliaException("Database error.\n" + error.getMessage());
-		} finally {
-	        try {
-	            if (resultSet != null) resultSet.close();
-	            if (preparedStatement != null) preparedStatement.close();
-	            if (connection != null) connection.close();
-	        } catch (SQLException e) {
-	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
-	        }
-		}
-		return customer;
-	}
-	
-	public String getAllCustomers() throws NataliaException {
-		Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-	    ResultSet resultSet = null;
-	    
-	    try {
-			connection = DatabaseConnector.getConnection();
-			
-			String query = "SELECT * FROM customerdetails ORDER BY custID ASC";
-			preparedStatement = connection.prepareStatement(query);
-			resultSet = preparedStatement.executeQuery();
-			String getCustomers = "";
-			
-			while (resultSet.next()) {
-				String custID = resultSet.getString("custID");
-				String firstName = resultSet.getString("firstName");
-				String lastName = resultSet.getString("lastName");
-				String address = resultSet.getString("address");
-				String phoneNo = resultSet.getString("phoneNo");
- 
-	            getCustomers += "Customer ID: " + custID + "\tFirst Name: " + firstName + "\tLast Name: " 
-	            				+ lastName + "\tAddress: " + address + "\tPhoneNo: " + phoneNo + "\n";
-			}
-			if (getCustomers.length() == 0) {
-				throw new NataliaException("Customers database empty or not found.");
-			}
-			return getCustomers.toString();
-		} catch (SQLException error) {
-			throw new NataliaException("Database error.\n" + error.getMessage());
-		} finally {
-	        try {
-	            if (resultSet != null) resultSet.close();
-	            if (preparedStatement != null) preparedStatement.close();
-	            if (connection != null) connection.close();
-	        } catch (SQLException e) {
-	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
-	        }
-		}	
 	}
 	
 	// Docket is generated based on date? -- SHOULD BE IN DOCKET CLASS ???

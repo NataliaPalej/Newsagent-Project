@@ -10,17 +10,10 @@ public class Options extends DatabaseConnector{
 	static Connection connection = null;
 	private static Scanner in = new Scanner(System.in);
 	
-	static Admin admin = new Admin();
-	static Newsagent newsagent = new Newsagent();
-	// static Driver driver = new Driver();
-	// Needed for logout
-	static User authenticatedUser = null;
-	
 	public Options() {
 	}
 	
-	public static void loginScreen() throws NataliaException, SQLException{
-		
+	static void loginScreen() throws NataliaException, SQLException{
 		connection = DatabaseConnector.getConnection();
 		
 		System.out.println("*---------------------------------------*");
@@ -40,13 +33,16 @@ public class Options extends DatabaseConnector{
 				System.out.println(" --------------------------------------- ");
 				
 				if(authenticatedUser.getRole().equalsIgnoreCase("admin")) {
-					adminOptions();
+					Options admin = new Options();
+					admin.adminOptions();
 				}
 				if (authenticatedUser.getRole().equalsIgnoreCase("newsagent")) {
-					newsagentOptions();
+					Options newsagent = new Options();
+					newsagent.newsagentOptions();
 				}
 				if (authenticatedUser.getRole().equalsIgnoreCase("driver")) {
-					driverOptions();
+					Options driver = new Options();
+					driver.driverOptions();
 				}
 				
 			} else {
@@ -57,7 +53,9 @@ public class Options extends DatabaseConnector{
 		}
 	}
 	
-	public static void adminOptions() throws NataliaException, SQLException {
+	private void adminOptions() throws NataliaException, SQLException {
+		Admin admin = new Admin();
+		
 		System.out.println();
 		System.out.println("\n\tADMIN OPTIONS:\t");
 		System.out.println("1. CREATE new user\n2. UPDATE existing user");
@@ -96,7 +94,9 @@ public class Options extends DatabaseConnector{
 		}
 	}
 	
-	public static void newsagentOptions() throws NataliaException, SQLException {
+	private void newsagentOptions() throws NataliaException, SQLException {
+		Newsagent newsagent = new Newsagent();
+		
 		System.out.println("\n\tNEWSAGENT MENU:\t");
 		System.out.println("1. CUSTOMER OPTIONS\n2. INVOICE OPTIONS");
 		System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. LOG OUT");
@@ -166,7 +166,8 @@ public class Options extends DatabaseConnector{
 		}
 	}
 	
-	public static void driverOptions() throws NataliaException, SQLException {
+	private void driverOptions() throws NataliaException, SQLException {
+		//Driver driver = new Driver();
 		// code for driver menu goes here
 	}
 
@@ -222,8 +223,9 @@ public class Options extends DatabaseConnector{
 	}
 	
 	@SuppressWarnings("unused")
-	public static void logOut() throws NataliaException, SQLException {
+	private void logOut() throws NataliaException, SQLException {
 		Connection connection = null;
+		User authenticatedUser = null;
 
 		System.out.println("Logging out...\nYou're logged out!\n\n");
 		try {

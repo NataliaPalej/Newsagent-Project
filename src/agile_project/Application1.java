@@ -15,6 +15,12 @@ public class Application1 extends DatabaseConnector {
 	static User authenticatedUser = null;
 
 	public static void main(String[] args) throws NataliaException, SQLException {
+		
+		/**
+		 * CREATE CLASS FOR GUI OPTIONS (SWTICH AFTER LOG IN)
+		 * THAT WAY WE CAN ALWAYS CALL THE CLASS GUI METHOD (DISPLAY OPTIONS)
+		 * ONCE THE OPERATION IS FINISHED AND IT WILL ALLOW FOR THE BACK BUTTON TOO
+		 */
 
 		connection = DatabaseConnector.getConnection();
 
@@ -63,6 +69,7 @@ public class Application1 extends DatabaseConnector {
 							break;
 						case 5:
 							logOut();
+							break;
 						default:
 							System.out.println("Invalid option.");
 							break;
@@ -70,7 +77,7 @@ public class Application1 extends DatabaseConnector {
 					} else if (authenticatedUser.getRole().equalsIgnoreCase("newsagent")) {
 						System.out.println("\tMENU:\t");
 						System.out.println("1. CUSTOMER OPTIONS\n2. INVOICE OPTIONS");
-						System.out.println("3. REPORTS\n4. LOG OUT");
+						System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. LOG OUT");
 
 						int menuOption = in.nextInt();
 
@@ -118,6 +125,12 @@ public class Application1 extends DatabaseConnector {
 							// Swtich case based on the option
 							break;
 						case 4:
+							System.out.println("\tPUBLICATIONS OPTIONS\t");
+							System.out.println("1. CREATE Publication\n2.UPDATE Publication\n3.PRINT Publication\n4.DELETE Publication"
+									+ "\n5.PRINT *all* Publications\n6.BACK");
+							// Prompt to pick the option
+							// Ifs or switch for each options and appropiate methods within it 
+						case 5:
 							logOut();
 							break;
 						default:

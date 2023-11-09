@@ -123,7 +123,7 @@ public class PublicationTest extends TestCase {
 		Publication priceTest005 = new Publication();
 		try {
 			boolean result = priceTest005.isValidPrice(14.001);
-			assertEquals(true, result);
+			assertEquals(false, result);
 		} catch (RonanException e) {
 			fail("exception not expected" + e.getMessage());
 		}
@@ -180,13 +180,13 @@ public class PublicationTest extends TestCase {
 	
 //	TestNumber: 12
 //	Objective: Verify string is valid length @ 50 characters
-//	Input: "Test.............................................."
+//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwert"
 //	Output: True
 	
 	public void testIsValidString002() throws RonanException {
 		Publication stringTest002 = new Publication();
 		try {
-			boolean result = stringTest002.isValidString("Test..............................................");
+			boolean result = stringTest002.isValidString("QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwert");
 			assertEquals(true, result);
 		} catch (RonanException e) {
 			fail("exception not expected" + e.getMessage());
@@ -194,7 +194,60 @@ public class PublicationTest extends TestCase {
 
 	}
 	
+//	TestNumber: 13
+//	Objective: Verify string is valid length
+//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwertyuiopasdfghjklzxcvbnm"
+//	Output: False
 	
+	public void testIsValidString003() throws RonanException {
+		Publication stringTest003 = new Publication();
+		try {
+			boolean result = stringTest003.isValidString("QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwertyuiopasdfghjklzxcvbnm");
+			assertEquals(false, result);
+		} catch (RonanException e) {
+			fail("exception not expected" + e.getMessage());
+		}
+
+	}
+	
+//	TestNumber: 14
+//	Objective: Verify string is not blank
+//	Input: " "
+//	Output: False
+	
+	public void testIsValidString004() throws RonanException {
+		Publication stringTest004 = new Publication();
+		try {
+			boolean result = stringTest004.isValidString(" ");
+			assertEquals(false, result);
+		} catch (RonanException e) {
+			fail("exception not expected" + e.getMessage());
+		}
+
+	}
+	
+//	TestNumber: 15
+//	Objective: Verify string is not null
+//	Input: null
+//	Output: False
+	
+	public void testIsValidString005() throws RonanException {
+		Publication stringTest005 = new Publication();
+		try {
+			boolean result = stringTest005.isValidString(null);
+			assertEquals(false, result);
+		} catch (RonanException e) {
+			fail("exception not expected" + e.getMessage());
+		}
+
+	}
+	
+	
+	
+
+	public void testGetPublicationById() {
+		fail("Not yet implemented");
+	}
 	
 	
 	
@@ -229,21 +282,28 @@ public class PublicationTest extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testUpdatePublication() {
-		fail("Not yet implemented");
-	}
-
 	public void testDeletePublication() {
 		fail("Not yet implemented");
 	}
 
-	public void testReadPublication() {
+	public void testUpdateTitle() {
 		fail("Not yet implemented");
 	}
 
-	public void testUpdateStock() {
+	public void testUpdateIssueNo() {
+		fail("Not yet implemented");
+	}
+
+	public void testUpdateAuthor() {
+		fail("Not yet implemented");
+	}
+
+	public void testUpdatePrice() {
 		fail("Not yet implemented");
 	}
 	
+	public void testUpdateStock() {
+		fail("Not yet implemented");
+	}
 
 }

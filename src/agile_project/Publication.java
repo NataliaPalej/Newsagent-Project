@@ -1,6 +1,9 @@
 package agile_project;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Publication {
 	
@@ -25,8 +28,7 @@ public class Publication {
 		this.stock = stock;
 	}
 	
-	public void createNewPublication(String title, int issueNo, String author, double price, int quantity) throws RonanException {
-//		Publication p = new Publication(id, title, issueNo, author, price, quantity);
+	public void createNewPublication() throws RonanException {
 		throw new RonanException("createNewPublication() not implemented");
 	}
 	
@@ -38,8 +40,55 @@ public class Publication {
 		throw new RonanException("deletePublication() not implemented");
 	}
 
-	public void readPublication() throws RonanException {
-		throw new RonanException("readPublication() not implemented");
+	public void getPublicationById() throws RonanException {
+		throw new RonanException("getPublicationById() not implemented");
+		System.out.println("* ---------------------------- *");
+    	System.out.println("|  Print Publication Details   |");
+    	System.out.println("* ---------------------------- *");
+		
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    
+	    Publication publicationObj = new Publication();
+		
+		try {
+			connection = DatabaseConnector.getConnection();
+			
+			String query = "SELECT * FROM publications WHERE publicationID = ?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.next()) {
+				// Retrieve customer details from the result set
+				publicationObj.setId(id);
+				publicationObj.setTitle(resultSet.getString("title"));
+				publicationObj.setIssueNo(resultSet.getInt("issueNo"));
+				publicationObj.setAuthor(resultSet.getString("author"));
+				publicationObj.setPrice(resultSet.getDouble("price"));
+				publicationObj.setStock(resultSet.getInt("stock"));
+
+	            
+	            System.out.println("Customer ID: " + publicationObj.getId() + "\nFirst Name: " + publicationObj.getTitle() + "\nLast Name: " 
+	            + customer.getLastName() + "\n" + "Address: " + customer.getAddress() + "\nPhone Number: " + customer.getPhoneNo());
+			} else {
+				throw new NataliaException("Customer with " + customer.getCustID() + " NOT found.");
+			}
+		} catch (SQLException error) {
+			throw new NataliaException("Database error.\n" + error.getMessage());
+		} finally {
+	        // Close the database resources
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            if (connection != null) connection.close();
+	        } catch (SQLException e) {
+	            // Handle resource closing exceptions
+	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
+	        }
+		}
+		return customer;
 	}
 	
 	public void updateStock() throws RonanException {
@@ -53,12 +102,8 @@ public class Publication {
 		return false;
 	}
 	
-	public boolean isValidPrice(double price) throws RonanException {
-		if (BigDecimal.valueOf(price).scale() > 2) {
-			price = Math.round(price);
-		}
-		
-		if (price >= 0.01 & price <= 999.99) {
+	public boolean isValidPrice(double price) throws RonanException {		
+		if (price >= 0.01 & price <= 999.99 & !(BigDecimal.valueOf(price).scale() > 2)) {
 			return true;
 		}
 		
@@ -66,8 +111,10 @@ public class Publication {
 	}
 	
 	public boolean isValidString(String string) throws RonanException {
-		if (string.length() <= 50 & !(string.isBlank())) {
-			return true;
+		if (string != null) {
+			if (string.length() <= 50 & !(string.isBlank())) {
+				return true;
+			}
 		}
 		return false;
 	}

@@ -1,5 +1,4 @@
 package agile_project;
-import java.sql.Connection;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -8,13 +7,19 @@ public class Application1 extends DatabaseConnector {
 	static Connection connection = null;
 	private static Scanner in = new Scanner(System.in);
 	
-	public static void main(String[] args) throws NataliaException {
+	static Admin admin = new Admin();
+	//Driver driver = new Driver();
+	static Newsagent newsagent = new Newsagent();
+	// Needed for logout 
+	static User authenticatedUser = null;
+	
+	public static void main(String[] args) throws NataliaException, SQLException {
 		
 		connection = DatabaseConnector.getConnection();
 		
-		System.out.println(" ---------------------------------------");
+		System.out.println("*---------------------------------------*");
         System.out.println("| Welcome to the Newsagent Application! |");
-        System.out.println(" --------------------------------------- ");
+        System.out.println("*---------------------------------------*");
         System.out.println("\tLogin");
         System.out.print("\tEnter username:");
         String username = in.next();
@@ -37,19 +42,25 @@ public class Application1 extends DatabaseConnector {
 
 				    switch (option) {
 				        case 1:
-				            // Call createUser() from Admin class
+				            admin.createUser();
 				            break;
 				        case 2:
-				            // Call updateUser(int id) from Admin class
+				        	System.out.println("Enter User ID: ");
+				        	int userToUpdate = in.nextInt();
+				            admin.updateUser(userToUpdate);
 				            break;
 				        case 3:
-				            // Call getUser(int id) from Admin class
+				        	System.out.println("Enter User ID: ");
+				        	int userID = in.nextInt();
+				        	admin.getUser(userID);
 				            break;
 				        case 4:
-				            // Call deleteUser(int id) from Admin class
+				        	System.out.println("Enter User ID: ");
+				        	int userToDelete = in.nextInt();
+				        	admin.deleteUser(userToDelete);
 				            break;
 				        case 5:
-				        	// Log out option
+				        	logOut();
 				        default:
 				            System.out.println("Invalid option.");
 				            break;
@@ -64,12 +75,32 @@ public class Application1 extends DatabaseConnector {
 					
 					switch (menuOption) {
 			        case 1:
-			        	System.out.println("\tCUSTOMER OPTIONS\t");
+			        	System.out.println("* ------------------ *");
+			        	System.out.println("|  CUSTOMER OPTIONS  |");
+			        	System.out.println("* ------------------ *");
 			        	System.out.println("1. CREATE new customer\n2. UPDATE existing customer");
-						System.out.println("3. GET customer details\n4. GET *all* customers details\n");
+						System.out.println("3. GET customer details\n4. GET *all* customers details");
 						System.out.println("5. DELETE customer\n6. BACK");
-						// Prompt to pick option
-						// Swtich case based on the option
+						int option = in.nextInt();
+						if (option == 1) {
+							newsagent.createCustomer();
+						} else if (option == 2) {
+							System.out.println("Enter Customer ID:");
+							int custID = in.nextInt();
+							newsagent.updateCustomer(custID);
+						} else if (option == 3) {
+							System.out.println("Enter Customer ID:");
+							int custID = in.nextInt();
+							newsagent.getCustomer(custID);
+						} else if (option == 4) {
+							newsagent.getAllCustomers();
+						} else if (option == 5) {
+							System.out.println("Enter Customer ID:");
+							int custID = in.nextInt();
+							newsagent.deleteCustomer(custID);
+						} else {
+							System.out.println("Invalid option selected.");
+						}
 			            break;
 			        case 2:
 			            System.out.println("\tINVOICE OPTIONS\t");
@@ -84,7 +115,8 @@ public class Application1 extends DatabaseConnector {
 						// Swtich case based on the option
 			            break;
 			        case 4:
-			        	// Log out
+			        	logOut();
+			        	break;
 			        default:
 			            System.out.println("Invalid option.");
 			            break;
@@ -158,5 +190,23 @@ public class Application1 extends DatabaseConnector {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	@SuppressWarnings("unused")
+	public static void logOut() throws NataliaException, SQLException {
+		Connection connection = null;
+	    
+	    System.out.println("Logging out...\nYou're logged out!\n\n");
+	    try {
+	    	if (connection != null) {
+	            connection.close();
+	        }
+        } catch (SQLException e) {
+            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
+        }
+	    authenticatedUser = null;
+	    // Return to the login screen
+	    main(new String[]{});
+	    
 	}
 }

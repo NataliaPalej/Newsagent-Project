@@ -5,7 +5,7 @@ import java.sql.*;
 public class DatabaseConnector {
 	
 	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/newsagentdb";
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3307/newsagentdb";
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "";
 	

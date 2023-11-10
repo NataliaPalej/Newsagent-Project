@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Publication {
 	
@@ -40,8 +41,8 @@ public class Publication {
 		throw new RonanException("deletePublication() not implemented");
 	}
 
-	public void getPublicationById() throws RonanException {
-		throw new RonanException("getPublicationById() not implemented");
+	public Publication getPublicationById(int id) throws RonanException {
+//		throw new RonanException("getPublicationById() not implemented");
 		System.out.println("* ---------------------------- *");
     	System.out.println("|  Print Publication Details   |");
     	System.out.println("* ---------------------------- *");
@@ -70,13 +71,13 @@ public class Publication {
 				publicationObj.setStock(resultSet.getInt("stock"));
 
 	            
-	            System.out.println("Customer ID: " + publicationObj.getId() + "\nFirst Name: " + publicationObj.getTitle() + "\nLast Name: " 
-	            + customer.getLastName() + "\n" + "Address: " + customer.getAddress() + "\nPhone Number: " + customer.getPhoneNo());
+	            System.out.println("Publication ID: " + publicationObj.getId() + "\nTitle: " + publicationObj.getTitle() + "\nIssue No.: " 
+	            + publicationObj.getIssueNo() + "\n" + "Author: " + publicationObj.getAuthor() + "\nPrice: " + publicationObj.getPrice()+ "\nStock: " + publicationObj.getStock());
 			} else {
-				throw new NataliaException("Customer with " + customer.getCustID() + " NOT found.");
+				throw new RonanException("Publication with ID(" + publicationObj.getId() + ") NOT found.");
 			}
 		} catch (SQLException error) {
-			throw new NataliaException("Database error.\n" + error.getMessage());
+			throw new RonanException("Database error.\n" + error.getMessage());
 		} finally {
 	        // Close the database resources
 	        try {
@@ -85,10 +86,10 @@ public class Publication {
 	            if (connection != null) connection.close();
 	        } catch (SQLException e) {
 	            // Handle resource closing exceptions
-	            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
+	            throw new RonanException("Error while closing database resources.\n" + e.getMessage());
 	        }
 		}
-		return customer;
+		return publicationObj;
 	}
 	
 	public void updateStock() throws RonanException {

@@ -221,7 +221,7 @@ public class PublicationTest extends TestCase {
 			boolean result = stringTest004.isValidString(" ");
 			assertEquals(false, result);
 		} catch (RonanException e) {
-			fail("exception not expected" + e.getMessage());
+			fail("exception not expected: " + e.getMessage());
 		}
 
 	}
@@ -237,19 +237,65 @@ public class PublicationTest extends TestCase {
 			boolean result = stringTest005.isValidString(null);
 			assertEquals(false, result);
 		} catch (RonanException e) {
-			fail("exception not expected" + e.getMessage());
+			fail("exception not expected: " + e.getMessage());
 		}
 
 	}
 	
+//	TestNumber: 16
+//	Objective: Verify valid publication ID 
+//	Input: 1
+//	Output: 1st publication in database
 	
+	 public void testGetPublicationById001() throws RonanException {
+		 Publication getPubByIdTest001 = new Publication();
+		 int pubId = 1;
+		 try {
+			 Publication result = getPubByIdTest001.getPublicationById(1);
+			 assertEquals(pubId, result.getId());
+			 assertEquals("Irish Independent", result.getTitle());
+			 assertEquals(100, result.getIssueNo());
+			 assertEquals("John Doe", result.getAuthor());
+			 assertEquals(2.5, result.getPrice());
+			 assertEquals(100, result.getStock());
+			 
+        } catch (RonanException e) {
+            fail("exception not expected: " + e.getMessage());
+        }
+	 }
+	 
+//		TestNumber: 17
+//		Objective: Verify invalid publication ID < 1
+//		Input: 0
+//		Output: 1st publication in database
 	
-
-	public void testGetPublicationById() {
-		fail("Not yet implemented");
-	}
+	 public void testGetPublicationById002() throws RonanException {
+		 Publication getPubByIdTest002 = new Publication();
+		 int pubId = 0;
+		 try {
+			 Publication result = getPubByIdTest002.getPublicationById(0);
+			 fail("exception expected");
+			 
+        } catch (RonanException e) {
+        	assertEquals("Publication with ID(" + pubId + ") NOT found.", e.getMessage());
+        }
+	 }
 	
+//		TestNumber: 18
+//		Objective: Verify invalid publication ID out of bounds
+//		Input: Integer.MAX_VALUE
+//		Output: 1st publication in database
 	
+	 public void testGetPublicationById003() throws RonanException {
+		 Publication getPubByIdTest002 = new Publication();
+		 int pubId = Integer.MAX_VALUE;
+		 try {
+			 Publication result = getPubByIdTest002.getPublicationById(Integer.MAX_VALUE);
+			 fail("exception expected");
+	     } catch (RonanException e) {
+	     	assertEquals("Publication with ID(" + pubId + ") NOT found.", e.getMessage());
+	     }
+	 }
 	
 	
 	

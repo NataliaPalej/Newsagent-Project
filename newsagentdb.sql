@@ -14,8 +14,6 @@ CREATE TABLE IF NOT EXISTS userdetails (
 
 -- INSERT INTO USERS
 INSERT INTO userdetails (username, password, role) VALUES 
-('admin1', 'Admin1', 'admin'), 
-('newsagent1', 'Newsagent1', 'newsagent'),
 ('driver1', 'Driver1', 'driver'),
 ('driver2', 'Driver2', 'driver'),
 ('driver3', 'Driver3', 'driver'),
@@ -27,8 +25,9 @@ INSERT INTO userdetails (username, password, role) VALUES
 ('driver9', 'Driver9', 'driver'),
 ('driver10', 'Driver10', 'driver'),
 ('driver11', 'Driver11', 'driver'),
-('driver12', 'Driver12', 'driver');
-
+('driver12', 'Driver12', 'driver'),
+('admin1', 'Admin1', 'admin'), 
+('newsagent1', 'Newsagent1', 'newsagent');
 -- Create the 'customerdetails' table
 DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE IF NOT EXISTS customerdetails (
@@ -121,7 +120,7 @@ CREATE TABLE orders (
 
 -- INSERT INTO ORDERS
 INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-10-19', 1, 'daily', 'Book Title 1', 19.99),
+('2023-10-10', 1, 'daily', 'Book Title 1', 19.99),
 ('2023-10-20', 2, 'weekly', 'Magazine 1', 5.99),
 ('2023-10-21', 3, 'monthly', 'Book Title 2', 29.99),
 ('2023-10-22', 4, 'daily', 'Newspaper 1', 2.49),
@@ -131,6 +130,30 @@ INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES
 ('2023-10-26', 8, 'weekly', 'Comic Book 1', 7.99), 
 ('2023-10-27', 9, 'monthly', 'Technical Manual 1', 39.99), 
 ('2023-10-28', 10, 'daily', 'Children''s Book 1', 12.99);
+
+-- EXTRA 20 orders of 10-11-2023
+INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
+('2023-11-10', 1, 'daily', 'Book Title 1', 19.99),
+('2023-11-10', 2, 'weekly', 'Magazine 1', 5.99),
+('2023-11-10', 3, 'monthly', 'Book Title 2', 29.99),
+('2023-11-10', 4, 'daily', 'Newspaper 1', 2.49),
+('2023-11-10', 5, 'weekly', 'Journal 1', 14.99),
+('2023-11-10', 6, 'monthly', 'Magazine 2', 6.99),
+('2023-11-10', 7, 'daily', 'Academic Paper 1', 9.99),
+('2023-11-10', 8, 'weekly', 'Comic Book 1', 7.99), 
+('2023-11-10', 9, 'monthly', 'Technical Manual 1', 39.99), 
+('2023-11-10', 10, 'daily', 'Children''s Book 1', 12.99),
+('2023-11-10', 11, 'weekly', 'Book Title 3', 17.99),
+('2023-11-10', 12, 'monthly', 'Magazine 3', 8.99),
+('2023-11-10', 13, 'daily', 'Newspaper 2', 3.99),
+('2023-11-10', 14, 'weekly', 'Journal 2', 11.99),
+('2023-11-10', 15, 'monthly', 'Book Title 4', 24.99),
+('2023-11-10', 16, 'daily', 'Academic Paper 2', 15.99),
+('2023-11-10', 17, 'weekly', 'Comic Book 2', 6.49), 
+('2023-11-10', 18, 'monthly', 'Technical Manual 2', 49.99), 
+('2023-11-10', 19, 'daily', 'Children''s Book 2', 8.99),
+('2023-11-10', 20, 'weekly', 'Book Title 5', 21.99);
+
 
 -- Create the 'invoice' table
 CREATE TABLE invoice (
@@ -169,3 +192,17 @@ SELECT
 FROM orders AS o
 INNER JOIN customerdetails AS c ON o.custID = c.custID;
 
+-- ORDER BASED ON AREACODE-- 
+SELECT
+    o.orderID,
+    o.dateCreated,
+    c.firstName AS custFirstName,
+    c.lastName AS custLastName,
+    o.title,
+    o.orderType
+FROM
+    orders AS o
+INNER JOIN
+    customerdetails AS c ON o.custID = c.custID
+WHERE
+    c.areaCode = 2; -- Replace '1' with the desired areaCode

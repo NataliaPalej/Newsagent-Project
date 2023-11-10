@@ -168,44 +168,35 @@ public class Options extends DatabaseConnector{
 	}
 	
 	private void driverOptions() throws NataliaException, SQLException {
-		// code for driver menu goes here
-		Driver driver = new Driver();
-		LocalDate localDateNow = LocalDate.now();
-		System.out.println("\n\tDriver MENU:\t");
-		System.out.println("1. Read Delivery Docket");
-		System.out.println("2. Sumbit Delivery Docket");
-		System.out.println("2. LOG OUT");
+	    // code for driver menu goes here
+	    Driver driver = new Driver();
+	    LocalDate localDateNow = LocalDate.now();
+	    System.out.println("\n\tDriver MENU:\t");
+	    System.out.println("1. Read Delivery Docket");
+	    System.out.println("2. Submit Delivery Docket");
+	    System.out.println("3. LOG OUT");
 
-		int menuOption = in.nextInt();
+	    int menuOption = in.nextInt();
 
-		switch (menuOption) {
-		case 1:
-//			READ DOCKET 
-			System.out.println("* ------------------ *");
-	        System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
-			System.out.println("* ------------------ *");
-			System.out.println(driver.docketCurrentDay);
-			break;
-		case 2:
-//			SUBMIT DOCKET
-			System.out.println("\tINVOICE OPTIONS\t");
-			System.out.println("1. GENERATE Invoice\n2. BACK");
-			break;
-//			EXIT
-		case 3:
-			System.out.println("\tREPORT OPTIONS\t");
-			System.out.println("1. GENERATE Delivery Report\n2. BACK");
-			// Prompt to pick option
-			// Swtich case based on the option
-			break;
-		case 4:
-			logOut();
-			break;
-		default:
-			System.out.println("Invalid option.");
-			break;
-		}
+	    switch (menuOption) {
+	        case 1:
+	            // READ DOCKET 
+	            System.out.println("* ------------------ *");
+	            System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
+	            System.out.println("* ------------------ *");
+	            driver.docketCurrentDay(); // Assuming docketCurrentDay prints the result internally
+	            break;
+
+	        case 3:
+	            logOut();
+	            break;
+
+	        default:
+	            System.out.println("Invalid option.");
+	            break;
+	    }
 	}
+
 
 	/**
 	 * Validation methods authenticateUsername authenticatePassword

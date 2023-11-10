@@ -35,23 +35,58 @@ CREATE TABLE IF NOT EXISTS customerdetails (
     custID INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(15) NOT NULL,
     lastName VARCHAR(15) NOT NULL,
+    areaCode int(12) NOT NULL,
     address VARCHAR(20) NOT NULL,
     phoneNo INT(10) DEFAULT NULL,
     CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
 );
 
 -- INSERT INTO customers 
-INSERT INTO customerdetails (firstName, lastName, address, phoneNo) VALUES
-('John', 'Doe', '123 Main St', 555987254),
-('Alice', 'Smith', '456 Elm St', 555987654),
-('Robert', 'Johnson', '789 Oak St', 555555555),
-('Sara', 'Williams', '1122 Elm St', 555777777),
-('Michael', 'Brown', '88 Oak St', 555999999),
-('Emily', 'Miller', '321 Pine St', 555111222),
-('Linda', 'White', '456 Birch St', 555333444),
-('Daniel', 'Clark', '789 Snow St', 555555555),
-('Emanuel', 'Garcia', '111 Three St', 555777777),
-('Ciara', 'Taylor', '222 River St', 555999999);
+INSERT INTO customerdetails (firstName, lastName,areaCode, address, phoneNo) VALUES
+-- AREA BY CODE
+-- 1.Carlow
+-- 2.Dublin
+-- 3.Kildare
+-- 4.Kilkenny
+-- 5.Laois
+-- 6.Longford
+-- 7.Louth
+-- 8.Meath
+-- 9.Offaly
+-- 10Westmeath
+-- 11.Wexford
+-- 12.Wicklow
+('John', 'Doe',1, '123 Main St , Carlow', 555987254),
+('Alice', 'Smith',2, '456 Elm St, Dublin', 555987654),
+('Robert', 'Johnson',2, '789 Oak St, Dublin', 555555555),
+('Sara', 'Williams',2, '1122 Elm St, Dublin', 555777777),
+('Michael', 'Brown',3, '88 Oak St, Kildare', 555999999),
+('Emily', 'Miller',3, '321 Pine St,Kildare', 555333444),
+('Daniel', 'Clark',4, '789 Snow St, Kilkenny', 555555555),
+('Emanuel', 'Garcia', 5,'111 Three St, Laois', 555777777),
+('Ciara', 'Taylor',6, '222 River St, Longford', 555999999);
+-- INSERT INTO customers 20 more
+INSERT INTO customerdetails (firstName, lastName, areaCode, address, phoneNo) VALUES
+('Mark', 'Johnson', 1, '789 Oak St, Carlow', 555444555),
+('Emma', 'Davis', 2, '456 Pine St, Dublin', 555333666),
+('Christopher', 'Lee', 3, '123 Maple St, Kildare', 555222777),
+('Olivia', 'Moore', 4, '987 Birch St, Kilkenny', 555111888),
+('James', 'White', 5, '654 Cedar St, Laois', 555777000),
+('Sophia', 'Hall', 6, '321 Redwood St, Longford', 555888999),
+('Liam', 'Jones', 7, '876 Willow St, Louth', 555999111),
+('Ava', 'Taylor', 8, '234 Oak St, Meath', 555222333),
+('Noah', 'Brown', 9, '567 Pine St, Offaly', 555444555),
+('Isabella', 'Wilson', 10, '876 Elm St, Westmeath', 555666777),
+('Logan', 'Anderson', 11, '543 Maple St, Wexford', 555888999),
+('Mia', 'Moore', 12, '789 Birch St, Wicklow', 555111222),
+('Ethan', 'Smith', 1, '432 Cedar St, Carlow', 555333444),
+('Aria', 'Johnson', 2, '765 Redwood St, Dublin', 555555777),
+('Lucas', 'Williams', 3, '987 Willow St, Kildare', 555777888),
+('Amelia', 'Martin', 4, '543 Pine St, Kilkenny', 555999111),
+('Jackson', 'Harris', 5, '876 Maple St, Laois', 555111222),
+('Ella', 'Scott', 6, '321 Elm St, Longford', 555333444),
+('Carter', 'Garcia', 7, '654 Cedar St, Louth', 555555666),
+('Grace', 'Davis', 8, '876 Redwood St, Meath', 555777888);
 
 -- Create the 'publications' table
 DROP TABLE IF EXISTS publications;

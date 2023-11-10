@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Options extends DatabaseConnector{
@@ -167,8 +168,43 @@ public class Options extends DatabaseConnector{
 	}
 	
 	private void driverOptions() throws NataliaException, SQLException {
-		//Driver driver = new Driver();
 		// code for driver menu goes here
+		Driver driver = new Driver();
+		LocalDate localDateNow = LocalDate.now();
+		System.out.println("\n\tDriver MENU:\t");
+		System.out.println("1. Read Delivery Docket");
+		System.out.println("2. Sumbit Delivery Docket");
+		System.out.println("2. LOG OUT");
+
+		int menuOption = in.nextInt();
+
+		switch (menuOption) {
+		case 1:
+//			READ DOCKET 
+			System.out.println("* ------------------ *");
+	        System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
+			System.out.println("* ------------------ *");
+			System.out.println(driver.docketCurrentDay);
+			break;
+		case 2:
+//			SUBMIT DOCKET
+			System.out.println("\tINVOICE OPTIONS\t");
+			System.out.println("1. GENERATE Invoice\n2. BACK");
+			break;
+//			EXIT
+		case 3:
+			System.out.println("\tREPORT OPTIONS\t");
+			System.out.println("1. GENERATE Delivery Report\n2. BACK");
+			// Prompt to pick option
+			// Swtich case based on the option
+			break;
+		case 4:
+			logOut();
+			break;
+		default:
+			System.out.println("Invalid option.");
+			break;
+		}
 	}
 
 	/**

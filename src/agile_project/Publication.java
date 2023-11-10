@@ -92,6 +92,64 @@ public class Publication {
 		return publicationObj;
 	}
 	
+public String getAllCustomers() throws RonanException {
+		
+		System.out.println("* ----------------------------- *");
+    	System.out.println("|  Print All Customers Details  |");
+    	System.out.println("* ----------------------------- *");
+		
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    
+	    try {
+			connection = DatabaseConnector.getConnection();
+			
+			String query = "SELECT * FROM publications ORDER BY publicationID ASC";
+			preparedStatement = connection.prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
+			
+			boolean publicationList = false;
+			String allPublicationsDetails = "";
+			
+			while (resultSet.next()) {
+				publicationList = true;
+				String publicationID = resultSet.getString("publicationID");
+				String title = resultSet.getString("title");
+				int issueNo = resultSet.getInt("issueNo");
+				String author = resultSet.getString("author");
+				double price = resultSet.getDouble("price");
+				int stock = resultSet.getInt("stock");
+	            
+	            String formattedCustID = String.format("%-8s", custID);
+	            String formattedFirstName = String.format("%-15s", firstName);
+	            String formattedLastName = String.format("%-15s", lastName);
+	            String formattedAddress = String.format("%-20s", address);
+	            String formattedPhoneNo = String.format("%-15s", phoneNo);
+	            
+	            System.out.println("Customer ID: " + formattedCustID +
+	                    "First Name: " + formattedFirstName +
+	                    "Last Name: " + formattedLastName +
+	                    "Address: " + formattedAddress +
+	                    "Phone Number: " + formattedPhoneNo);
+			}
+			if (!customerList) {
+	            throw new RonanException("Customer database is empty or not found.");
+	        }
+			return allCustomersDetails.toString();
+		} catch (SQLException error) {
+			throw new RonanException("Database error.\n" + error.getMessage());
+		} finally {
+	        try {
+	            if (resultSet != null) resultSet.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            if (connection != null) connection.close();
+	        } catch (SQLException e) {
+	            throw new RonanException("Error while closing database resources.\n" + e.getMessage());
+	        }
+		}
+	}
+	
 	public void updateStock() throws RonanException {
 		throw new RonanException("updateStock() not implemented");
 	}

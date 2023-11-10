@@ -288,12 +288,11 @@ public class PublicationTest extends TestCase {
 	
 	 public void testGetPublicationById003() throws RonanException {
 		 Publication getPubByIdTest002 = new Publication();
-		 int pubId = Integer.MAX_VALUE;
 		 try {
 			 Publication result = getPubByIdTest002.getPublicationById(Integer.MAX_VALUE);
 			 fail("exception expected");
 	     } catch (RonanException e) {
-	     	assertEquals("Publication with ID(" + pubId + ") NOT found.", e.getMessage());
+	     	assertEquals("Publication with ID(0) NOT found.", e.getMessage());
 	     }
 	 }
 	

@@ -8,7 +8,28 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Driver extends DatabaseConnector {
+    // Method to submit the delivery docket
+	// Method to submit the delivery docket
+    public void submitDeliveryDocket() throws NataliaException {
+        try {
+            // Get today's date
+            LocalDate localDateNow = LocalDate.now();
 
+            // Update the status of delivered orders in the orders table
+            String updateQuery = "UPDATE orders SET status = 'delivered' WHERE DATE(dateCreated) = ?";
+
+            try (Connection connection = getConnection();
+                 PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+
+                updateStatement.setString(1, localDateNow.toString());
+                int updatedRows = updateStatement.executeUpdate();
+
+                System.out.println(updatedRows + " orders marked as delivered.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error submitting delivery docket: " + e.getMessage());
+        }
+    }
     static Scanner in = new Scanner(System.in);
 
     private int driverID;
@@ -34,28 +55,27 @@ public class Driver extends DatabaseConnector {
     }
 
     /**
+     * Won't return anything unless update todays date of orders in dataBase.!!!!!!!!
      * Methods
      * +docketCurrentDay
      * +submitDeliveryDocket
      */
 
-    public void docketCurrentDay() throws NataliaException, SQLException {
+    public void docketCurrentDay(int areaCode) throws NataliaException, SQLException {
         try {
-            int driverId = getDriverId();
+            // Get today's date
+            LocalDate localDateNow = LocalDate.now();
 
             String query = "SELECT o.orderID, o.dateCreated, c.firstName AS custFirstName, c.lastName AS custLastName, o.title, o.orderType " +
                     "FROM orders AS o " +
                     "INNER JOIN customerdetails AS c ON o.custID = c.custID " +
-                    "WHERE c.areaCode = ? AND o.dateCreated = ?";
-
-            // Get today's date
-            LocalDate localDateNow = LocalDate.now();
+                    "WHERE c.areaCode = ? AND DATE(o.dateCreated) = ?";
 
             // Create a PreparedStatement
             try (Connection connection = getConnection();
                  PreparedStatement statement = connection.prepareStatement(query)) {
 
-                statement.setInt(1, driverId); // Assuming driverId is the area code for the driver
+                statement.setInt(1, areaCode);
                 statement.setString(2, localDateNow.toString());
 
                 // Execute the query
@@ -75,11 +95,6 @@ public class Driver extends DatabaseConnector {
         } catch (SQLException e) {
             throw new SQLException("Error executing SQL query: " + e.getMessage());
         }
-    }
-// Get driverID on login
-    private int getDriverId() {
-  
-        return 1;
     }
 
     // Add other methods here

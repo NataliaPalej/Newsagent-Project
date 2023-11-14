@@ -133,26 +133,26 @@ INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES
 
 -- EXTRA 20 orders of 10-11-2023
 INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-11-10', 1, 'daily', 'Book Title 1', 19.99),
-('2023-11-10', 2, 'weekly', 'Magazine 1', 5.99),
-('2023-11-10', 3, 'monthly', 'Book Title 2', 29.99),
-('2023-11-10', 4, 'daily', 'Newspaper 1', 2.49),
-('2023-11-10', 5, 'weekly', 'Journal 1', 14.99),
-('2023-11-10', 6, 'monthly', 'Magazine 2', 6.99),
-('2023-11-10', 7, 'daily', 'Academic Paper 1', 9.99),
-('2023-11-10', 8, 'weekly', 'Comic Book 1', 7.99), 
-('2023-11-10', 9, 'monthly', 'Technical Manual 1', 39.99), 
-('2023-11-10', 10, 'daily', 'Children''s Book 1', 12.99),
-('2023-11-10', 11, 'weekly', 'Book Title 3', 17.99),
-('2023-11-10', 12, 'monthly', 'Magazine 3', 8.99),
-('2023-11-10', 13, 'daily', 'Newspaper 2', 3.99),
-('2023-11-10', 14, 'weekly', 'Journal 2', 11.99),
-('2023-11-10', 15, 'monthly', 'Book Title 4', 24.99),
-('2023-11-10', 16, 'daily', 'Academic Paper 2', 15.99),
-('2023-11-10', 17, 'weekly', 'Comic Book 2', 6.49), 
-('2023-11-10', 18, 'monthly', 'Technical Manual 2', 49.99), 
-('2023-11-10', 19, 'daily', 'Children''s Book 2', 8.99),
-('2023-11-10', 20, 'weekly', 'Book Title 5', 21.99);
+('2023-11-13', 1, 'daily', 'Book Title 1', 19.99),
+('2023-11-13', 2, 'weekly', 'Magazine 1', 5.99),
+('2023-11-13', 3, 'monthly', 'Book Title 2', 29.99),
+('2023-11-13', 4, 'daily', 'Newspaper 1', 2.49),
+('2023-11-13', 5, 'weekly', 'Journal 1', 14.99),
+('2023-11-13', 6, 'monthly', 'Magazine 2', 6.99),
+('2023-11-13', 7, 'daily', 'Academic Paper 1', 9.99),
+('2023-11-13', 8, 'weekly', 'Comic Book 1', 7.99), 
+('2023-11-13', 9, 'monthly', 'Technical Manual 1', 39.99), 
+('2023-11-13', 10, 'daily', 'Children''s Book 1', 12.99),
+('2023-11-13', 11, 'weekly', 'Book Title 3', 17.99),	
+('2023-11-13', 12, 'monthly', 'Magazine 3', 8.99),
+('2023-11-13', 13, 'daily', 'Newspaper 2', 3.99),
+('2023-11-13', 14, 'weekly', 'Journal 2', 11.99),
+('2023-11-13', 15, 'monthly', 'Book Title 4', 24.99),
+('2023-11-13', 16, 'daily', 'Academic Paper 2', 15.99),
+('2023-11-13', 17, 'weekly', 'Comic Book 2', 6.49), 
+('2023-11-13', 18, 'monthly', 'Technical Manual 2', 49.99), 
+('2023-11-13', 19, 'daily', 'Children''s Book 2', 8.99),
+('2023-11-13', 20, 'weekly', 'Book Title 5', 21.99);
 
 
 -- Create the 'invoice' table
@@ -206,3 +206,22 @@ INNER JOIN
     customerdetails AS c ON o.custID = c.custID
 WHERE
     c.areaCode = 2; -- Replace '1' with the desired areaCode
+    
+    
+
+-- Add totalValue column
+ALTER TABLE invoice ADD COLUMN totalValue DOUBLE;
+
+-- Update totalValue based on orderType
+UPDATE invoice i
+JOIN orders o ON i.orderID = o.orderID
+SET i.totalValue = 
+    CASE 
+        WHEN o.orderType = 'daily' THEN i.totalPrice * 30
+        WHEN o.orderType = 'weekly' THEN i.totalPrice * 4
+        WHEN o.orderType = 'monthly' THEN i.totalPrice
+    END;
+
+-- Display the updated invoice table
+SELECT * FROM invoice ORDER BY invoiceID;
+

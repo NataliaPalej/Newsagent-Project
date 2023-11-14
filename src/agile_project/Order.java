@@ -1,5 +1,9 @@
 package agile_project;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 public class Order {
@@ -12,7 +16,7 @@ public class Order {
     private int custID;
     private String custName;
     
-    public Order(int orderID, LocalDate orderDate, String type, int pubID, String title, double pubPrice, int custID, String custName) {
+    public Order() {
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.type = type;
@@ -22,6 +26,33 @@ public class Order {
         this.custID = custID;
         this.custName = custName;
     }
+    private static void readOrder() throws NataliaException {
+        System.out.println("Reading orders...");
+
+        // Use DatabaseConnector to establish a connection
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");
+
+            // Process the result set
+            while (resultSet.next()) {
+                int orderID = resultSet.getInt("orderID");
+                String dateCreated = resultSet.getString("dateCreated");
+                int custID = resultSet.getInt("custID");
+                String orderType = resultSet.getString("orderType");
+                String title = resultSet.getString("title");
+                double price = resultSet.getDouble("price");
+
+                // Display fetched data (You can customize the output format)
+                System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Cust ID: " + custID +
+                        ", Type: " + orderType + ", Title: " + title + ", Price: " + price);
+            }
+        } catch (SQLException e) {
+            // Handle any SQL errors
+            e.printStackTrace();
+        }
+    }
+
     
     public boolean validOrderID(int orderID) {
         return orderID > 0; // Assuming order IDs are positive integers

@@ -101,8 +101,12 @@ public class Options extends DatabaseConnector {
         Invoice invoice = new Invoice(null);
 
         System.out.println("\n\tNEWSAGENT MENU:\t");
-        System.out.println("1. CUSTOMER OPTIONS\n2. INVOICE OPTIONS");
+//        changed 2.Invoice options to Order options
+        System.out.println("1. CUSTOMER OPTIONS\n2. Order OPTIONS");
         System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. LOG OUT");
+//        ADDED INVOICE as option 6
+        System.out.println("6. Invoice Options");
+
 
         int menuOption = in.nextInt();
 
@@ -142,57 +146,66 @@ public class Options extends DatabaseConnector {
                     System.out.println("Invalid option selected.");
                 }
                 break;
-             // Order
+                // Order options
             case 2:
                 System.out.println("\tOrder OPTIONS\t");
                 System.out.println("1. Create Order\n2. Read Order\n3. UPDATE Order\n4. DELETE Order\n5. BACK");
-
+                Order order = new Order();
                 int orderOption = in.nextInt();
-                
+
                 switch (orderOption) {
-//                CREATE INVOICE
+                    // CREATE Order
                     case 1:
-                        int custID = getCustomerID();
-                        int publicationID = getPublicationID();
-                        int orderID = getOrderID();
-                        double totalPrice = getTotalPrice();
-                        int totalQuantityDelivered = getTotalQuantityDelivered();
-                        double totalValue = calculateTotalValue(orderType, totalPrice);
-
-                        // Instantiate Order object and call createOrder method
-                        Order order = new Order();
-                        order.
-
+                        order.createOrder();
                         newsagentOptions();
                         break;
-//                        READ INVOICE
+
+                    // READ Order
                     case 2:
-                        int invoiceID = getInvoiceID();
-                        // Call readInvoice method from Invoice class
-                        Invoice readInvoice = new Invoice(connection);
-                        readInvoice.readInvoice(invoiceID);
+                        order.readOrder();
                         newsagentOptions();
                         break;
-//                        UPDATE INVOICE
+
+                     // UPDATE Order
                     case 3:
-                        int updateInvoiceID = getInvoiceIDToUpdate(); // Add a method to get the invoice ID to update
-                        double newTotalPrice = getNewTotalPrice(); // Add a method to get the new total price
-                        // Call updateInvoice method from Invoice class
-                        Invoice updateInvoice = new Invoice(connection);
-                        updateInvoice.updateInvoice(updateInvoiceID, newTotalPrice);
+                        System.out.println("Enter Order ID: ");
+                        int orderIDToUpdate = in.nextInt();
+
+                        // Gather new values for the fields you want to update
+                        System.out.println("Enter new Date (YYYY-MM-DD): ");
+                        String newDateString = in.next();
+                        LocalDate newDate = LocalDate.parse(newDateString);
+
+                        System.out.println("Enter new Cust ID: ");
+                        int newCustID = in.nextInt();
+
+                        System.out.println("Enter new Order Type (daily/weekly/monthly): ");
+                        String newType = in.next();
+
+                        System.out.println("Enter new Title: ");
+                        String newTitle = in.next();
+
+                        System.out.println("Enter new Price: ");
+                        double newPrice = in.nextDouble();
+
+                        // Call the updateOrder method with the new values
+                        order.updateOrder(orderIDToUpdate, newDate, newCustID, newType, newTitle, newPrice);
                         newsagentOptions();
                         break;
-//                        DELETE INVOICE
+
+                    // DELETE Order
                     case 4:
-                        int deleteInvoiceID = getInvoiceIDToDelete(); // Add a method to get the invoice ID to delete
-                        // Call deleteInvoice method from Invoice class
-                        Invoice deleteInvoice = new Invoice(connection);
-                        deleteInvoice.deleteInvoice(deleteInvoiceID);
+                        System.out.println("Enter Order ID: ");
+                        int orderIDToDelete = in.nextInt();
+                        order.deleteOrder(orderIDToDelete);
                         newsagentOptions();
                         break;
+
+                    // BACK
                     case 5:
                         newsagentOptions();
                         break;
+
                     default:
                         System.out.println("Invalid option.");
                         break;

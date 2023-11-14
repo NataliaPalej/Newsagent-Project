@@ -1,10 +1,12 @@
 package agile_project;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Order {
     private int orderID;
@@ -26,10 +28,52 @@ public class Order {
         this.custID = custID;
         this.custName = custName;
     }
-    private static void readOrder() throws NataliaException {
+    // CREATE Order
+    public void createOrder() throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter order details:");
+            System.out.print("Order Type (daily/weekly/monthly): ");
+            String orderType = scanner.next();
+
+            System.out.print("Title: ");
+            String title = scanner.next();
+
+            System.out.print("Price: ");
+            double pubPrice = scanner.nextDouble();
+            
+            System.out.print("CustID: ");
+            double custID = scanner.nextDouble();
+
+            // Insert new order into the 'orders' table
+            String insertOrderQuery = "INSERT INTO orders (orderType, title, price,custID) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertOrderQuery)) {
+                // Set the values for the parameters
+            	
+                preparedStatement.setString(1, orderType);
+                preparedStatement.setString(2, title);
+                preparedStatement.setDouble(3, pubPrice);
+                preparedStatement.setDouble(4, custID);
+
+                // Execute the insertion query
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Order successfully inserted!");
+                } else {
+                    System.out.println("Failed to insert order.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error creating order: " + e.getMessage());
+        }
+    }
+
+    // READ Order
+    public void readOrder() throws NataliaException {
         System.out.println("Reading orders...");
 
-        // Use DatabaseConnector to establish a connection
         try (Connection connection = DatabaseConnector.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");
@@ -48,8 +92,53 @@ public class Order {
                         ", Type: " + orderType + ", Title: " + title + ", Price: " + price);
             }
         } catch (SQLException e) {
-            // Handle any SQL errors
-            e.printStackTrace();
+            throw new NataliaException("Error reading orders: " + e.getMessage());
+        }
+    }
+
+    // UPDATE Order (Assuming you want to update the price)
+    public void updateOrder(int orderID, LocalDate newDate, int newCustID, String newType, String newTitle, double newPrice) throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String updateOrderQuery = "UPDATE orders SET dateCreated = ?, custID = ?, orderType = ?, title = ?, price = ? WHERE orderID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateOrderQuery)) {
+                preparedStatement.setDate(1, java.sql.Date.valueOf(newDate));
+                preparedStatement.setInt(2, newCustID);
+                preparedStatement.setString(3, newType);
+                preparedStatement.setString(4, newTitle);
+                preparedStatement.setDouble(5, newPrice);
+                preparedStatement.setInt(6, orderID);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Order updated successfully!");
+                } else {
+                    System.out.println("Failed to update order. Order ID not found.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error updating order: " + e.getMessage());
+        }
+    }
+
+
+    // DELETE Order
+    public void deleteOrder(int orderID) throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String deleteOrderQuery = "DELETE FROM orders WHERE orderID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteOrderQuery)) {
+                preparedStatement.setInt(1, orderID);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Order deleted successfully!");
+                } else {
+                    System.out.println("Failed to delete order. Order ID not found.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error deleting order: " + e.getMessage());
         }
     }
 

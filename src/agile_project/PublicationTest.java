@@ -304,7 +304,7 @@ public class PublicationTest extends TestCase {
 	//	Output: True
 
 
-	public void testPublication() throws RonanException {
+	public void testPublication001() throws RonanException {
 		try {
 			Publication stockTest004 = new Publication("Test", 1, "Test", 2.5, 5);
 			assertEquals("Test", stockTest004.getTitle());
@@ -317,6 +317,11 @@ public class PublicationTest extends TestCase {
 		}
 	}
 
+	//	TestNumber: 20
+	//	Objective: Verify Publication object is created in database
+	//	Console Input: Test | 1 | Test | 1.99 | 1
+	//	Output: Publication: 21, Test #1 was successfully created!
+	
 	public void testCreatePublication001() throws RonanException, SQLException {
 		try {
 			Publication createTest001 = new Publication();

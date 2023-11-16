@@ -99,9 +99,100 @@ public class Publication {
 	}
 
 
-	public void updatePublication() throws RonanException {
-		throw new RonanException("updatePublication() not implemented");
+	public void updateCustomer(int id) throws RonanException, SQLException {
+
+		System.out.println("* ------------------- *");
+		System.out.println("|   Update Customer   |");
+		System.out.println("* ------------------- *");
+
+		String query = "SELECT * FROM publications WHERE publicationID = ?";
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = DatabaseConnector.getConnection();
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				String publicationID = resultSet.getString("publicationID");
+				String name = resultSet.getString("firstName");
+				name += " " + resultSet.getString("lastName");
+
+				System.out.println("Are you sure you want to update customer " + publicationID + ": " + name + "? (Y/N)");
+				String answer = in.next();
+
+				if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
+					System.out.println("OPTIONS:\n1. UPDATE first name\n2. UPDATE last name\n3. UPDATE address\n4. UPDATE phone number");
+					System.out.print("Enter option [1/2/3/4]: ");
+					int option = in.nextInt();
+
+					String updateColumn = "";
+					String updatePrompt = "";
+					String successMessage = "";
+
+					switch (option) {
+					case 1:
+						updateColumn = "firstName";
+						updatePrompt = "Enter new name: ";
+						successMessage = "First name updated successfully. New first name: ";
+						break;
+					case 2:
+						updateColumn = "lastName";
+						updatePrompt = "Enter new surname: ";
+						successMessage = "Last name updated successfully. New last name: ";
+						break;
+					case 3:
+						updateColumn = "address";
+						updatePrompt = "Enter new address: ";
+						successMessage = "Address updated successfully. New address: ";
+						break;
+					case 4:
+						updateColumn = "phoneNo";
+						updatePrompt = "Enter new phone number: ";
+						successMessage = "Phone number updated successfully. New phone number: ";
+						break;
+					default:
+						System.out.println("Invalid option.");
+						return;
+					}
+					System.out.println(updatePrompt);
+					// Allow for spaces in new input
+					in.nextLine();
+					String newValue = in.nextLine();
+
+					if (isValidUpdate(updateColumn, newValue)) {
+						String updateQuery = "UPDATE publications SET " + updateColumn + " = ? WHERE publicationID = ?";
+						preparedStatement = connection.prepareStatement(updateQuery);
+						preparedStatement.setString(1, newValue);
+						preparedStatement.setInt(2, id);
+						preparedStatement.executeUpdate();
+						System.out.println(successMessage + newValue);
+					}
+				}
+			}
+		}
+		catch (SQLException e) {
+			throw new RonanException("Database error: " + e.getMessage());
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+			} catch (SQLException e) {
+				throw new RonanException("Error while closing database resources: " + e.getMessage());
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
+
 
 	public void deletePublication() throws RonanException {
 		throw new RonanException("deletePublication() not implemented");

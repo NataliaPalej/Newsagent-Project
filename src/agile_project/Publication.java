@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
 
 public class Publication {
 
@@ -14,6 +16,8 @@ public class Publication {
 	private String author;
 	private double price;
 	private int stock;
+
+	static Scanner in = new Scanner(System.in);
 
 	public Publication() throws RonanException {
 		// TODO Auto-generated constructor stub
@@ -29,9 +33,71 @@ public class Publication {
 		this.stock = stock;
 	}
 
-	public void createNewPublication() throws RonanException {
-		throw new RonanException("createNewPublication() not implemented");
+	public void createPublication() throws RonanException, SQLException{
+
+		System.out.println("* ---------------------- *");
+		System.out.println("|   Create Publication   |");
+		System.out.println("* ---------------------- *");
+
+		System.out.print("Enter Title: ");
+		String title = in.next();
+		if (!isValidString(title)) {
+			throw new RonanException("Invalid title. Name must be between 1-50 characters.");
+		}
+		System.out.print("Enter Issue No.: ");
+		int issueNo = in.nextInt();
+		if (!isValidInt(issueNo)) {
+			throw new RonanException("Invalid last name. Issue No. must be greater than 0.");
+		}
+		System.out.print("Enter Author: ");
+		String author = in.next();
+		if (!isValidString(author)) {
+			throw new RonanException("Invalid author. Author must be between 1-50 characters.");
+		}
+		System.out.print("Enter Price (€): ");
+		double price = in.nextDouble();
+		if (!isValidPrice(price)) {
+			throw new RonanException("Invalid Price. Price must be in format 4.99.");
+		}
+		System.out.print("Enter Stock: ");
+		int stock = in.nextInt();
+		if (!isValidInt(stock)) {
+			throw new RonanException("Invalid Stock. Stock must be greater than 0.");
+		}
+
+		Connection connection = null;
+		try {
+			connection = DatabaseConnector.getConnection();
+			String query = "INSERT INTO publications (title, issueNo, author, price, stock) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, title);
+			stmt.setInt(2, issueNo);
+			stmt.setString(3, author);
+			stmt.setDouble(4, price);
+			stmt.setInt(5, stock);
+			stmt.executeUpdate();
+
+			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int publicationId = generatedKeys.getInt(1);
+				this.setId(publicationId);
+				this.setTitle(title);
+				this.setIssueNo(issueNo);
+				this.setAuthor(author);
+				this.setPrice(price);
+				this.setStock(stock);
+
+				System.out.println("Publication: " + this.getId() + " " + this.getTitle() + " " + this.getIssueNo() + " was successfully created!");
+			}
+		} catch (SQLException e) {
+			throw new RonanException("Couldn't create Publication.\n" + e.getMessage());
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
+
 
 	public void updatePublication() throws RonanException {
 		throw new RonanException("updatePublication() not implemented");

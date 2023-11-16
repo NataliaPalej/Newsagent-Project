@@ -87,7 +87,7 @@ public class Publication {
 				this.setPrice(price);
 				this.setStock(stock);
 
-				System.out.println("Publication: " + this.getId() + " " + this.getTitle() + " " + this.getIssueNo() + " was successfully created!");
+				System.out.println("Publication: " + this.getId() + ", " + this.getTitle() + " #" + this.getIssueNo() + " was successfully created!");
 			}
 		} catch (SQLException e) {
 			throw new RonanException("Couldn't create Publication.\n" + e.getMessage());
@@ -108,7 +108,6 @@ public class Publication {
 	}
 
 	public Publication getPublicationById(int id) throws RonanException {
-		//		throw new RonanException("getPublicationById() not implemented");
 		System.out.println("* ---------------------------- *");
 		System.out.println("|  Print Publication Details   |");
 		System.out.println("* ---------------------------- *");

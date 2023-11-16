@@ -1,14 +1,16 @@
 package agile_project;
 
+import java.sql.SQLException;
+
 import junit.framework.TestCase;
 
 public class PublicationTest extends TestCase {
 
-//	TestNumber: 1
-//	Objective: Verify stock or issueNo >= 0
-//	Input: 10
-//	Output: True
-	
+	//	TestNumber: 1
+	//	Objective: Verify stock or issueNo >= 0
+	//	Input: 10
+	//	Output: True
+
 	public void testIsValidInt001() throws RonanException {
 		Publication intTest001 = new Publication();
 		try {
@@ -20,11 +22,11 @@ public class PublicationTest extends TestCase {
 
 	}
 
-//	TestNumber: 2
-//	Objective: Verify stock or issueNo >= 0
-//	Input: 0
-//	Output: True
-	
+	//	TestNumber: 2
+	//	Objective: Verify stock or issueNo >= 0
+	//	Input: 0
+	//	Output: True
+
 	public void testIsValidInt002() throws RonanException {
 		Publication intTest002 = new Publication();
 		try {
@@ -34,12 +36,12 @@ public class PublicationTest extends TestCase {
 			fail("exception not expected" + e.getMessage());
 		}
 	}
-	
-//	TestNumber: 3
-//	Objective: Verify invalid throws exception
-//	Input: -5
-//	Output: False
-	
+
+	//	TestNumber: 3
+	//	Objective: Verify invalid throws exception
+	//	Input: -5
+	//	Output: False
+
 	public void testIsValidInt003() throws RonanException {
 		Publication intTest003 = new Publication();
 		try {
@@ -49,12 +51,12 @@ public class PublicationTest extends TestCase {
 			fail("exception not expected" + e.getMessage());
 		}
 	}
-	
-//	TestNumber: 4
-//	Objective: Verify price >= 0.01 & price <= 999.99
-//	Input: 2.99
-//	Output: True
-	
+
+	//	TestNumber: 4
+	//	Objective: Verify price >= 0.01 & price <= 999.99
+	//	Input: 2.99
+	//	Output: True
+
 	public void testIsValidPrice001() throws RonanException {
 		Publication priceTest001 = new Publication();
 		try {
@@ -66,11 +68,11 @@ public class PublicationTest extends TestCase {
 
 	}
 
-//	TestNumber: 5
-//	Objective: Verify price >= 0.01 & price <= 999.99
-//	Input: 0.01
-//	Output: True
-	
+	//	TestNumber: 5
+	//	Objective: Verify price >= 0.01 & price <= 999.99
+	//	Input: 0.01
+	//	Output: True
+
 	public void testIsValidPrice002() throws RonanException {
 		Publication priceTest002 = new Publication();
 		try {
@@ -81,12 +83,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 6
-//	Objective: Verify price >= 0.01 & price <= 999.99
-//	Input: 999.99
-//	Output: True
-	
+
+	//	TestNumber: 6
+	//	Objective: Verify price >= 0.01 & price <= 999.99
+	//	Input: 999.99
+	//	Output: True
+
 	public void testIsValidPrice003() throws RonanException {
 		Publication priceTest003 = new Publication();
 		try {
@@ -97,12 +99,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 7
-//	Objective: Verify price >= 0.01 & price <= 999.99
-//	Input: -5
-//	Output: False
-	
+
+	//	TestNumber: 7
+	//	Objective: Verify price >= 0.01 & price <= 999.99
+	//	Input: -5
+	//	Output: False
+
 	public void testIsValidPrice004() throws RonanException {
 		Publication priceTest004 = new Publication();
 		try {
@@ -113,12 +115,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 8
-//	Objective: Verify price has 2 dec places max
-//	Input: 14.001
-//	Output: True
-	
+
+	//	TestNumber: 8
+	//	Objective: Verify price has 2 dec places max
+	//	Input: 14.001
+	//	Output: True
+
 	public void testIsValidPrice005() throws RonanException {
 		Publication priceTest005 = new Publication();
 		try {
@@ -129,12 +131,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 9
-//	Objective: Verify price has 2 dec places max
-//	Input: 0.001
-//	Output: False
-	
+
+	//	TestNumber: 9
+	//	Objective: Verify price has 2 dec places max
+	//	Input: 0.001
+	//	Output: False
+
 	public void testIsValidPrice006() throws RonanException {
 		Publication priceTest006 = new Publication();
 		try {
@@ -145,12 +147,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 10
-//	Objective: Verify price >= 0.01 & price <= 999.99
-//	Input: 0
-//	Output: False
-	
+
+	//	TestNumber: 10
+	//	Objective: Verify price >= 0.01 & price <= 999.99
+	//	Input: 0
+	//	Output: False
+
 	public void testIsValidPrice007() throws RonanException {
 		Publication priceTest007 = new Publication();
 		try {
@@ -161,12 +163,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 11
-//	Objective: Verify string is valid length
-//	Input: "Test"
-//	Output: True
-	
+
+	//	TestNumber: 11
+	//	Objective: Verify string is valid length
+	//	Input: "Test"
+	//	Output: True
+
 	public void testIsValidString001() throws RonanException {
 		Publication stringTest001 = new Publication();
 		try {
@@ -177,12 +179,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 12
-//	Objective: Verify string is valid length @ 50 characters
-//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwert"
-//	Output: True
-	
+
+	//	TestNumber: 12
+	//	Objective: Verify string is valid length @ 50 characters
+	//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwert"
+	//	Output: True
+
 	public void testIsValidString002() throws RonanException {
 		Publication stringTest002 = new Publication();
 		try {
@@ -193,12 +195,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 13
-//	Objective: Verify string is valid length
-//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwertyuiopasdfghjklzxcvbnm"
-//	Output: False
-	
+
+	//	TestNumber: 13
+	//	Objective: Verify string is valid length
+	//	Input: "QwertyuiopasdfghjklzxcvbnmQwertyuiopasdfghjklQwertyuiopasdfghjklzxcvbnm"
+	//	Output: False
+
 	public void testIsValidString003() throws RonanException {
 		Publication stringTest003 = new Publication();
 		try {
@@ -209,12 +211,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 14
-//	Objective: Verify string is not blank
-//	Input: " "
-//	Output: False
-	
+
+	//	TestNumber: 14
+	//	Objective: Verify string is not blank
+	//	Input: " "
+	//	Output: False
+
 	public void testIsValidString004() throws RonanException {
 		Publication stringTest004 = new Publication();
 		try {
@@ -225,12 +227,12 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 15
-//	Objective: Verify string is not null
-//	Input: null
-//	Output: False
-	
+
+	//	TestNumber: 15
+	//	Objective: Verify string is not null
+	//	Input: null
+	//	Output: False
+
 	public void testIsValidString005() throws RonanException {
 		Publication stringTest005 = new Publication();
 		try {
@@ -241,74 +243,66 @@ public class PublicationTest extends TestCase {
 		}
 
 	}
-	
-//	TestNumber: 16
-//	Objective: Verify valid publication ID 
-//	Input: 1
-//	Output: 1st publication in database
-	
-	 public void testGetPublicationById001() throws RonanException {
-		 Publication getPubByIdTest001 = new Publication();
-		 int pubId = 1;
-		 try {
-			 Publication result = getPubByIdTest001.getPublicationById(1);
-			 assertEquals(pubId, result.getId());
-			 assertEquals("Irish Independent", result.getTitle());
-			 assertEquals(100, result.getIssueNo());
-			 assertEquals("John Doe", result.getAuthor());
-			 assertEquals(2.5, result.getPrice());
-			 assertEquals(100, result.getStock());
-			 
-        } catch (RonanException e) {
-            fail("exception not expected: " + e.getMessage());
-        }
-	 }
-	 
-//		TestNumber: 17
-//		Objective: Verify invalid publication ID < 1
-//		Input: 0
-//		Output: 1st publication in database
-	
-	 public void testGetPublicationById002() throws RonanException {
-		 Publication getPubByIdTest002 = new Publication();
-		 int pubId = 0;
-		 try {
-			 Publication result = getPubByIdTest002.getPublicationById(0);
-			 fail("exception expected");
-			 
-        } catch (RonanException e) {
-        	assertEquals("Publication with ID(" + pubId + ") NOT found.", e.getMessage());
-        }
-	 }
-	
-//		TestNumber: 18
-//		Objective: Verify invalid publication ID out of bounds
-//		Input: Integer.MAX_VALUE
-//		Output: 1st publication in database
-	
-	 public void testGetPublicationById003() throws RonanException {
-		 Publication getPubByIdTest002 = new Publication();
-		 try {
-			 Publication result = getPubByIdTest002.getPublicationById(Integer.MAX_VALUE);
-			 fail("exception expected");
-	     } catch (RonanException e) {
-	     	assertEquals("Publication with ID(0) NOT found.", e.getMessage());
-	     }
-	 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	TestNumber: 
-//	Objective: Verify Publication object is created
-//	Input: Publication(1, "Test", 1, "Test", 2.5, 5);
-//	Output: True
-	
+
+	//	TestNumber: 16
+	//	Objective: Verify valid publication ID 
+	//	Input: 1
+	//	Output: 1st publication in database
+
+	public void testGetPublicationById001() throws RonanException {
+		Publication getPubByIdTest001 = new Publication();
+		int pubId = 1;
+		try {
+			Publication result = getPubByIdTest001.getPublicationById(1);
+			assertEquals(pubId, result.getId());
+			assertEquals("Irish Independent", result.getTitle());
+			assertEquals(100, result.getIssueNo());
+			assertEquals("John Doe", result.getAuthor());
+			assertEquals(2.5, result.getPrice());
+			assertEquals(100, result.getStock());
+
+		} catch (RonanException e) {
+			fail("exception not expected: " + e.getMessage());
+		}
+	}
+
+	//		TestNumber: 17
+	//		Objective: Verify invalid publication ID < 1
+	//		Input: 0
+	//		Output: 1st publication in database
+
+	public void testGetPublicationById002() throws RonanException {
+		Publication getPubByIdTest002 = new Publication();
+		int pubId = 0;
+		try {
+			Publication result = getPubByIdTest002.getPublicationById(0);
+			fail("exception expected");
+
+		} catch (RonanException e) {
+			assertEquals("Publication with ID(" + pubId + ") NOT found.", e.getMessage());
+		}
+	}
+
+	//		TestNumber: 18
+	//		Objective: Verify invalid publication ID out of bounds
+	//		Input: Integer.MAX_VALUE
+	//		Output: 1st publication in database
+
+	public void testGetPublicationById003() throws RonanException {
+		Publication getPubByIdTest002 = new Publication();
+		try {
+			Publication result = getPubByIdTest002.getPublicationById(Integer.MAX_VALUE);
+			fail("exception expected");
+		} catch (RonanException e) {
+			assertEquals("Publication with ID(0) NOT found.", e.getMessage());
+		}
+	}
+
+	//	TestNumber: 19
+	//	Objective: Verify Publication object is created
+	//	Input: Publication(1, "Test", 1, "Test", 2.5, 5);
+	//	Output: True
+
 
 	public void testPublication() throws RonanException {
 		try {
@@ -323,8 +317,20 @@ public class PublicationTest extends TestCase {
 		}
 	}
 
-	public void testCreateNewPublication() {
-		fail("Not yet implemented");
+	public void testCreatePublication001() throws RonanException, SQLException {
+		try {
+			Publication createTest001 = new Publication();
+			createTest001.createPublication();
+			assertEquals(21, createTest001.getId());
+			assertEquals("Test", createTest001.getTitle());
+			assertEquals(1, createTest001.getIssueNo());
+			assertEquals("Test", createTest001.getAuthor());
+			assertEquals(1.99, createTest001.getPrice());
+			assertEquals(1, createTest001.getStock());
+
+		} catch (RonanException | SQLException e) {
+			fail("exception not expected: " + e.getMessage());
+		}
 	}
 
 	public void testDeletePublication() {
@@ -346,7 +352,7 @@ public class PublicationTest extends TestCase {
 	public void testUpdatePrice() {
 		fail("Not yet implemented");
 	}
-	
+
 	public void testUpdateStock() {
 		fail("Not yet implemented");
 	}

@@ -98,7 +98,8 @@ public class Options extends DatabaseConnector {
 
     private void newsagentOptions() throws NataliaException, SQLException {
         Newsagent newsagent = new Newsagent();
-        Invoice invoice = new Invoice(null);
+        Invoice invoice = new Invoice(connection);
+
 
         System.out.println("\n\tNEWSAGENT MENU:\t");
 //        changed 2.Invoice options to Order options
@@ -228,11 +229,73 @@ public class Options extends DatabaseConnector {
             case 5:
                 logOut();
                 break;
+            
             default:
                 System.out.println("Invalid option.");
                 break;
-        }
-    }
+//                INVOICE
+            case 6:
+                System.out.println("\tInvoice OPTIONS\t");
+                System.out.println("1. CREATE Invoice\n2. READ Invoice\n3. UPDATE Invoice\n4. DELETE Invoice\n5. BACK");
+
+                int invoiceOption = in.nextInt();
+              
+
+                switch (invoiceOption) {
+                    // CREATE Invoice
+                    case 1:
+                        // Implement the logic to create a new Invoice
+                        System.out.println("Enter Customer ID: ");
+                        int custID = in.nextInt();
+
+                        System.out.println("Enter Total Price: ");
+                        double totalPrice = in.nextDouble();
+
+                        invoice.createInvoice(custID, totalPrice);
+                        newsagentOptions();
+                        break;
+
+                    // READ Invoice
+                    case 2:
+                        // Implement the logic to read Invoices
+                        System.out.println("Enter Invoice ID: ");
+                        int readInvoiceID = in.nextInt();
+                        invoice.readInvoice(readInvoiceID);
+                        newsagentOptions();
+                        break;
+
+                    // UPDATE Invoice
+                    case 3:
+                        // Implement the logic to update an Invoice
+                        System.out.println("Enter Invoice ID: ");
+                        int updateInvoiceID = in.nextInt();
+
+                        System.out.println("Enter new Total Price: ");
+                        double newTotalPrice = in.nextDouble();
+
+                        invoice.updateInvoice(updateInvoiceID, newTotalPrice);
+                        newsagentOptions();
+                        break;
+
+                    // DELETE Invoice
+                    case 4:
+                        // Implement the logic to delete an Invoice
+                        System.out.println("Enter Invoice ID: ");
+                        int deleteInvoiceID = in.nextInt();
+                        invoice.deleteInvoice(deleteInvoiceID);
+                        newsagentOptions();
+                        break;
+
+                    // BACK
+                    case 5:
+                        newsagentOptions();
+                        break;
+
+                    default:
+                        System.out.println("Invalid option.");
+                        break;
+                }
+            break;}}
 
     private void driverOptions() throws NataliaException, SQLException {
         Driver driver = new Driver();

@@ -194,12 +194,12 @@ WHERE
 CREATE TABLE invoices (
     invoiceID INT AUTO_INCREMENT PRIMARY KEY,
     custID INT,
-    totalMonthlyPrice DOUBLE,
+    totalPrice DOUBLE,
     FOREIGN KEY (custID) REFERENCES customerdetails(custID)
 );
 
 -- INSERT INTO invoices
-INSERT INTO invoices (custID, totalMonthlyPrice)
+INSERT INTO invoices (custID, totalPrice)
 SELECT
     o.custID,
     SUM(
@@ -209,7 +209,7 @@ SELECT
             WHEN o.orderType = 'monthly' THEN o.price
             ELSE 0
         END
-    ) AS totalMonthlyPrice
+    ) AS totalPrice
 FROM
     orders o
 WHERE

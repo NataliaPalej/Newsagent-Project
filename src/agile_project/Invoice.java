@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+
+
 
 public class Invoice {
     private Connection conn;
@@ -48,35 +51,41 @@ public class Invoice {
         }
         return true;
     }
- // Method to create a new invoice
-    public void createInvoice(int custID, int publicationID, int orderID, double totalPrice, int totalQuantityDelivered, double totalValue)
+    public void createInvoice(int custID, double totalPrice)
             throws SQLException {
-        String insertQuery = "INSERT INTO invoice (custID, publicationID, orderID, totalPrice, totalQuantityDelivered, totalValue) VALUES (?, ?, ?, ?, ?, ?)";
+    String insertQuery = "INSERT INTO invoices (custID, totalPrice) VALUES (?, ?)";
 
-        try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
-            preparedStatement.setInt(1, custID);
-            preparedStatement.setInt(2, publicationID);
-            preparedStatement.setInt(3, orderID);
-            preparedStatement.setDouble(4, totalPrice);
-            preparedStatement.setInt(5, totalQuantityDelivered);
-            preparedStatement.setDouble(6, totalValue);
+    try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+        preparedStatement.setInt(1, custID);
+        preparedStatement.setDouble(2, totalPrice);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+        int rowsAffected = preparedStatement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Invoice created successfully!");
-            } else {
-                System.out.println("Failed to create the invoice.");
+        if (rowsAffected > 0) {
+            System.out.println("Invoice created successfully!");
+
+            // Retrieve the generated keys (in this case, the auto-generated invoiceID)
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int generatedInvoiceID = generatedKeys.getInt(1);
+
+                    // Fetch and display the inserted data
+                    readInvoice(generatedInvoiceID);
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Failed to create the invoice.");
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
 
 
-    // Method to get invoice details
+
+ // Method to read invoice details
     public void readInvoice(int invoiceID) throws SQLException {
-        String selectQuery = "SELECT * FROM invoice WHERE invoiceID = ?";
+        String selectQuery = "SELECT * FROM invoices WHERE invoiceID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, invoiceID);
@@ -88,12 +97,18 @@ public class Invoice {
                     System.out.println("Invoice not found.");
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
+   
+
+
+
     // Method to update an existing invoice
     public void updateInvoice(int invoiceID, double newTotalPrice) throws SQLException {
-        String updateQuery = "UPDATE invoice SET totalPrice = ? WHERE invoiceID = ?";
+        String updateQuery = "UPDATE invoices SET totalPrice = ? WHERE invoiceID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(updateQuery)) {
             preparedStatement.setDouble(1, newTotalPrice);
@@ -113,7 +128,7 @@ public class Invoice {
 
     // Method to delete an existing invoice
     public void deleteInvoice(int invoiceID) throws SQLException {
-        String deleteQuery = "DELETE FROM invoice WHERE invoiceID = ?";
+        String deleteQuery = "DELETE FROM invoices WHERE invoiceID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(deleteQuery)) {
             preparedStatement.setInt(1, invoiceID);
@@ -130,16 +145,15 @@ public class Invoice {
         }
     }
 
-    // Utility method to display invoice details
-    private String displayInvoiceDetails(ResultSet resultSet) throws SQLException {
-        StringBuilder details = new StringBuilder();
-        details.append("Invoice details:\n");
-        details.append("Invoice ID: ").append(resultSet.getInt("invoiceID")).append("\n");
-        details.append("Customer ID: ").append(resultSet.getInt("custID")).append("\n");
-        details.append("Publication ID: ").append(resultSet.getInt("publicationID")).append("\n");
-        details.append("Order ID: ").append(resultSet.getInt("orderID")).append("\n");
-        details.append("Total Price: ").append(resultSet.getDouble("totalPrice")).append("\n");
-        details.append("Total Quantity Delivered: ").append(resultSet.getInt("totalQuantityDelivered")).append("\n");
-        return details.toString();
+ // Utility method to display invoice details
+    private void displayInvoiceDetails(ResultSet resultSet) throws SQLException {
+        int invoiceID = resultSet.getInt("invoiceID");
+        int custID = resultSet.getInt("custID");
+        double totalPrice = resultSet.getDouble("totalPrice");
+
+        System.out.println("Invoice ID: " + invoiceID);
+        System.out.println("Customer ID: " + custID);
+        System.out.println("Total Price: " + totalPrice);
     }
-}
+
+    }

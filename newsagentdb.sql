@@ -120,7 +120,7 @@ CREATE TABLE orders (
 
 -- INSERT INTO ORDERS
 INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-10-10', 1, 'daily', 'Book Title 1', 19.99),
+('2023-10-10', 1, 'daily', 'Book Title 1', 1),
 ('2023-10-20', 2, 'weekly', 'Magazine 1', 5.99),
 ('2023-10-21', 3, 'monthly', 'Book Title 2', 29.99),
 ('2023-10-22', 4, 'daily', 'Newspaper 1', 2.49),
@@ -131,9 +131,9 @@ INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES
 ('2023-10-27', 9, 'monthly', 'Technical Manual 1', 39.99), 
 ('2023-10-28', 10, 'daily', 'Children''s Book 1', 12.99);
 
--- EXTRA 20 orders of 10-11-2023
+-- EXTRA 20 orders of 13-11-2023
 INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-11-13', 1, 'daily', 'Book Title 1', 19.99),
+('2023-11-13', 1, 'weekly', 'Batman', 0.25),
 ('2023-11-13', 2, 'weekly', 'Magazine 1', 5.99),
 ('2023-11-13', 3, 'monthly', 'Book Title 2', 29.99),
 ('2023-11-13', 4, 'daily', 'Newspaper 1', 2.49),
@@ -152,34 +152,14 @@ INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES
 ('2023-11-13', 17, 'weekly', 'Comic Book 2', 6.49), 
 ('2023-11-13', 18, 'monthly', 'Technical Manual 2', 49.99), 
 ('2023-11-13', 19, 'daily', 'Children''s Book 2', 8.99),
-('2023-11-13', 20, 'weekly', 'Book Title 5', 21.99);
-
-
--- Create the 'invoice' table
-CREATE TABLE invoice (
-    invoiceID INT AUTO_INCREMENT PRIMARY KEY,
-    custID INT,
-    publicationID INT,
-    orderID INT,
-    totalPrice DOUBLE,
-    totalQuantityDelivered INT,
-    FOREIGN KEY (publicationID) REFERENCES publications(publicationID),
-    FOREIGN KEY (custID) REFERENCES customerdetails(custID),
-    FOREIGN KEY (orderID) REFERENCES orders(orderID)
-);
-
--- INSERT INTO invoice
-INSERT INTO invoice (custID, publicationID, orderID, totalPrice, totalQuantityDelivered)
-SELECT o.custID, p.publicationID, o.orderID, SUM(p.price),
-(SELECT COUNT(*) FROM orders o2 WHERE o2.custID = o.custID AND DATE_FORMAT(o2.dateCreated, '%Y-%m') = '2023-10') AS totalBooksDelivered
-FROM orders o JOIN publications p ON o.title = p.title AND o.price = p.price GROUP BY o.custID, o.orderID;
+('2023-11-13', 20, 'weekly', 'Book Title 5', 21.99),
+('2023-11-13', 1, 'monthly', 'Book Title 1', 100.00);
 
 -- Display data
 SELECT * FROM userdetails ORDER BY userID;
 SELECT * FROM customerdetails ORDER BY custID;
 SELECT * FROM publications ORDER BY publicationID;
 SELECT * FROM orders ORDER BY orderID;
-SELECT * FROM invoice ORDER BY invoiceID;
 
 -- Desirable order display with custName, custLasName
 SELECT 
@@ -206,22 +186,37 @@ INNER JOIN
     customerdetails AS c ON o.custID = c.custID
 WHERE
     c.areaCode = 2; -- Replace '1' with the desired areaCode
-    
-    
 
--- Add totalValue column
-ALTER TABLE invoice ADD COLUMN totalValue DOUBLE;
 
--- Update totalValue based on orderType
-UPDATE invoice i
-JOIN orders o ON i.orderID = o.orderID
-SET i.totalValue = 
-    CASE 
-        WHEN o.orderType = 'daily' THEN i.totalPrice * 30
-        WHEN o.orderType = 'weekly' THEN i.totalPrice * 4
-        WHEN o.orderType = 'monthly' THEN i.totalPrice
-    END;
 
--- Display the updated invoice table
-SELECT * FROM invoice ORDER BY invoiceID;
+-- ------------------------------------------------------------
+-- Create the 'invoices' table
+CREATE TABLE invoices (
+    invoiceID INT AUTO_INCREMENT PRIMARY KEY,
+    custID INT,
+    totalMonthlyPrice DOUBLE,
+    FOREIGN KEY (custID) REFERENCES customerdetails(custID)
+);
 
+-- INSERT INTO invoices
+INSERT INTO invoices (custID, totalMonthlyPrice)
+SELECT
+    o.custID,
+    SUM(
+        CASE
+            WHEN o.orderType = 'daily' THEN o.price * 30
+            WHEN o.orderType = 'weekly' THEN o.price * 4
+            WHEN o.orderType = 'monthly' THEN o.price
+            ELSE 0
+        END
+    ) AS totalMonthlyPrice
+FROM
+    orders o
+WHERE
+    o.custID IS NOT NULL
+GROUP BY
+    o.custID;
+
+
+-- Display data from invoices
+SELECT * FROM invoices ORDER BY invoiceID;

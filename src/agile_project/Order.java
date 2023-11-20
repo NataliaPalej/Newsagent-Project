@@ -18,7 +18,7 @@ public class Order {
     private int custID;
     private String custName;
     
-    public Order() {
+    public Order(int orderID,LocalDate orderDate,String type,int pubID,String title,double pubPrice,int custID,String custName) throws NataliaException{
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.type = type;
@@ -28,7 +28,10 @@ public class Order {
         this.custID = custID;
         this.custName = custName;
     }
-    // CREATE Order
+    public Order() {
+		// TODO Auto-generated constructor stub
+	}
+	// CREATE Order
     public void createOrder() throws NataliaException {
         try (Connection connection = DatabaseConnector.getConnection()) {
             Scanner scanner = new Scanner(System.in);

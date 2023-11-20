@@ -321,7 +321,7 @@ public class PublicationTest extends TestCase {
 	//	Objective: Verify Publication object is created in database
 	//	Console Input: Test | 1 | Test | 1.99 | 1
 	//	Output: Publication: 21, Test #1 was successfully created!
-	
+
 	public void testCreatePublication001() throws RonanException, SQLException {
 		try {
 			Publication createTest001 = new Publication();
@@ -338,28 +338,44 @@ public class PublicationTest extends TestCase {
 		}
 	}
 
-	public void testDeletePublication() {
-		fail("Not yet implemented");
+	//	TestNumber: 21
+	//	Objective: Update the title of first publication
+	//	Console Input: Change title to "Test"
+	//	Output: Returns publication with new values
+
+	public void testUpdatePublication001() {
+		try {
+			Publication updateTest001 = new Publication();
+
+			int publicationID = 1;
+			String newTitle = "Test";
+
+			updateTest001.updatePublication(publicationID);
+			// Retrieve the updated customer details from the database
+			Publication updatedTitle = updateTest001.getPublicationById(publicationID);
+			String actualTitle = updatedTitle.getTitle();
+
+			assertEquals(newTitle, actualTitle);
+		} catch (RonanException | SQLException e) {
+			fail("Exception NOT expected.\n" + e.getMessage());
+		}
 	}
 
-	public void testUpdateTitle() {
-		fail("Not yet implemented");
-	}
+	//	TestNumber: 22
+	//	Objective: Delete the first publication
+	//	Console Input: publicationID = 12
+	//	Output: Returns publication with new values
 
-	public void testUpdateIssueNo() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdateAuthor() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdatePrice() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdateStock() {
-		fail("Not yet implemented");
+	public void testDeleteCustomer001() throws RonanException {
+		try {
+			Publication deleteTest001 = new Publication();
+			int publicationID = 12;
+			deleteTest001.deletePublication(publicationID);
+			deleteTest001.getPublicationById(publicationID);
+			fail("exception expected");
+		}catch (RonanException | SQLException e) {
+			assertEquals("Publication with ID(0) NOT found.", e.getMessage());
+		}
 	}
 
 }

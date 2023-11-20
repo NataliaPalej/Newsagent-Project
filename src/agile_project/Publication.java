@@ -99,11 +99,11 @@ public class Publication {
 	}
 
 
-	public void updateCustomer(int id) throws RonanException, SQLException {
+	public void updatePublication(int id) throws RonanException, SQLException {
 
-		System.out.println("* ------------------- *");
-		System.out.println("|   Update Customer   |");
-		System.out.println("* ------------------- *");
+		System.out.println("* ---------------------- *");
+		System.out.println("|   Update Publication   |");
+		System.out.println("* ---------------------- *");
 
 		String query = "SELECT * FROM publications WHERE publicationID = ?";
 		Connection connection = null;
@@ -118,15 +118,14 @@ public class Publication {
 
 			if (resultSet.next()) {
 				String publicationID = resultSet.getString("publicationID");
-				String name = resultSet.getString("firstName");
-				name += " " + resultSet.getString("lastName");
+				String title = resultSet.getString("title");
 
-				System.out.println("Are you sure you want to update customer " + publicationID + ": " + name + "? (Y/N)");
+				System.out.println("Are you sure you want to update publication " + publicationID + ": " + title + "? (Y/N)");
 				String answer = in.next();
 
 				if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
-					System.out.println("OPTIONS:\n1. UPDATE first name\n2. UPDATE last name\n3. UPDATE address\n4. UPDATE phone number");
-					System.out.print("Enter option [1/2/3/4]: ");
+					System.out.println("OPTIONS:\n1. UPDATE title\n2. UPDATE issueNo\n3. UPDATE author\n4. UPDATE price\n5. UPDATE stock");
+					System.out.print("Enter option [1/2/3/4/5]: ");
 					int option = in.nextInt();
 
 					String updateColumn = "";
@@ -135,24 +134,29 @@ public class Publication {
 
 					switch (option) {
 					case 1:
-						updateColumn = "firstName";
-						updatePrompt = "Enter new name: ";
-						successMessage = "First name updated successfully. New first name: ";
+						updateColumn = "title";
+						updatePrompt = "Enter new title: ";
+						successMessage = "Title updated successfully. New Title: ";
 						break;
 					case 2:
-						updateColumn = "lastName";
-						updatePrompt = "Enter new surname: ";
-						successMessage = "Last name updated successfully. New last name: ";
+						updateColumn = "issueNo";
+						updatePrompt = "Enter new issue no.: ";
+						successMessage = "Issue No. updated successfully. New issue no.: ";
 						break;
 					case 3:
-						updateColumn = "address";
-						updatePrompt = "Enter new address: ";
-						successMessage = "Address updated successfully. New address: ";
+						updateColumn = "author";
+						updatePrompt = "Enter new author: ";
+						successMessage = "Author updated successfully. New author: ";
 						break;
 					case 4:
-						updateColumn = "phoneNo";
-						updatePrompt = "Enter new phone number: ";
-						successMessage = "Phone number updated successfully. New phone number: ";
+						updateColumn = "price";
+						updatePrompt = "Enter new price: ";
+						successMessage = "Price updated successfully. New price: ";
+						break;
+					case 5:
+						updateColumn = "stock";
+						updatePrompt = "Enter new stock: ";
+						successMessage = "Stock updated successfully. New stock: ";
 						break;
 					default:
 						System.out.println("Invalid option.");
@@ -163,14 +167,12 @@ public class Publication {
 					in.nextLine();
 					String newValue = in.nextLine();
 
-					if (isValidUpdate(updateColumn, newValue)) {
-						String updateQuery = "UPDATE publications SET " + updateColumn + " = ? WHERE publicationID = ?";
-						preparedStatement = connection.prepareStatement(updateQuery);
-						preparedStatement.setString(1, newValue);
-						preparedStatement.setInt(2, id);
-						preparedStatement.executeUpdate();
-						System.out.println(successMessage + newValue);
-					}
+					String updateQuery = "UPDATE publications SET " + updateColumn + " = ? WHERE publicationID = ?";
+					preparedStatement = connection.prepareStatement(updateQuery);
+					preparedStatement.setString(1, newValue);
+					preparedStatement.setInt(2, id);
+					preparedStatement.executeUpdate();
+					System.out.println(successMessage + newValue);
 				}
 			}
 		}
@@ -191,11 +193,6 @@ public class Publication {
 				connection.close();
 			}
 		}
-	}
-
-
-	public void deletePublication() throws RonanException {
-		throw new RonanException("deletePublication() not implemented");
 	}
 
 	public Publication getPublicationById(int id) throws RonanException {
@@ -308,8 +305,37 @@ public class Publication {
 		}
 	}
 
-	public void updateStock() throws RonanException {
-		throw new RonanException("updateStock() not implemented");
+	public void deletePublication(int id) throws RonanException, SQLException {
+
+		System.out.println("* ------------------- *");
+		System.out.println("|   Delete Publication   |");
+		System.out.println("* ------------------- *");
+
+		System.out.println("Are you sure you want to delete publication: " + id + "? (Y/N)");
+		String answer = in.next();
+
+		Connection connection = null;
+		String query = "DELETE FROM publications WHERE publicationID = ?";
+
+		try {
+			connection = DatabaseConnector.getConnection();
+			if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("YES")){
+				PreparedStatement stmt = connection.prepareStatement(query);
+				stmt.setInt(1, id); // Set the value of the userID parameter
+				int rowsDeleted = stmt.executeUpdate();
+				// stmt.executeUpdate();  //Execute the delete query
+
+				if (rowsDeleted > 0) {
+					System.out.println("Publication " + id + " has been successfully deleted.");
+				}
+			} else {
+				System.out.println("Deletion cancelled.");
+			}
+		} catch (SQLException e) {
+			throw new RonanException("Publication " + id + " doesn't exist.");
+		} finally {
+			connection.close();
+		}
 	}
 
 	public boolean isValidInt(int x) throws RonanException {

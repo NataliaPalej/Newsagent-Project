@@ -249,7 +249,7 @@ public class PublicationTest extends TestCase {
 	//	Input: 1
 	//	Output: 1st publication in database
 
-	public void testGetPublicationById001() throws RonanException {
+	public void testGetPublicationById001() throws RonanException, NataliaException {
 		Publication getPubByIdTest001 = new Publication();
 		int pubId = 1;
 		try {
@@ -271,7 +271,7 @@ public class PublicationTest extends TestCase {
 	//		Input: 0
 	//		Output: 1st publication in database
 
-	public void testGetPublicationById002() throws RonanException {
+	public void testGetPublicationById002() throws RonanException, NataliaException {
 		Publication getPubByIdTest002 = new Publication();
 		int pubId = 0;
 		try {
@@ -288,7 +288,7 @@ public class PublicationTest extends TestCase {
 	//		Input: Integer.MAX_VALUE
 	//		Output: 1st publication in database
 
-	public void testGetPublicationById003() throws RonanException {
+	public void testGetPublicationById003() throws RonanException, NataliaException {
 		Publication getPubByIdTest002 = new Publication();
 		try {
 			Publication result = getPubByIdTest002.getPublicationById(Integer.MAX_VALUE);
@@ -322,7 +322,7 @@ public class PublicationTest extends TestCase {
 	//	Console Input: Test | 1 | Test | 1.99 | 1
 	//	Output: Publication: 21, Test #1 was successfully created!
 
-	public void testCreatePublication001() throws RonanException, SQLException {
+	public void testCreatePublication001() throws RonanException, SQLException, NataliaException {
 		try {
 			Publication createTest001 = new Publication();
 			createTest001.createPublication();
@@ -343,7 +343,7 @@ public class PublicationTest extends TestCase {
 	//	Console Input: Change title to "Test"
 	//	Output: Returns publication with new values
 
-	public void testUpdatePublication001() {
+	public void testUpdatePublication001() throws NataliaException {
 		try {
 			Publication updateTest001 = new Publication();
 
@@ -366,7 +366,7 @@ public class PublicationTest extends TestCase {
 	//	Console Input: publicationID = 12
 	//	Output: Returns publication with new values
 
-	public void testDeleteCustomer001() throws RonanException {
+	public void testDeleteCustomer001() throws RonanException, NataliaException {
 		try {
 			Publication deleteTest001 = new Publication();
 			int publicationID = 12;

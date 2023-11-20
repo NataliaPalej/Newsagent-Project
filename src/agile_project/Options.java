@@ -13,7 +13,7 @@ public class Options extends DatabaseConnector{
 	public Options() {
 	}
 	
-	static void loginScreen() throws NataliaException, SQLException{
+	static void loginScreen() throws NataliaException, SQLException, RonanException{
 		connection = DatabaseConnector.getConnection();
 		
 		System.out.println("*---------------------------------------*");
@@ -53,7 +53,7 @@ public class Options extends DatabaseConnector{
 		}
 	}
 	
-	private void adminOptions() throws NataliaException, SQLException {
+	private void adminOptions() throws NataliaException, SQLException, RonanException {
 		Admin admin = new Admin();
 		
 		System.out.println();
@@ -94,7 +94,7 @@ public class Options extends DatabaseConnector{
 		}
 	}
 	
-	private void newsagentOptions() throws NataliaException, SQLException {
+	private void newsagentOptions() throws NataliaException, SQLException, RonanException {
 		Newsagent newsagent = new Newsagent();
 		
 		System.out.println("\n\tNEWSAGENT MENU:\t");
@@ -157,6 +157,11 @@ public class Options extends DatabaseConnector{
 					+ "\n5.PRINT *all* Publications\n6.BACK");
 			// Prompt to pick the option
 			// Ifs or switch for each options and appropiate methods within it 
+			int pubMethodOption = in.nextInt();
+			Publication pubOption = new Publication();
+			pubOption.publicationDecision(pubMethodOption);
+			newsagentOptions();
+			break;
 		case 5:
 			logOut();
 			break;
@@ -223,7 +228,7 @@ public class Options extends DatabaseConnector{
 	}
 	
 	@SuppressWarnings("unused")
-	private void logOut() throws NataliaException, SQLException {
+	private void logOut() throws NataliaException, SQLException, RonanException {
 		Connection connection = null;
 		User authenticatedUser = null;
 

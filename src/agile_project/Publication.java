@@ -32,8 +32,38 @@ public class Publication {
 		this.price = price;
 		this.stock = stock;
 	}
+	
+	public void publicationDecision(int option) throws RonanException, SQLException, NataliaException {
+		switch(option) {
+		case 1:
+			createPublication();
+			break;
+		case 2:
+			System.out.println("Enter Publication ID:");
+			int publicationIdUpdate = in.nextInt();
+			updatePublication(publicationIdUpdate);
+			break;
+		case 3:
+			System.out.println("Enter Publication ID:");
+			int publicationIdGet = in.nextInt();
+			getPublicationById(publicationIdGet);
+			break;
+		case 4:
+			System.out.println("Enter Publication ID:");
+			int publicationIdDelete = in.nextInt();
+			deletePublication(publicationIdDelete);
+			break;
+		case 5:
+			getAllPublications();
+			break;
+		case 6:
+			break;
+		default:
+			System.out.println("Invalid option selected.");
+		}
+	}
 
-	public void createPublication() throws RonanException, SQLException{
+	public void createPublication() throws RonanException, SQLException, NataliaException{
 
 		System.out.println("* ---------------------- *");
 		System.out.println("|   Create Publication   |");
@@ -99,7 +129,8 @@ public class Publication {
 	}
 
 
-	public void updatePublication(int id) throws RonanException, SQLException {
+	@SuppressWarnings("resource")
+	public void updatePublication(int id) throws RonanException, SQLException, NataliaException {
 
 		System.out.println("* ---------------------- *");
 		System.out.println("|   Update Publication   |");
@@ -195,7 +226,7 @@ public class Publication {
 		}
 	}
 
-	public Publication getPublicationById(int id) throws RonanException {
+	public Publication getPublicationById(int id) throws RonanException, NataliaException {
 		System.out.println("* ---------------------------- *");
 		System.out.println("|  Print Publication Details   |");
 		System.out.println("* ---------------------------- *");
@@ -245,7 +276,7 @@ public class Publication {
 		return publicationObj;
 	}
 
-	public String getAllPublications() throws RonanException {
+	public String getAllPublications() throws RonanException, NataliaException {
 
 		System.out.println("* ----------------------------- *");
 		System.out.println("|  Print All Publications Details  |");
@@ -275,7 +306,7 @@ public class Publication {
 				int stock = resultSet.getInt("stock");
 
 				String formattedPublicationID = String.format("%-8s", publicationID);
-				String formattedTitle = String.format("%-15s", title);
+				String formattedTitle = String.format("%-22s", title);
 				String formattedIssueNo = String.format("%-15s", issueNo);
 				String formattedAuthor = String.format("%-20s", author);
 				String formattedPrice = String.format("%-15s", price);
@@ -305,7 +336,7 @@ public class Publication {
 		}
 	}
 
-	public void deletePublication(int id) throws RonanException, SQLException {
+	public void deletePublication(int id) throws RonanException, SQLException, NataliaException {
 
 		System.out.println("* ------------------- *");
 		System.out.println("|   Delete Publication   |");

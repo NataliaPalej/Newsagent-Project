@@ -4,17 +4,17 @@ import java.sql.*;
 
 public class DatabaseConnector {
 	
-	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3307/newsagentdb";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "";
+	private static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static String JDBC_URL = "jdbc:mysql://localhost:3307/newsagentdb";
+	private static String USERNAME = "root";
+	private static String PASSWORD = "";
 	
 	public static Connection getConnection() throws NataliaException {
 		
 		if (!DB_DRIVER.equalsIgnoreCase("com.mysql.cj.jdbc.Driver")) {
 			throw new NataliaException("Invalid DB DRIVER.");
 		}
-		else if (!JDBC_URL.equalsIgnoreCase("jdbc:mysql://localhost:3306/newsagentdb")) {
+		else if (!JDBC_URL.equalsIgnoreCase("jdbc:mysql://localhost:3307/newsagentdb")) {
 			throw new NataliaException("Invalid JDBC URL.");
 		}
 		else if (!USERNAME.equalsIgnoreCase("root")) {

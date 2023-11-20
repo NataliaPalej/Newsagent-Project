@@ -6,7 +6,7 @@ public class Application_Newsagent extends DatabaseConnector {
 
 	static Connection connection = null;
 
-	public static void main(String[] args) throws NataliaException, SQLException {
+	public static void main(String[] args) throws NataliaException, SQLException, RonanException {
 		Options gui = new Options();
 		gui.loginScreen();
 	}

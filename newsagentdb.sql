@@ -4,12 +4,9 @@ CREATE DATABASE IF NOT EXISTS deliveryschema;
 USE deliveryschema;
 
 
--- Makes sure there wont be duplicates
-
-CREATE TABLE customerdetails (
-DROP DATABASE IF EXISTS newsagentdb;
-CREATE DATABASE newsagentdb;
-USE newsagentdb;
+-- DROP DATABASE IF EXISTS newsagentdb;
+-- CREATE DATABASE newsagentdb;
+-- USE newsagentdb;
 
 DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE customerdetails (
@@ -17,7 +14,7 @@ CREATE TABLE customerdetails (
     firstName VARCHAR(15) NOT NULL,
     lastName VARCHAR(15) NOT NULL,
     address VARCHAR(20) NOT NULL,
-    phoneNo VARCHAR(13) DEFAULT NULL,
+    phoneNo VARCHAR(13) DEFAULT NULL
 );
 
 DROP TABLE IF EXISTS publications;

@@ -4,10 +4,10 @@ import java.sql.*;
 
 public class DatabaseConnector {
 	
-	private static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static String JDBC_URL = "jdbc:mysql://localhost:3306/newsagentdb";
-	private static String USERNAME = "root";
-	private static String PASSWORD = "";
+	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3307/newsagentdb";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "";
 	
 	public static Connection getConnection() throws NataliaException {
 		

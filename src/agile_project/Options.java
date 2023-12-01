@@ -49,9 +49,11 @@ public class Options extends DatabaseConnector {
 
             } else {
                 System.out.println("Invalid password.");
+                loginScreen();
             }
         } else {
             System.out.println("Invalid username.");
+            loginScreen();
         }
     }
 
@@ -103,10 +105,10 @@ public class Options extends DatabaseConnector {
 
         System.out.println("\n\tNEWSAGENT MENU:\t");
 //        changed 2.Invoice options to Order options
-        System.out.println("1. CUSTOMER OPTIONS\n2. Order OPTIONS");
-        System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. LOG OUT");
+        System.out.println("1. CUSTOMER OPTIONS\n2. ORDER OPTIONS");
+        System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. INVOICE OPTIONS");
 //        ADDED INVOICE as option 6
-        System.out.println("6. Invoice Options");
+        System.out.println("6. LOG OUT");
 
 
         int menuOption = in.nextInt();
@@ -149,8 +151,8 @@ public class Options extends DatabaseConnector {
                 break;
                 // Order options
             case 2:
-                System.out.println("\tOrder OPTIONS\t");
-                System.out.println("1. Create Order\n2. Read Order\n3. UPDATE Order\n4. DELETE Order\n5. BACK");
+                System.out.println("\tORDER OPTIONS\t");
+                System.out.println("1. CREATE Order\n2. READ Order\n3. UPDATE Order\n4. DELETE Order\n5. BACK");
                 Order order = new Order();
                 int orderOption = in.nextInt();
 
@@ -226,7 +228,7 @@ public class Options extends DatabaseConnector {
                         + "\n5.PRINT *all* Publications\n6.BACK");
                 // Prompt to pick the option
                 // Ifs or switch for each options and appropiate methods within it
-            case 5:
+            case 6:
                 logOut();
                 break;
             
@@ -234,8 +236,8 @@ public class Options extends DatabaseConnector {
                 System.out.println("Invalid option.");
                 break;
 //                INVOICE
-            case 6:
-                System.out.println("\tInvoice OPTIONS\t");
+            case 5:
+                System.out.println("\tINVOICE OPTIONS\t");
                 System.out.println("1. CREATE Invoice\n2. READ Invoice\n3. UPDATE Invoice\n4. DELETE Invoice\n5. BACK");
 
                 int invoiceOption = in.nextInt();
@@ -315,10 +317,8 @@ public class Options extends DatabaseConnector {
                 System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
                 System.out.println("* ------------------ *");
 
-                // Ask for the area code
-                System.out.print("Enter Area Code: ");
+                System.out.println("Enter Area Code:");
                 int areaCode = in.nextInt();
-
                 // Fetch and display the delivery docket for the specified area code
                 driver.docketCurrentDay(areaCode);
                 break;
@@ -336,6 +336,7 @@ public class Options extends DatabaseConnector {
                 System.out.println("Invalid option.");
                 break;
         }
+        driverOptions();
     }
 
     /**

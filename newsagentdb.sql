@@ -28,6 +28,42 @@ INSERT INTO userdetails (username, password, role) VALUES
 ('driver12', 'Driver12', 'driver'),
 ('admin1', 'Admin1', 'admin'), 
 ('newsagent1', 'Newsagent1', 'newsagent');
+
+-- Create the 'publications' table
+DROP TABLE IF EXISTS publications;
+CREATE TABLE publications (
+	publicationID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    issueNo INT NOT NULL,
+    author VARCHAR(50) NOT NULL,
+    price INT NOT NULL,
+    stock INT NOT NULL
+);
+
+-- INSERT INTO PUBLICATIONS
+INSERT INTO publications (title, issueNo, author, price, stock) VALUES
+    ('Irish Independent', 100, 'John Doe', 2, 100),
+    ('Irish Times', 123, 'John Smith', 1, 350),
+    ('Time', 456, 'Jane Doe', 3, 500),
+    ('Offaly Topic', 789, 'Michael Johnson', 2, 200),
+    ('Irish Independent', 321, 'John Doe', 2, 150),
+    ('Irish Times', 234, 'John Smith', 1, 400),
+    ('Westmeath Independent', 567, 'Robert Green', 2, 300),
+    ('Vogue', 123, 'Emily White', 4, 600),
+    ('Time', 890, 'Jane Doe', 3, 250),
+    ('Irish Independent', 432, 'John Doe', 2, 350),
+    ('Irish Times', 765, 'John Smith', 1, 300),
+    ('Offaly Topic', 109, 'Michael Johnson', 2, 450),
+    ('Vogue', 543, 'Emily White', 4, 200),
+    ('Rolling Stone', 234, 'Liam Johnson', 1, 750),
+    ('Irish Times', 456, 'John Smith', 1, 300),
+    ('Offaly Topic', 654, 'Michael Johnson', 2, 400),
+    ('Vogue', 987, 'Emily White', 4, 350),
+    ('Irish Times', 234, 'John Smith', 1, 250),
+    ('Irish Independent', 402, 'John Doe', 2, 400),
+    ('Irish Times', 111, 'John Smith', 1, 280)
+;
+
 -- Create the 'customerdetails' table
 DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE IF NOT EXISTS customerdetails (
@@ -35,7 +71,7 @@ CREATE TABLE IF NOT EXISTS customerdetails (
     firstName VARCHAR(15) NOT NULL,
     lastName VARCHAR(15) NOT NULL,
     areaCode int(12) NOT NULL,
-    address VARCHAR(20) NOT NULL,
+    address VARCHAR(50) NOT NULL,
     phoneNo INT(10) DEFAULT NULL,
     CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
 );
@@ -63,9 +99,7 @@ INSERT INTO customerdetails (firstName, lastName,areaCode, address, phoneNo) VAL
 ('Emily', 'Miller',3, '321 Pine St,Kildare', 555333444),
 ('Daniel', 'Clark',4, '789 Snow St, Kilkenny', 555555555),
 ('Emanuel', 'Garcia', 5,'111 Three St, Laois', 555777777),
-('Ciara', 'Taylor',6, '222 River St, Longford', 555999999);
--- INSERT INTO customers 20 more
-INSERT INTO customerdetails (firstName, lastName, areaCode, address, phoneNo) VALUES
+('Ciara', 'Taylor',6, '222 River St, Longford', 555999999),
 ('Mark', 'Johnson', 1, '789 Oak St, Carlow', 555444555),
 ('Emma', 'Davis', 2, '456 Pine St, Dublin', 555333666),
 ('Christopher', 'Lee', 3, '123 Maple St, Kildare', 555222777),
@@ -87,114 +121,120 @@ INSERT INTO customerdetails (firstName, lastName, areaCode, address, phoneNo) VA
 ('Carter', 'Garcia', 7, '654 Cedar St, Louth', 555555666),
 ('Grace', 'Davis', 8, '876 Redwood St, Meath', 555777888);
 
--- Create the 'publications' table
-DROP TABLE IF EXISTS publications;
-CREATE TABLE publications (
-    publicationID INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(50) NOT NULL,
-    price DOUBLE NOT NULL,
-    stock INT NOT NULL,
-    CONSTRAINT unique_publications UNIQUE (title, price)
-);
-
--- INSERT INTO publications
-INSERT INTO publications (title, price,stock) VALUES 
-('Book Title 1', 19.99, 100), ('Magazine 1', 5.99, 200),
-('Book Title 2', 29.99, 100), ('Newspaper 1', 2.49, 200),
-('Journal 1', 14.99, 100), ('Magazine 2', 6.99, 200),
-('Academic Paper 1', 9.99, 100), ('Comic Book 1', 7.99, 200),
-('Technical Manual 1', 39.99, 100), ('Children''s Book 1', 12.99, 200);
-
 -- Create the 'orders' table
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
-    dateCreated TIMESTAMP NOT NULL,
-    custID INT,
+    dateCreated date NOT NULL,
+    custID INT NOT NULL,
     orderType ENUM('daily', 'weekly', 'monthly') NOT NULL,
-    title VARCHAR(50) NOT NULL,
-    price DOUBLE NOT NULL,
+    publicationID INT NOT NULL,
     FOREIGN KEY (custID) REFERENCES customerdetails (custID),
-    CONSTRAINT unique_orders UNIQUE (orderID, dateCreated, custID, orderType, title, price)
+    FOREIGN KEY (publicationID) REFERENCES publications (publicationID)
 );
 
+
 -- INSERT INTO ORDERS
-INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-10-10', 1, 'daily', 'Book Title 1', 1),
-('2023-10-20', 2, 'weekly', 'Magazine 1', 5.99),
-('2023-10-21', 3, 'monthly', 'Book Title 2', 29.99),
-('2023-10-22', 4, 'daily', 'Newspaper 1', 2.49),
-('2023-10-23', 5, 'weekly', 'Journal 1', 14.99),
-('2023-10-24', 6, 'monthly', 'Magazine 2', 6.99),
-('2023-10-25', 7, 'daily', 'Academic Paper 1', 9.99),
-('2023-10-26', 8, 'weekly', 'Comic Book 1', 7.99), 
-('2023-10-27', 9, 'monthly', 'Technical Manual 1', 39.99), 
-('2023-10-28', 10, 'daily', 'Children''s Book 1', 12.99);
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES 
+('2023-10-10', 1, 'daily', 20),
+('2023-10-20', 2, 'weekly', 19),
+('2023-10-21', 3, 'monthly', 18),
+('2023-10-22', 4, 'daily', 17),
+('2023-10-23', 5, 'weekly', 16),
+('2023-10-24', 6, 'monthly', 15),
+('2023-10-25', 7, 'daily', 14),
+('2023-10-26', 8, 'weekly', 13), 
+('2023-10-27', 9, 'monthly', 12), 
+('2023-10-28', 10, 'daily', 11),
+('2023-11-13', 11, 'weekly', 10),
+('2023-11-13', 12, 'weekly', 9),
+('2023-11-13', 13, 'monthly', 8),
+('2023-11-13', 14, 'daily', 7),
+('2023-11-13', 15, 'weekly', 6),
+('2023-11-13', 16, 'monthly', 5),
+('2023-11-13', 17, 'daily', 4),
+('2023-11-13', 18, 'weekly', 3), 
+('2023-11-13', 19, 'monthly', 2), 
+('2023-11-13', 20, 'daily', 1),
+('2023-11-13', 21, 'weekly', 20),	
+('2023-11-13', 22, 'monthly', 19),
+('2023-11-13', 23, 'daily', 18),
+('2023-11-13', 24, 'weekly', 17),
+('2023-11-13', 25, 'monthly', 16),
+('2023-11-13', 26, 'daily', 15),
+('2023-11-13', 27, 'weekly', 14), 
+('2023-11-13', 28, 'monthly', 13), 
+('2023-11-13', 29, 'daily', 12),
+('2023-11-13', 2, 'weekly', 11),
+('2023-11-13', 1, 'monthly', 10);
 
--- EXTRA 20 orders of 13-11-2023
-INSERT INTO orders (dateCreated, custID, orderType, title, price) VALUES 
-('2023-11-13', 1, 'weekly', 'Batman', 0.25),
-('2023-11-13', 2, 'weekly', 'Magazine 1', 5.99),
-('2023-11-13', 3, 'monthly', 'Book Title 2', 29.99),
-('2023-11-13', 4, 'daily', 'Newspaper 1', 2.49),
-('2023-11-13', 5, 'weekly', 'Journal 1', 14.99),
-('2023-11-13', 6, 'monthly', 'Magazine 2', 6.99),
-('2023-11-13', 7, 'daily', 'Academic Paper 1', 9.99),
-('2023-11-13', 8, 'weekly', 'Comic Book 1', 7.99), 
-('2023-11-13', 9, 'monthly', 'Technical Manual 1', 39.99), 
-('2023-11-13', 10, 'daily', 'Children''s Book 1', 12.99),
-('2023-11-13', 11, 'weekly', 'Book Title 3', 17.99),	
-('2023-11-13', 12, 'monthly', 'Magazine 3', 8.99),
-('2023-11-13', 13, 'daily', 'Newspaper 2', 3.99),
-('2023-11-13', 14, 'weekly', 'Journal 2', 11.99),
-('2023-11-13', 15, 'monthly', 'Book Title 4', 24.99),
-('2023-11-13', 16, 'daily', 'Academic Paper 2', 15.99),
-('2023-11-13', 17, 'weekly', 'Comic Book 2', 6.49), 
-('2023-11-13', 18, 'monthly', 'Technical Manual 2', 49.99), 
-('2023-11-13', 19, 'daily', 'Children''s Book 2', 8.99),
-('2023-11-13', 20, 'weekly', 'Book Title 5', 21.99),
-('2023-11-13', 1, 'monthly', 'Book Title 1', 100.00);
+-- Temporary table to generate dates up to 06/12/2023
+CREATE TEMPORARY TABLE temp_dates AS (
+    SELECT DATE_ADD('2023-10-29', INTERVAL t.seq DAY) AS order_date
+    FROM (
+        SELECT (t4*1000 + t3*100 + t2*10 + t1) AS seq
+        FROM (SELECT 0 AS t1 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t1,
+             (SELECT 0 AS t2 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t2,
+             (SELECT 0 AS t3 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t3,
+             (SELECT 0 AS t4 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) t4
+    ) t
+    WHERE DATE_ADD('2023-10-29', INTERVAL t.seq DAY) <= '2023-12-06'
+);
 
--- Display data
-SELECT * FROM userdetails ORDER BY userID;
-SELECT * FROM customerdetails ORDER BY custID;
-SELECT * FROM publications ORDER BY publicationID;
-SELECT * FROM orders ORDER BY orderID;
+-- Insert orders based on order frequency
+INSERT INTO orders (dateCreated, custID, orderType, publicationID)
+SELECT 
+    d.order_date,
+    o.custID,
+    o.orderType,
+    o.publicationID
+FROM 
+    temp_dates d
+JOIN 
+    orders o ON o.dateCreated <= d.order_date
+WHERE 
+    (
+        (o.orderType = 'daily' AND d.order_date > o.dateCreated) OR
+        (o.orderType = 'weekly' AND d.order_date = DATE_ADD(o.dateCreated, INTERVAL 7 DAY)) OR
+        (
+            o.orderType = 'monthly' AND (
+                DAY(d.order_date) = DAY(o.dateCreated) OR
+                (
+                    DAY(o.dateCreated) > 28 AND
+                    DAY(d.order_date) = DAY(LAST_DAY(DATE_SUB(d.order_date, INTERVAL 1 DAY)))
+                )
+            )
+        )
+    );
+    
+-- Drop temporary table
+DROP TEMPORARY TABLE IF EXISTS temp_dates;
 
--- Desirable order display with custName, custLasName
+-- joining orders, customerdetails and publications
 SELECT 
     o.orderID,
     o.dateCreated,
-    c.firstName AS custFirstName,
-    c.lastName AS custLastName,
-    o.title,
-    o.orderType
-FROM orders AS o
-INNER JOIN customerdetails AS c ON o.custID = c.custID;
-
--- ORDER BASED ON AREACODE-- 
-SELECT
-    o.orderID,
-    o.dateCreated,
-    c.firstName AS custFirstName,
-    c.lastName AS custLastName,
-    o.title,
-    o.orderType
-FROM
-    orders AS o
-INNER JOIN
-    customerdetails AS c ON o.custID = c.custID
-WHERE
-    c.areaCode = 2; -- Replace '1' with the desired areaCode
+    c.firstName,
+    c.lastName,
+    c.areaCode,
+    c.address,
+    p.title AS publicationTitle,
+    p.issueNo AS publicationIssueNo
+FROM 
+    orders o
+INNER JOIN 
+    customerdetails c ON o.custID = c.custID
+INNER JOIN 
+    publications p ON o.publicationID = p.publicationID
+ORDER BY 
+    o.orderID;
 
 
-
--- ------------------------------------------------------------
 -- Create the 'invoices' table
-CREATE TABLE invoices (
+CREATE TABLE IF NOT EXISTS invoices (
     invoiceID INT AUTO_INCREMENT PRIMARY KEY,
     custID INT,
-    totalPrice DOUBLE,
+    totalPrice INT,
     FOREIGN KEY (custID) REFERENCES customerdetails(custID)
 );
 
@@ -204,19 +244,30 @@ SELECT
     o.custID,
     SUM(
         CASE
-            WHEN o.orderType = 'daily' THEN o.price * 30
-            WHEN o.orderType = 'weekly' THEN o.price * 4
-            WHEN o.orderType = 'monthly' THEN o.price
+            WHEN o.orderType = 'daily' THEN p.price * 7
+            WHEN o.orderType = 'monthly' THEN p.price * 28
+            WHEN o.orderType = 'weekly' THEN p.price
             ELSE 0
         END
     ) AS totalPrice
 FROM
     orders o
+JOIN
+    publications p ON o.publicationID = p.publicationID
 WHERE
     o.custID IS NOT NULL
 GROUP BY
     o.custID;
 
+-- Display data
+SELECT * FROM invoices ORDER BY custID;
 
--- Display data from invoices
-SELECT * FROM invoices ORDER BY invoiceID;
+
+
+
+
+-- Display data
+SELECT * FROM userdetails ORDER BY userID;
+SELECT * FROM customerdetails ORDER BY custID;
+SELECT * FROM publications ORDER BY publicationID;
+SELECT * FROM orders ORDER BY orderID;

@@ -24,7 +24,7 @@ public class Publication {
 
 	}
 
-	public Publication(String title, int issueNo, String author, double price, int stock) throws RonanException {
+	public Publication(String title, int issueNo, String author, int price, int stock) throws RonanException {
 		// TODO Auto-generated constructor stub
 		this.title = title;
 		this.issueNo = issueNo;
@@ -85,9 +85,9 @@ public class Publication {
 			throw new RonanException("Invalid author. Author must be between 1-50 characters.");
 		}
 		System.out.print("Enter Price (€): ");
-		double price = in.nextDouble();
-		if (!isValidPrice(price)) {
-			throw new RonanException("Invalid Price. Price must be in format 4.99.");
+		int price = in.nextInt();
+		if (!isValidInt(price)) {
+			throw new RonanException("Invalid Price. Price must be greater than 0.");
 		}
 		System.out.print("Enter Stock: ");
 		int stock = in.nextInt();
@@ -376,13 +376,13 @@ public class Publication {
 		return false;
 	}
 
-	public boolean isValidPrice(double price) throws RonanException {		
-		if (price >= 0.01 & price <= 999.99 & !(BigDecimal.valueOf(price).scale() > 2)) {
-			return true;
-		}
-
-		return false;
-	}
+//	public boolean isValidPrice(double price) throws RonanException {		
+//		if (price >= 0.01 & price <= 999.99 & !(BigDecimal.valueOf(price).scale() > 2)) {
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 	public boolean isValidString(String string) throws RonanException {
 		if (string != null) {

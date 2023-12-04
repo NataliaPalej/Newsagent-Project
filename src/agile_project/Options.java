@@ -15,7 +15,7 @@ public class Options extends DatabaseConnector {
     public Options() {
     }
 
-    static void loginScreen() throws NataliaException, SQLException {
+    static void loginScreen() throws NataliaException, SQLException, RonanException {
         connection = DatabaseConnector.getConnection();
 
         System.out.println("*---------------------------------------*");
@@ -57,7 +57,7 @@ public class Options extends DatabaseConnector {
         }
     }
 
-    private void adminOptions() throws NataliaException, SQLException {
+    private void adminOptions() throws NataliaException, SQLException, RonanException {
         Admin admin = new Admin();
 
         System.out.println();
@@ -98,17 +98,15 @@ public class Options extends DatabaseConnector {
         }
     }
 
-    private void newsagentOptions() throws NataliaException, SQLException {
+    private void newsagentOptions() throws NataliaException, SQLException, RonanException {
         Newsagent newsagent = new Newsagent();
         Invoice invoice = new Invoice(connection);
 
 
         System.out.println("\n\tNEWSAGENT MENU:\t");
-//        changed 2.Invoice options to Order options
         System.out.println("1. CUSTOMER OPTIONS\n2. ORDER OPTIONS");
-        System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. INVOICE OPTIONS");
-//        ADDED INVOICE as option 6
-        System.out.println("6. LOG OUT");
+        System.out.println("3. PUBLICATIONS\n4. INVOICE OPTIONS");
+        System.out.println("5. LOG OUT");
 
 
         int menuOption = in.nextInt();
@@ -188,11 +186,8 @@ public class Options extends DatabaseConnector {
                         System.out.println("Enter new Title: ");
                         String newTitle = in.next();
 
-                        System.out.println("Enter new Price: ");
-                        double newPrice = in.nextDouble();
-
                         // Call the updateOrder method with the new values
-                        order.updateOrder(orderIDToUpdate, newDate, newCustID, newType, newTitle, newPrice);
+                        order.updateOrder(orderIDToUpdate, newDate, newCustID, newType, newTitle);
                         newsagentOptions();
                         break;
 
@@ -215,28 +210,18 @@ public class Options extends DatabaseConnector {
                 }
                 break;
 
-
             case 3:
-                System.out.println("\tREPORT OPTIONS\t");
-                System.out.println("1. GENERATE Delivery Report\n2. BACK");
-                // Prompt to pick option
-                // Swtich case based on the option
-                break;
+            	System.out.println("\tPUBLICATION OPTIONS\t");
+                System.out.println("1. CREATE Publication\n2. UPDATE Publication\n3. PRINT Publication\n4. DELETE Publication\n5. PRINT *all*\n6. BACK");
+    			int pubMethodOption = in.nextInt();
+    			Publication pubOption = new Publication();
+    			
+    			
+    			pubOption.publicationDecision(pubMethodOption);
+    			newsagentOptions();
+    			break;
+            // INVOICE
             case 4:
-                System.out.println("\tPUBLICATIONS OPTIONS\t");
-                System.out.println("1. CREATE Publication\n2.UPDATE Publication\n3.PRINT Publication\n4.DELETE Publication"
-                        + "\n5.PRINT *all* Publications\n6.BACK");
-                // Prompt to pick the option
-                // Ifs or switch for each options and appropiate methods within it
-            case 6:
-                logOut();
-                break;
-            
-            default:
-                System.out.println("Invalid option.");
-                break;
-//                INVOICE
-            case 5:
                 System.out.println("\tINVOICE OPTIONS\t");
                 System.out.println("1. CREATE Invoice\n2. READ Invoice\n3. UPDATE Invoice\n4. DELETE Invoice\n5. BACK");
 
@@ -297,17 +282,24 @@ public class Options extends DatabaseConnector {
                         System.out.println("Invalid option.");
                         break;
                 }
-            break;}}
+            case 5:
+                logOut();
+                break;
+            
+            default:
+                System.out.println("Invalid option.");
+                break;
+        }
+    }
 
-    private void driverOptions() throws NataliaException, SQLException {
+    private void driverOptions() throws NataliaException, SQLException, RonanException {
         Driver driver = new Driver();
         LocalDate localDateNow = LocalDate.now();
 
         System.out.println("\n\tDriver MENU:\t");
         System.out.println("1. Read Delivery Docket");
         System.out.println("2. Submit Delivery Docket");
-        System.out.println("3. Deduct Stock");
-        System.out.println("4. LOG OUT");
+        System.out.println("3. LOG OUT");
 
         int menuOption = in.nextInt();
 
@@ -328,13 +320,8 @@ public class Options extends DatabaseConnector {
                 // SUBMIT DOCKET
                 driver.submitDeliveryDocket();
                 break;
-            case 3:
-                // DEDUCT DOCKET
-            	deductStock();
-                break;
-                
 
-            case 4:
+            case 3:
                 logOut();
                 break;
 
@@ -397,7 +384,7 @@ public class Options extends DatabaseConnector {
     }
 
     @SuppressWarnings("unused")
-    private void logOut() throws NataliaException, SQLException {
+    private void logOut() throws NataliaException, SQLException, RonanException {
         Connection connection = null;
         User authenticatedUser = null;
 
@@ -414,60 +401,35 @@ public class Options extends DatabaseConnector {
         loginScreen();
     }
     
-    
-    
-    
-    private void deductStock() throws NataliaException, SQLException {
-        try {
-            System.out.println("Enter Order ID:");
-            int orderID = in.nextInt();
-
-            // Check if the order exists and get the publication ID and quantity
-            String getOrderQuery = "SELECT publicationID FROM orders WHERE orderID = ?";
-            try (PreparedStatement getOrderStatement = connection.prepareStatement(getOrderQuery)) {
-                getOrderStatement.setInt(1, orderID);
-                ResultSet orderResultSet = getOrderStatement.executeQuery();
-
-                if (orderResultSet.next()) {
-                    int publicationID = orderResultSet.getInt("publicationID");
-
-                    // Check current stock
-                    String getStockQuery = "SELECT stock FROM publications WHERE publicationID = ?";
-                    try (PreparedStatement getStockStatement = connection.prepareStatement(getStockQuery)) {
-                        getStockStatement.setInt(1, publicationID);
-                        ResultSet stockResultSet = getStockStatement.executeQuery();
-
-                        if (stockResultSet.next()) {
-                            int currentStock = stockResultSet.getInt("stock");
-
-                            // Check if stock is sufficient
-                            if (currentStock > 0) {
-                                // Update stock
-                                String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
-                                try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
-                                    updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
-                                    updateStockStatement.setInt(2, publicationID);
-                                    int rowsUpdated = updateStockStatement.executeUpdate();
-
-                                    if (rowsUpdated > 0) {
-                                        System.out.println("Stock deducted successfully.");
-                                    } else {
-                                        System.out.println("Failed to deduct stock.");
-                                    }
-                                }
-                            } else {
-                                System.out.println("Out of Stock: " + publicationID);
-                            }
-                        }
-                    }
-                } else {
-                    System.out.println("Order not found.");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    // Publication decitions
+    public void publicationDecision(int option) throws RonanException, SQLException, NataliaException {
+    	Publication publication = new Publication();
+		switch(option) {
+		case 1:
+			publication.createPublication();
+			break;
+		case 2:
+			System.out.println("Enter Publication ID:");
+			int publicationIdUpdate = in.nextInt();
+			publication.updatePublication(publicationIdUpdate);
+			break;
+		case 3:
+			System.out.println("Enter Publication ID:");
+			int publicationIdGet = in.nextInt();
+			publication.getPublicationById(publicationIdGet);
+			break;
+		case 4:
+			System.out.println("Enter Publication ID:");
+			int publicationIdDelete = in.nextInt();
+			publication.deletePublication(publicationIdDelete);
+			break;
+		case 5:
+			publication.getAllPublications();
+			break;
+		case 6:
+			break;
+		default:
+			System.out.println("Invalid option selected.");
+		}
+	}
 }

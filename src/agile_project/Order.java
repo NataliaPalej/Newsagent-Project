@@ -31,7 +31,6 @@ public class Order {
     public Order() {
 		// TODO Auto-generated constructor stub
 	}
-	// CREATE Order
     public void createOrder() throws NataliaException {
         try (Connection connection = DatabaseConnector.getConnection()) {
             Scanner scanner = new Scanner(System.in);
@@ -43,21 +42,19 @@ public class Order {
             System.out.print("Title: ");
             String title = scanner.next();
 
-            System.out.print("Price: ");
-            double pubPrice = scanner.nextDouble();
-            
+            // Fetch the publicationID based on the entered title
+            int publicationID = getPublicationID(connection, title);
+
             System.out.print("CustID: ");
-            double custID = scanner.nextDouble();
+            int custID = scanner.nextInt();
 
             // Insert new order into the 'orders' table
-            String insertOrderQuery = "INSERT INTO orders (orderType, title, price,custID) VALUES (?, ?, ?, ?)";
+            String insertOrderQuery = "INSERT INTO orders (orderType, publicationID, custID, dateCreated) VALUES (?, ?, ?, CURDATE())";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertOrderQuery)) {
                 // Set the values for the parameters
-            	
                 preparedStatement.setString(1, orderType);
-                preparedStatement.setString(2, title);
-                preparedStatement.setDouble(3, pubPrice);
-                preparedStatement.setDouble(4, custID);
+                preparedStatement.setInt(2, publicationID);
+                preparedStatement.setInt(3, custID);
 
                 // Execute the insertion query
                 int rowsAffected = preparedStatement.executeUpdate();
@@ -73,61 +70,61 @@ public class Order {
         }
     }
 
+
     // READ Order
     public void readOrder() throws NataliaException {
         System.out.println("Reading orders...");
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT \r\n"
-            		+ "    o.orderID,\r\n"
-            		+ "    o.dateCreated,\r\n"
-            		+ "    c.firstName,\r\n"
-            		+ "    c.lastName,\r\n"
-            		+ "    c.areaCode,\r\n"
-            		+ "    c.address,\r\n"
-            		+ "    p.title AS publicationTitle,\r\n"
-            		+ "    p.issueNo AS publicationIssueNo\r\n"
-            		+ "FROM \r\n"
-            		+ "    orders o\r\n"
-            		+ "INNER JOIN \r\n"
-            		+ "    customerdetails c ON o.custID = c.custID\r\n"
-            		+ "INNER JOIN \r\n"
-            		+ "    publications p ON o.publicationID = p.publicationID\r\n"
-            		+ "ORDER BY \r\n"
-            		+ "    c.lastName;");
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter Area Code: ");
+            int areaCodeInput = scanner.nextInt();
 
-            // Process the result set
-            while (resultSet.next()) {
-                int orderID = resultSet.getInt("orderID");
-                String dateCreated = resultSet.getString("dateCreated");
-                String custName = resultSet.getString("firstName") +" "+ resultSet.getString("lastName");
-                int areaCode = resultSet.getInt("areaCode");
-                String address = resultSet.getString("address");
-                String publicationTitle = resultSet.getString("publicationTitle");
-                int issueNo = resultSet.getInt("publicationIssueNo");
+            String query = "SELECT o.orderID, o.dateCreated, c.firstName, c.lastName, c.areaCode, c.address, p.title as publicationTitle, p.issueNo " +
+                           "FROM orders o " +
+                           "JOIN customerdetails c ON o.custID = c.custID " +
+                           "JOIN publications p ON o.publicationID = p.publicationID " +
+                           "WHERE c.areaCode = ?";
+                           
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, areaCodeInput);
 
-                // Display fetched data (You can customize the output format)
-                System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Customer Name: " + custName
-                		+", Area Code: " + areaCode + ", Address: " + address + ", Title: " + publicationTitle + ", Issue No.: " + issueNo);
-                System.out.println("---------------------------------------------------------------------------------------------------------------");
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    // Process the result set
+                    while (resultSet.next()) {
+                        int orderID = resultSet.getInt("orderID");
+                        String dateCreated = resultSet.getString("dateCreated");
+                        String custName = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+                        int areaCode = resultSet.getInt("areaCode");
+                        String address = resultSet.getString("address");
+                        String publicationTitle = resultSet.getString("publicationTitle");
+                        int issueNo = resultSet.getInt("issueNo");
+
+                        // Display fetched data (You can customize the output format)
+                        System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Customer Name: " + custName
+                                + ", Area Code: " + areaCode + ", Address: " + address + ", Title: " + publicationTitle + ", Issue No.: " + issueNo);
+                        System.out.println("---------------------------------------------------------------------------------------------------------------");
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new NataliaException("Error reading orders: " + e.getMessage());
+            e.printStackTrace(); // Handle the exception according to your application's needs
         }
     }
 
-    // UPDATE Order (Assuming you want to update the price)
-    public void updateOrder(int orderID, LocalDate newDate, int newCustID, String newType, String newTitle, double newPrice) throws NataliaException {
+ // UPDATE Order
+    public void updateOrder(int orderID, LocalDate newDate, int newCustID, String newType, String newTitle) throws NataliaException {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String updateOrderQuery = "UPDATE orders SET dateCreated = ?, custID = ?, orderType = ?, title = ?, price = ? WHERE orderID = ?";
+            // Fetch the publicationID based on the newTitle
+            int newPublicationID = getPublicationID(connection, newTitle);
+
+            String updateOrderQuery = "UPDATE orders SET dateCreated = ?, custID = ?, orderType = ?, publicationID = ? WHERE orderID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateOrderQuery)) {
                 preparedStatement.setDate(1, java.sql.Date.valueOf(newDate));
                 preparedStatement.setInt(2, newCustID);
                 preparedStatement.setString(3, newType);
-                preparedStatement.setString(4, newTitle);
-                preparedStatement.setDouble(5, newPrice);
-                preparedStatement.setInt(6, orderID);
+                preparedStatement.setInt(4, newPublicationID);
+                preparedStatement.setInt(5, orderID);
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
@@ -141,7 +138,6 @@ public class Order {
             throw new NataliaException("Error updating order: " + e.getMessage());
         }
     }
-
 
     // DELETE Order
     public void deleteOrder(int orderID) throws NataliaException {
@@ -204,4 +200,18 @@ public class Order {
     }
     
     // Other methods, constructor, or further functionality can be added here
+ // Helper method to get the publicationID based on the title
+    private int getPublicationID(Connection connection, String title) throws SQLException {
+        String query = "SELECT publicationID FROM publications WHERE title = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, title);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("publicationID");
+                } else {
+                    throw new SQLException("Publication not found with title: " + title);
+                }
+            }
+        }
+    }
 }

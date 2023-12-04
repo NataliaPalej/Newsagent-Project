@@ -98,7 +98,7 @@ public class Customer {
 	    try {
 			connection = DatabaseConnector.getConnection();
 			
-			String query = "SELECT * FROM customerdetails ORDER BY custID ASC";
+			String query = "SELECT * FROM customerdetails ORDER BY custID";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			

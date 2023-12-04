@@ -36,7 +36,6 @@ insert into userdetails values (null,"d", "d", "driver");
 insert into userdetails values (null,"a", "a", "admin");
 
 -- CUSTOMER DETATAILS#################################################################
-DROP TABLE IF EXISTS customerdetails;
 -- Create the 'customerdetails' table
 DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE IF NOT EXISTS customerdetails (
@@ -68,17 +67,27 @@ CREATE TABLE publications (
     title VARCHAR(50) NOT NULL,
     issueNo INT NOT NULL,
     author VARCHAR(50) NOT NULL,
-    price INT NOT NULL,
+    price DOUBLE NOT NULL,
     stock INT NOT NULL
 );
 -- INSERT INTO PUBLICATIONS
 INSERT INTO publications (title, issueNo, author, price, stock) VALUES
-    ('Daily', 100, 'John Doe', 2, 100),
-    ('Weekly', 123, 'John Smith', 1, 350),
-    ('Montly', 456, 'Jane Doe', 3, 500),
-    ('Kids', 789, 'Michael Johnson', 2, 200),
-    ('IT', 321, 'John Doe', 2, 150)
-;
+    ('Westmeath Independant', 100, 'John Doe', 2.99, 100),
+    ('Cosmopolitan', 123, 'John Smith', 1.99, 350),
+    ('Galactic Discoveries Digest', 456, 'Jane Doe', 3.99, 500),
+    ('AI Advancements Almanac', 789, 'Michael Johnson', 2.99, 200),
+    ('Health Horizon Herald', 321, 'John Doe', 2.99, 150),
+    ('Quantum Insights Quarterly', 50, 'Alice White', 5.99, 75),
+    ('EcoTech Innovator', 200, 'David Green', 3.99, 250),
+    ('Stellar Science Journal', 789, 'Emily Brown', 4.99, 300),
+    ('Global Perspectives Gazette', 150, 'Robert Black', 2.50, 200),
+    ('BioTech Breakthrough Bulletin', 300, 'Sophia Gray', 3.50, 180),
+    ('Cultural Chronicles Chronicle', 75, 'Daniel Lee', 2.75, 120),
+    ('Cybernetic Trends Tribune', 400, 'Olivia Davis', 4.99, 220),
+    ('Sustainable Solutions Review', 250, 'Matthew Johnson', 3.99, 180),
+    ('Robotic Revolution Report', 600, 'Ava Robinson', 3.75, 250),
+    ('Psyche & Society Sentinel', 100, 'Liam Miller', 2.25, 130);
+
 -- ORDERS#################################################################
 -- Create the 'orders' table
 DROP TABLE IF EXISTS orders;

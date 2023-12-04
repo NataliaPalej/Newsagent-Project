@@ -79,20 +79,38 @@ public class Order {
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");
+            ResultSet resultSet = statement.executeQuery("SELECT \r\n"
+            		+ "    o.orderID,\r\n"
+            		+ "    o.dateCreated,\r\n"
+            		+ "    c.firstName,\r\n"
+            		+ "    c.lastName,\r\n"
+            		+ "    c.areaCode,\r\n"
+            		+ "    c.address,\r\n"
+            		+ "    p.title AS publicationTitle,\r\n"
+            		+ "    p.issueNo AS publicationIssueNo\r\n"
+            		+ "FROM \r\n"
+            		+ "    orders o\r\n"
+            		+ "INNER JOIN \r\n"
+            		+ "    customerdetails c ON o.custID = c.custID\r\n"
+            		+ "INNER JOIN \r\n"
+            		+ "    publications p ON o.publicationID = p.publicationID\r\n"
+            		+ "ORDER BY \r\n"
+            		+ "    c.lastName;");
 
             // Process the result set
             while (resultSet.next()) {
                 int orderID = resultSet.getInt("orderID");
                 String dateCreated = resultSet.getString("dateCreated");
-                int custID = resultSet.getInt("custID");
-                String orderType = resultSet.getString("orderType");
-                String title = resultSet.getString("title");
-                double price = resultSet.getDouble("price");
+                String custName = resultSet.getString("firstName") +" "+ resultSet.getString("lastName");
+                int areaCode = resultSet.getInt("areaCode");
+                String address = resultSet.getString("address");
+                String publicationTitle = resultSet.getString("publicationTitle");
+                int issueNo = resultSet.getInt("publicationIssueNo");
 
                 // Display fetched data (You can customize the output format)
-                System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Cust ID: " + custID +
-                        ", Type: " + orderType + ", Title: " + title + ", Price: " + price);
+                System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Customer Name: " + custName
+                		+", Area Code: " + areaCode + ", Address: " + address + ", Title: " + publicationTitle + ", Issue No.: " + issueNo);
+                System.out.println("---------------------------------------------------------------------------------------------------------------");
             }
         } catch (SQLException e) {
             throw new NataliaException("Error reading orders: " + e.getMessage());

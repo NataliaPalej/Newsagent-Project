@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Customer {
 	
-	protected int custID;
+	protected int custID, areaCode;
 	protected String firstName, lastName, address;
 	protected String phoneNo;
 	
@@ -14,7 +14,7 @@ public class Customer {
 	 * Customer(String firstName, String lastName, String address, String phoneNo)
 	 * Customer()
 	 */
-	public Customer(String firstName, String lastName, String address, String phoneNo) throws NataliaException {
+	public Customer(String firstName, String lastName, String address, String phoneNo, int areaCode) throws NataliaException {
 		if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty()) {
             throw new NataliaException("Invalid customer attributes");
 		}
@@ -22,7 +22,8 @@ public class Customer {
 		this.lastName = lastName;
 		this.address = address;
 		this.phoneNo = phoneNo;
-	}
+		this.areaCode = areaCode;	
+		}
 	
 	public Customer() {
 	}
@@ -61,9 +62,10 @@ public class Customer {
 				customer.setLastName(resultSet.getString("lastName"));
 				customer.setAddress(resultSet.getString("address"));
 				customer.setPhoneNo(resultSet.getString("phoneNo"));
+				customer.setAreaCode(resultSet.getInt("areaCode"));
 	            
 	            System.out.println("Customer ID: " + customer.getCustID() + "\nFirst Name: " + customer.getFirstName() + "\nLast Name: " 
-	            + customer.getLastName() + "\n" + "Address: " + customer.getAddress() + "\nPhone Number: " + customer.getPhoneNo());
+	            + customer.getLastName() + "\n" + "Address: " + customer.getAddress() + "\nPhone Number: " + customer.getPhoneNo() + customer.getAreaCode());
 			} else {
 				throw new NataliaException("Customer with " + customer.getCustID() + " NOT found.");
 			}
@@ -110,18 +112,21 @@ public class Customer {
 	            String lastName = resultSet.getString("lastName");
 	            String address = resultSet.getString("address");
 	            String phoneNo = resultSet.getString("phoneNo");
+	            String areaCode = resultSet.getString("areaCode");
 	            
 	            String formattedCustID = String.format("%-8s", custID);
 	            String formattedFirstName = String.format("%-15s", firstName);
 	            String formattedLastName = String.format("%-15s", lastName);
 	            String formattedAddress = String.format("%-20s", address);
 	            String formattedPhoneNo = String.format("%-15s", phoneNo);
+	            String formattedAreaCode = String.format("%-15s", areaCode);
 	            
 	            System.out.println("Customer ID: " + formattedCustID +
 	                    "First Name: " + formattedFirstName +
 	                    "Last Name: " + formattedLastName +
 	                    "Address: " + formattedAddress +
-	                    "Phone Number: " + formattedPhoneNo);
+	                    "Phone Number: " + formattedPhoneNo +
+	                    "Area Code: " + formattedAreaCode);
 			}
 			if (!customerList) {
 	            throw new NataliaException("Customer database is empty or not found.");
@@ -260,5 +265,13 @@ public class Customer {
 
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
+	}
+
+	public int getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(int areaCode) {
+		this.areaCode = areaCode;
 	}
 }

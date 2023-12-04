@@ -67,16 +67,22 @@ public class Newsagent extends Customer {
         if (!isValidPhoneNo(phoneNo)) {
         	throw new NataliaException("Invalid phone number. Number must be in format 111-222-3333.");
         }
+        System.out.print("Enter Area Code (1-12): ");
+		int areaCode = in.nextInt();
+        if (!isValidAreaCode(areaCode)) {
+        	throw new NataliaException("Invalid Area Code. Number must be between 1 and 12.");
+        }
         
         Connection connection = null;
         try {
             connection = DatabaseConnector.getConnection();
-            String query = "INSERT INTO customerdetails (firstName, lastName, address, phoneNo) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO customerdetails (firstName, lastName, address, phoneNo, areaCode) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, firstName);
             stmt.setString(2, lastName);
             stmt.setString(3, address);
             stmt.setString(4, phoneNo);
+            stmt.setInt(5, areaCode);
             stmt.executeUpdate();
 
             ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -87,6 +93,7 @@ public class Newsagent extends Customer {
                 this.setLastName(lastName);
                 this.setAddress(address);
                 this.setPhoneNo(phoneNo);
+                this.setAreaCode(areaCode);
                 
                 System.out.println("Customer: " + this.getCustID() + " " + this.getFirstName() + " " + this.getLastName() + " was successfully created!");
             }
@@ -99,6 +106,7 @@ public class Newsagent extends Customer {
         }
 	}
 	
+
 	@SuppressWarnings("resource")
 	public void updateCustomer(int id) throws NataliaException, SQLException {
 		
@@ -343,6 +351,12 @@ public class Newsagent extends Customer {
 	    return false;
 	}
 	
+	private boolean isValidAreaCode(int areaCode) {
+		if (areaCode <= 12 & areaCode >= 1) {
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Getters and Setters

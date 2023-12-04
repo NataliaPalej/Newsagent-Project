@@ -152,7 +152,7 @@ public class Options extends DatabaseConnector {
                 // Order options
             case 2:
                 System.out.println("\tORDER OPTIONS\t");
-                System.out.println("1. CREATE Order\n2. READ Order\n3. UPDATE Order\n4. DELETE Order\n5. BACK");
+                System.out.println("1. CREATE Order\n2. GET *all* Orders\n3. UPDATE Order\n4. DELETE Order\n5. BACK");
                 Order order = new Order();
                 int orderOption = in.nextInt();
 

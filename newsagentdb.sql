@@ -1,7 +1,10 @@
 DROP DATABASE IF EXISTS newsagentdb;
 CREATE DATABASE IF NOT EXISTS newsagentdb;
 USE newsagentdb;
-
+select * from userdetails;
+insert into userdetails values (null, "n", "n", "newsagent");
+insert into userdetails values (null,"d", "d", "driver");
+insert into userdetails values (null,"a", "a", "admin");
 -- Create the 'userdetails' table for admins, drivers, and newsagents
 DROP TABLE IF EXISTS userdetails;
 CREATE TABLE IF NOT EXISTS userdetails (
@@ -69,15 +72,15 @@ DROP TABLE IF EXISTS customerdetails;
 CREATE TABLE IF NOT EXISTS customerdetails (
     custID INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(15) NOT NULL,
-    lastName VARCHAR(15) NOT NULL,
-    areaCode int(12) NOT NULL,
+    lastName VARCHAR(15) NOT NULL,    
     address VARCHAR(50) NOT NULL,
     phoneNo INT(10) DEFAULT NULL,
+    areaCode int(12) NOT NULL,
     CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
 );
 
 -- INSERT INTO customers 
-INSERT INTO customerdetails (firstName, lastName,areaCode, address, phoneNo) VALUES
+INSERT INTO customerdetails (firstName, lastName, address, phoneNo, areaCode) VALUES
 -- AREA BY CODE
 -- 1.Carlow
 -- 2.Dublin

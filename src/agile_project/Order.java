@@ -30,10 +30,16 @@ public class Order {
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
+<<<<<<< HEAD
 	// CREATE Order
 	public void createOrder() throws NataliaException {
 		try (Connection connection = DatabaseConnector.getConnection()) {
 			Scanner scanner = new Scanner(System.in);
+=======
+    public void createOrder() throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            Scanner scanner = new Scanner(System.in);
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 			System.out.println("Enter order details:");
 			System.out.print("Order Type (daily/weekly/monthly): ");
@@ -42,11 +48,27 @@ public class Order {
 			System.out.print("Title: ");
 			String title = scanner.next();
 
+<<<<<<< HEAD
 			// Fetch the publicationID based on the entered title
 			int publicationID = getPublicationID(connection, title);
 
 			System.out.print("CustID: ");
 			int custID = scanner.nextInt();
+=======
+            // Fetch the publicationID based on the entered title
+            int publicationID = getPublicationID(connection, title);
+
+            System.out.print("CustID: ");
+            int custID = scanner.nextInt();
+
+            // Insert new order into the 'orders' table
+            String insertOrderQuery = "INSERT INTO orders (orderType, publicationID, custID, dateCreated) VALUES (?, ?, ?, CURDATE())";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertOrderQuery)) {
+                // Set the values for the parameters
+                preparedStatement.setString(1, orderType);
+                preparedStatement.setInt(2, publicationID);
+                preparedStatement.setInt(3, custID);
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 			// Insert new order into the 'orders' table
 			String insertOrderQuery = "INSERT INTO orders (orderType, publicationID, custID, dateCreated) VALUES (?, ?, ?, CURDATE())";
@@ -59,6 +81,7 @@ public class Order {
 				// Execute the insertion query
 				int rowsAffected = preparedStatement.executeUpdate();
 
+<<<<<<< HEAD
 				if (rowsAffected > 0) {
 					System.out.println("Order successfully inserted!");
 				} else {
@@ -87,6 +110,63 @@ public class Order {
 
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 				preparedStatement.setInt(1, areaCodeInput);
+=======
+
+    // READ Order
+    public void readOrder() throws NataliaException {
+        System.out.println("Reading orders...");
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter Area Code: ");
+            int areaCodeInput = scanner.nextInt();
+
+            String query = "SELECT o.orderID, o.dateCreated, c.firstName, c.lastName, c.areaCode, c.address, p.title as publicationTitle, p.issueNo " +
+                           "FROM orders o " +
+                           "JOIN customerdetails c ON o.custID = c.custID " +
+                           "JOIN publications p ON o.publicationID = p.publicationID " +
+                           "WHERE c.areaCode = ?";
+                           
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, areaCodeInput);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    // Process the result set
+                    while (resultSet.next()) {
+                        int orderID = resultSet.getInt("orderID");
+                        String dateCreated = resultSet.getString("dateCreated");
+                        String custName = resultSet.getString("firstName") + " " + resultSet.getString("lastName");
+                        int areaCode = resultSet.getInt("areaCode");
+                        String address = resultSet.getString("address");
+                        String publicationTitle = resultSet.getString("publicationTitle");
+                        int issueNo = resultSet.getInt("issueNo");
+
+                        // Display fetched data (You can customize the output format)
+                        System.out.println("Order ID: " + orderID + ", Date: " + dateCreated + ", Customer Name: " + custName
+                                + ", Area Code: " + areaCode + ", Address: " + address + ", Title: " + publicationTitle + ", Issue No.: " + issueNo);
+                        System.out.println("---------------------------------------------------------------------------------------------------------------");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
+        }
+    }
+
+ // UPDATE Order
+    public void updateOrder(int orderID, LocalDate newDate, int newCustID, String newType, String newTitle) throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            // Fetch the publicationID based on the newTitle
+            int newPublicationID = getPublicationID(connection, newTitle);
+
+            String updateOrderQuery = "UPDATE orders SET dateCreated = ?, custID = ?, orderType = ?, publicationID = ? WHERE orderID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateOrderQuery)) {
+                preparedStatement.setDate(1, java.sql.Date.valueOf(newDate));
+                preparedStatement.setInt(2, newCustID);
+                preparedStatement.setString(3, newType);
+                preparedStatement.setInt(4, newPublicationID);
+                preparedStatement.setInt(5, orderID);
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 				try (ResultSet resultSet = preparedStatement.executeQuery()) {
 					// Process the result set
@@ -136,6 +216,7 @@ public class Order {
 		}
 	}
 
+<<<<<<< HEAD
 
 	// DELETE Order
 	public void deleteOrder(int orderID) throws NataliaException {
@@ -143,6 +224,14 @@ public class Order {
 			String deleteOrderQuery = "DELETE FROM orders WHERE orderID = ?";
 			try (PreparedStatement preparedStatement = connection.prepareStatement(deleteOrderQuery)) {
 				preparedStatement.setInt(1, orderID);
+=======
+    // DELETE Order
+    public void deleteOrder(int orderID) throws NataliaException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String deleteOrderQuery = "DELETE FROM orders WHERE orderID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteOrderQuery)) {
+                preparedStatement.setInt(1, orderID);
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 				int rowsAffected = preparedStatement.executeUpdate();
 
@@ -195,6 +284,7 @@ public class Order {
 		return title.length() >= 5 && title.length() <= 50; // Assuming title length constraints
 	}
 
+<<<<<<< HEAD
 	public boolean validPubPrice(double pubPrice) {
 		// Example: Validation logic ensures the price is within a reasonable range
 		return pubPrice > 0 && pubPrice <= 10000; // Assuming prices range from 0 to 10000
@@ -212,4 +302,26 @@ public class Order {
 	}
 
 	// Other methods, constructor, or further functionality can be added here
+=======
+    public boolean validCustName(String custName) {
+        // Example: Validation logic checks if the name length is within a specific range
+        return custName.length() >= 3 && custName.length() <= 50; // Assuming name length constraints
+    }
+    
+    // Other methods, constructor, or further functionality can be added here
+ // Helper method to get the publicationID based on the title
+    private int getPublicationID(Connection connection, String title) throws SQLException {
+        String query = "SELECT publicationID FROM publications WHERE title = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, title);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("publicationID");
+                } else {
+                    throw new SQLException("Publication not found with title: " + title);
+                }
+            }
+        }
+    }
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 }

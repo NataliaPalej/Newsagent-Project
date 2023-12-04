@@ -14,7 +14,12 @@ public class Options extends DatabaseConnector {
 
 	public Options() {
 
+<<<<<<< HEAD
 	}
+=======
+    static void loginScreen() throws NataliaException, SQLException, RonanException {
+        connection = DatabaseConnector.getConnection();
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 	static void loginScreen() throws NataliaException, SQLException {
 		connection = DatabaseConnector.getConnection();
@@ -48,6 +53,7 @@ public class Options extends DatabaseConnector {
 					driver.driverOptions();
 				}
 
+<<<<<<< HEAD
 			} else {
 				System.out.println("Invalid password.");
 				loginScreen();
@@ -57,6 +63,10 @@ public class Options extends DatabaseConnector {
 			loginScreen();
 		}
 	}
+=======
+    private void adminOptions() throws NataliaException, SQLException, RonanException {
+        Admin admin = new Admin();
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 	private void adminOptions() throws NataliaException, SQLException {
 		Admin admin = new Admin();
@@ -67,6 +77,7 @@ public class Options extends DatabaseConnector {
 		System.out.println("3. GET user details\n4. DELETE user\n5. LOG OUT");
 		int option = in.nextInt();
 
+<<<<<<< HEAD
 		switch (option) {
 		case 1:
 			admin.createUser();
@@ -110,6 +121,17 @@ public class Options extends DatabaseConnector {
 		System.out.println("3. REPORTS\n4. PUBLICATIONS\n5. INVOICE OPTIONS");
 		//        ADDED INVOICE as option 6
 		System.out.println("6. LOG OUT");
+=======
+    private void newsagentOptions() throws NataliaException, SQLException, RonanException {
+        Newsagent newsagent = new Newsagent();
+        Invoice invoice = new Invoice(connection);
+
+
+        System.out.println("\n\tNEWSAGENT MENU:\t");
+        System.out.println("1. CUSTOMER OPTIONS\n2. ORDER OPTIONS");
+        System.out.println("3. PUBLICATIONS\n4. INVOICE OPTIONS");
+        System.out.println("5. LOG OUT");
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 
 		int menuOption = in.nextInt();
@@ -189,6 +211,7 @@ public class Options extends DatabaseConnector {
 				System.out.println("Enter new Title: ");
 				String newTitle = in.next();
 
+<<<<<<< HEAD
 				System.out.println("Enter new Price: ");
 				double newPrice = in.nextDouble();
 
@@ -196,6 +219,12 @@ public class Options extends DatabaseConnector {
 				order.updateOrder(orderIDToUpdate, newDate, newCustID, newType, newTitle, newPrice);
 				newsagentOptions();
 				break;
+=======
+                        // Call the updateOrder method with the new values
+                        order.updateOrder(orderIDToUpdate, newDate, newCustID, newType, newTitle);
+                        newsagentOptions();
+                        break;
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 				// DELETE Order
 			case 4:
@@ -216,10 +245,27 @@ public class Options extends DatabaseConnector {
 			}
 			break;
 
+<<<<<<< HEAD
 
 		case 3:
 			System.out.println("\tDELIVERY DOCKET OPTIONS\t");
 			System.out.println("1. GENERATE Delivery Docket Report\n2. BACK");
+=======
+            case 3:
+            	System.out.println("\tPUBLICATION OPTIONS\t");
+                System.out.println("1. CREATE Publication\n2. UPDATE Publication\n3. PRINT Publication\n4. DELETE Publication\n5. PRINT *all*\n6. BACK");
+    			int pubMethodOption = in.nextInt();
+    			Publication pubOption = new Publication();
+    			
+    			
+    			pubOption.publicationDecision(pubMethodOption);
+    			newsagentOptions();
+    			break;
+            // INVOICE
+            case 4:
+                System.out.println("\tINVOICE OPTIONS\t");
+                System.out.println("1. CREATE Invoice\n2. READ Invoice\n3. UPDATE Invoice\n4. DELETE Invoice\n5. BACK");
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 			int docketOption = in.nextInt();
 
@@ -282,6 +328,7 @@ public class Options extends DatabaseConnector {
 				newsagentOptions();
 				break;
 
+<<<<<<< HEAD
 				// UPDATE Invoice
 			case 3:
 				// Implement the logic to update an Invoice
@@ -294,6 +341,31 @@ public class Options extends DatabaseConnector {
 				invoice.updateInvoice(updateInvoiceID, newTotalPrice);
 				newsagentOptions();
 				break;
+=======
+                    default:
+                        System.out.println("Invalid option.");
+                        break;
+                }
+            case 5:
+                logOut();
+                break;
+            
+            default:
+                System.out.println("Invalid option.");
+                break;
+        }
+    }
+
+    private void driverOptions() throws NataliaException, SQLException, RonanException {
+        Driver driver = new Driver();
+        LocalDate localDateNow = LocalDate.now();
+
+        System.out.println("\n\tDriver MENU:\t");
+        System.out.println("1. Read Delivery Docket");
+        System.out.println("2. Submit Delivery Docket");
+        System.out.println("3. Deduct Stock");
+        System.out.println("4. LOG OUT");
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 				// DELETE Invoice
 			case 4:
@@ -312,6 +384,7 @@ public class Options extends DatabaseConnector {
 		}
 	}
 
+<<<<<<< HEAD
 
 	private void driverOptions() throws NataliaException, SQLException {
 		Driver driver = new Driver();
@@ -321,6 +394,27 @@ public class Options extends DatabaseConnector {
 		System.out.println("1. Read Delivery Docket");
 		System.out.println("2. Submit Delivery Docket");
 		System.out.println("3. LOG OUT");
+=======
+                System.out.println("Enter Area Code:");
+                int areaCode = in.nextInt();
+                // Fetch and display the delivery docket for the specified area code
+                driver.docketCurrentDay(areaCode);
+                break;
+
+            case 2:
+                // SUBMIT DOCKET
+                driver.submitDeliveryDocket();
+                break;
+            case 3:
+                // DEDUCT DOCKET
+            	deductStock();
+                break;
+                
+
+            case 4:
+                logOut();
+                break;
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 		int menuOption = in.nextInt();
 
@@ -342,6 +436,7 @@ public class Options extends DatabaseConnector {
 			driver.submitDeliveryDocket();
 			break;
 
+<<<<<<< HEAD
 		case 3:
 			logOut();
 			break;
@@ -352,6 +447,62 @@ public class Options extends DatabaseConnector {
 		}
 		driverOptions();
 	}
+=======
+    @SuppressWarnings("unused")
+    private void logOut() throws NataliaException, SQLException, RonanException {
+        Connection connection = null;
+        User authenticatedUser = null;
+
+        System.out.println("Logging out...\nYou're logged out!\n\n");
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error while closing database resources.\n" + e.getMessage());
+        }
+        authenticatedUser = null;
+        // Return to the login screen
+        loginScreen();
+    }
+    
+    // Publication decisions
+    public void publicationDecision(int option) throws RonanException, SQLException, NataliaException {
+    	Publication publication = new Publication();
+		switch(option) {
+		case 1:
+			publication.createPublication();
+			break;
+		case 2:
+			System.out.println("Enter Publication ID:");
+			int publicationIdUpdate = in.nextInt();
+			publication.updatePublication(publicationIdUpdate);
+			break;
+		case 3:
+			System.out.println("Enter Publication ID:");
+			int publicationIdGet = in.nextInt();
+			publication.getPublicationById(publicationIdGet);
+			break;
+		case 4:
+			System.out.println("Enter Publication ID:");
+			int publicationIdDelete = in.nextInt();
+			publication.deletePublication(publicationIdDelete);
+			break;
+		case 5:
+			publication.getAllPublications();
+			break;
+		case 6:
+			break;
+		default:
+			System.out.println("Invalid option selected.");
+		}
+	}
+    
+    private void deductStock() throws NataliaException, SQLException {
+        try {
+            System.out.println("Enter Order ID:");
+            int orderID = in.nextInt();
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 
 	/**
 	 * Validation methods authenticateUsername authenticatePassword
@@ -409,6 +560,7 @@ public class Options extends DatabaseConnector {
 		Connection connection = null;
 		User authenticatedUser = null;
 
+<<<<<<< HEAD
 		System.out.println("Logging out...\nYou're logged out!\n\n");
 		try {
 			if (connection != null) {
@@ -421,4 +573,34 @@ public class Options extends DatabaseConnector {
 		// Return to the login screen
 		loginScreen();
 	}
+=======
+                            // Check if stock is sufficient
+                            if (currentStock > 0) {
+                                // Update stock
+                                String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+                                try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+                                    updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
+                                    updateStockStatement.setInt(2, publicationID);
+                                    int rowsUpdated = updateStockStatement.executeUpdate();
+
+                                    if (rowsUpdated > 0) {
+                                        System.out.println("Stock deducted successfully.");
+                                    } else {
+                                        System.out.println("Failed to deduct stock.");
+                                    }
+                                }
+                            } else {
+                                System.out.println("Out of Stock: " + publicationID);
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("Order not found.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+>>>>>>> 6b47453bdf02ceea41a50983db82c15abc55d216
 }

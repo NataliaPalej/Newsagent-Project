@@ -106,6 +106,61 @@ public class Newsagent extends Customer {
         }
 	}
 	
+	public void createCustomer(String firstName, String lastName, String address, String phoneNo, int areaCode) throws NataliaException, SQLException{
+		Connection connection = null;
+		
+		if (!isValidName(firstName) || firstName.isEmpty()) {
+	        throw new NataliaException("Invalid first name. Name must be between 1-15 characters.");
+	    }
+	    if (!isValidName(lastName) || lastName.isEmpty()) {
+	        throw new NataliaException("Invalid last name. Surname must be between 1-15 characters.");
+	    }
+	    if (!isValidAddress(address)) {
+	        throw new NataliaException("Invalid address. Address must be between 1-20 characters.");
+	    }
+	    if (!isValidPhoneNo(phoneNo)) {
+	    	throw new NataliaException("Invalid phone number. Number must be in format 111-222-3333.");
+	    }
+	    if (!isValidAreaCode(areaCode)) {
+	    	throw new NataliaException("Invalid Area Code. Number must be between 1 and 12.");
+	    } else {
+	    	try {
+	            connection = DatabaseConnector.getConnection();
+	            String query = "INSERT INTO customerdetails (firstName, lastName, address, phoneNo, areaCode) VALUES (?, ?, ?, ?, ?)";
+	            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+	            
+	            if (isValidName(firstName) && isValidName(lastName) && isValidAddress(address) && isValidPhoneNo(phoneNo) && isValidAreaCode(areaCode)) {
+	            	stmt.setString(1, firstName);
+	                stmt.setString(2, lastName);
+	                stmt.setString(3, address);
+	                stmt.setString(4, phoneNo);
+	                stmt.setInt(5, areaCode);
+	                stmt.executeUpdate();
+	
+	                ResultSet generatedKeys = stmt.getGeneratedKeys();
+	                if (generatedKeys.next()) {
+	                	int custID = generatedKeys.getInt(1);
+	                    this.setCustID(custID);
+	                    this.setFirstName(firstName);
+	                    this.setLastName(lastName);
+	                    this.setAddress(address);
+	                    this.setPhoneNo(phoneNo);
+	                    this.setAreaCode(areaCode);
+	                    
+	                    System.out.println("Customer: " + this.getCustID() + " " + this.getFirstName() + " " + this.getLastName() + " was successfully created!");
+	                }
+	            } else {
+	            	throw new NataliaException("One of the parameters is invalid.");
+	            }
+	    	} catch (SQLException e) {
+	            throw new NataliaException("Couldn't create Customer.\n" + e.getMessage());
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
+	  }
 
 	@SuppressWarnings("resource")
 	public void updateCustomer(int id) throws NataliaException, SQLException {

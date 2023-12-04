@@ -306,7 +306,8 @@ public class Options extends DatabaseConnector {
         System.out.println("\n\tDriver MENU:\t");
         System.out.println("1. Read Delivery Docket");
         System.out.println("2. Submit Delivery Docket");
-        System.out.println("3. LOG OUT");
+        System.out.println("3. Deduct Stock");
+        System.out.println("4. LOG OUT");
 
         int menuOption = in.nextInt();
 
@@ -321,15 +322,19 @@ public class Options extends DatabaseConnector {
                 int areaCode = in.nextInt();
                 // Fetch and display the delivery docket for the specified area code
                 driver.docketCurrentDay(areaCode);
-                deductStock();
                 break;
 
             case 2:
                 // SUBMIT DOCKET
                 driver.submitDeliveryDocket();
                 break;
-
             case 3:
+                // DEDUCT DOCKET
+            	deductStock();
+                break;
+                
+
+            case 4:
                 logOut();
                 break;
 
@@ -408,6 +413,10 @@ public class Options extends DatabaseConnector {
         // Return to the login screen
         loginScreen();
     }
+    
+    
+    
+    
     private void deductStock() throws NataliaException, SQLException {
         try {
             System.out.println("Enter Order ID:");
@@ -431,18 +440,23 @@ public class Options extends DatabaseConnector {
                         if (stockResultSet.next()) {
                             int currentStock = stockResultSet.getInt("stock");
 
-                            // Update stock
-                            String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
-                            try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
-                                updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
-                                updateStockStatement.setInt(2, publicationID);
-                                int rowsUpdated = updateStockStatement.executeUpdate();
+                            // Check if stock is sufficient
+                            if (currentStock > 0) {
+                                // Update stock
+                                String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+                                try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+                                    updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
+                                    updateStockStatement.setInt(2, publicationID);
+                                    int rowsUpdated = updateStockStatement.executeUpdate();
 
-                                if (rowsUpdated > 0) {
-                                    System.out.println("Stock deducted successfully.");
-                                } else {
-                                    System.out.println("Failed to deduct stock.");
+                                    if (rowsUpdated > 0) {
+                                        System.out.println("Stock deducted successfully.");
+                                    } else {
+                                        System.out.println("Failed to deduct stock.");
+                                    }
                                 }
+                            } else {
+                                System.out.println("Out of Stock: " + publicationID);
                             }
                         }
                     }
@@ -451,7 +465,9 @@ public class Options extends DatabaseConnector {
                 }
             }
         } catch (Exception e) {
-            throw new SQLException("Error deducting stock: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
+
 }

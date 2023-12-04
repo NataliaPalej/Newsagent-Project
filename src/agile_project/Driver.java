@@ -70,26 +70,7 @@ public class Driver extends DatabaseConnector {
 			// Get today's date
 			LocalDate localDateNow = LocalDate.now();
 
-			String query = "SELECT \r\n"
-					+ "    o.orderID,\r\n"
-					+ "    o.dateCreated,\r\n"
-					+ "    c.firstName,\r\n"
-					+ "    c.lastName,\r\n"
-					+ "    c.areaCode,\r\n"
-					+ "    c.address,\r\n"
-					+ "    p.title AS publicationTitle,\r\n"
-					+ "    p.issueNo AS publicationIssueNo\r\n"
-					+ "FROM \r\n"
-					+ "    orders o\r\n"
-					+ "INNER JOIN \r\n"
-					+ "    customerdetails c ON o.custID = c.custID\r\n"
-					+ "INNER JOIN \r\n"
-					+ "    publications p ON o.publicationID = p.publicationID\r\n"
-					+ "WHERE \r\n"
-					+ "    c.areaCode = ?\r\n"
-					+ "    AND o.dateCreated = ?\r\n"
-					+ "ORDER BY \r\n"
-					+ "    o.orderID;";
+			String query = "SELECT * FROM orders AND publications";
 
 			// Create a PreparedStatement
 			try (Connection connection = getConnection();

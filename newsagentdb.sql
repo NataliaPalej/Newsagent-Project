@@ -1,10 +1,10 @@
 DROP DATABASE IF EXISTS newsagentdb;
 CREATE DATABASE IF NOT EXISTS newsagentdb;
 USE newsagentdb;
-select * from userdetails;
-insert into userdetails values (null, "n", "n", "newsagent");
-insert into userdetails values (null,"d", "d", "driver");
-insert into userdetails values (null,"a", "a", "admin");
+-- select * from userdetails;
+-- insert into userdetails values (null, "n", "n", "newsagent");
+-- insert into userdetails values (null,"d", "d", "driver");
+-- insert into userdetails values (null,"a", "a", "admin");customerdetails
 -- Create the 'userdetails' table for admins, drivers, and newsagents
 DROP TABLE IF EXISTS userdetails;
 CREATE TABLE IF NOT EXISTS userdetails (
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS customerdetails (
     firstName VARCHAR(15) NOT NULL,
     lastName VARCHAR(15) NOT NULL,    
     address VARCHAR(50) NOT NULL,
-    phoneNo INT(10) DEFAULT NULL,
+    phoneNo INT(15) DEFAULT NULL,
     areaCode int(12) NOT NULL,
     CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
 );
@@ -132,8 +132,8 @@ CREATE TABLE orders (
     custID INT NOT NULL,
     orderType ENUM('daily', 'weekly', 'monthly') NOT NULL,
     publicationID INT NOT NULL,
-    FOREIGN KEY (custID) REFERENCES customerdetails (custID),
-    FOREIGN KEY (publicationID) REFERENCES publications (publicationID)
+    FOREIGN KEY (custID) REFERENCES customerdetails (custID) ON DELETE CASCADE,
+    FOREIGN KEY (publicationID) REFERENCES publications (publicationID) ON DELETE CASCADE
 );
 
 
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS invoices (
     invoiceID INT AUTO_INCREMENT PRIMARY KEY,
     custID INT,
     totalPrice INT,
-    FOREIGN KEY (custID) REFERENCES customerdetails(custID)
+    FOREIGN KEY (custID) REFERENCES customerdetails(custID) ON DELETE CASCADE
 );
 
 -- INSERT INTO invoices
@@ -266,7 +266,8 @@ GROUP BY
 SELECT * FROM invoices ORDER BY custID;
 
 
-
+DROP TABLE IF EXISTS invoices;
+DROP TABLE IF EXISTS orders;
 
 
 -- Display data
@@ -274,3 +275,6 @@ SELECT * FROM userdetails ORDER BY userID;
 SELECT * FROM customerdetails ORDER BY custID;
 SELECT * FROM publications ORDER BY publicationID;
 SELECT * FROM orders ORDER BY orderID;
+
+ALTER TABLE customerdetails drop foreign key custID;
+alter table customerdetails add constraint custID foreign key (custID) references customerdetails (custID) on delete cascade;

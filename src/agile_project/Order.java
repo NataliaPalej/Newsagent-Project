@@ -18,7 +18,7 @@ public class Order {
     private int custID;
     private String custName;
     
-    public Order(int orderID,LocalDate orderDate,String type,int pubID,String title,double pubPrice,int custID,String custName) throws NataliaException{
+    public Order(int orderID, LocalDate orderDate,String type,int pubID,String title,double pubPrice,int custID,String custName) throws NataliaException{
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.type = type;

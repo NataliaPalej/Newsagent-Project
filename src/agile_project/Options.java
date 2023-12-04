@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Options extends DatabaseConnector {
@@ -316,31 +317,78 @@ public class Options extends DatabaseConnector {
             System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
             System.out.println("* ------------------ *");
 
-            System.out.println("Enter Area Code:");
-            int areaCodeRead = in.nextInt();
+            try {
+                System.out.println("Enter Area Code:");
+                int areaCodeRead = in.nextInt();
 
-            // Validate area code before fetching the delivery docket
-            if (isValidAreaCode(areaCodeRead)) {
-                driver.docketCurrentDay(areaCodeRead);
-            } else {
-                System.out.println("Invalid area code. Please enter a valid area code.");
+                // Validate area code before fetching the delivery docket
+                if (isValidAreaCode(areaCodeRead)) {
+                    driver.docketCurrentDay(areaCodeRead);
+                } else {
+                    System.out.println("Invalid area code. Please enter a valid area code.");
+                    // Clear the buffer to avoid an infinite loop
+                    in.nextLine();
+                    // Continue taking input until a valid area code is provided
+                    while (true) {
+                        System.out.println("Enter Area Code:");
+                        areaCodeRead = in.nextInt();
+                        if (isValidAreaCode(areaCodeRead)) {
+                            driver.docketCurrentDay(areaCodeRead);
+                            break; // Exit the loop if a valid area code is provided
+                        } else {
+                            System.out.println("Invalid area code. Please enter a valid area code.");
+                            // Clear the buffer to avoid an infinite loop
+                            in.nextLine();
+                        }
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer for the area code.");
+                // Clear the buffer to avoid an infinite loop
+                in.nextLine();
             }
-            break;
 
+            break;
+         // Submit DOCKET
+        case 2:
+        	driver.submitDeliveryDocket();
+        	
+        	break;
         case 3:
             // New case for printing the docket and updating publication stock
             System.out.println("* ------------------ *");
             System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
             System.out.println("* ------------------ *");
 
-            System.out.println("Enter Area Code:");
-            int areaCodePrint = in.nextInt();
+            try {
+                System.out.println("Enter Area Code:");
+                int areaCodeRead = in.nextInt();
 
-            // Validate area code before printing the docket and updating stock
-            if (isValidAreaCode(areaCodePrint)) {
-                driver.printDocketAndUpdateStock(areaCodePrint);
-            } else {
-                System.out.println("Invalid area code. Please enter a valid area code.");
+                // Validate area code before fetching the delivery docket
+                if (isValidAreaCode(areaCodeRead)) {
+                    driver.printDocketAndUpdateStock(areaCodeRead);
+                } else {
+                    System.out.println("Invalid area code. Please enter a valid area code.");
+                    // Clear the buffer to avoid an infinite loop
+                    in.nextLine();
+                    // Continue taking input until a valid area code is provided
+                    while (true) {
+                        System.out.println("Enter Area Code:");
+                        areaCodeRead = in.nextInt();
+                        if (isValidAreaCode(areaCodeRead)) {
+                            driver.printDocketAndUpdateStock(areaCodeRead);
+                            break; // Exit the loop if a valid area code is provided
+                        } else {
+                            System.out.println("Invalid area code. Please enter a valid area code.");
+                            // Clear the buffer to avoid an infinite loop
+                            in.nextLine();
+                        }
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer for the area code.");
+                // Clear the buffer to avoid an infinite loop
+                in.nextLine();
             }
             break;
 
@@ -448,4 +496,5 @@ public class Options extends DatabaseConnector {
 			System.out.println("Invalid option selected.");
 		}
 	}
+    
 }

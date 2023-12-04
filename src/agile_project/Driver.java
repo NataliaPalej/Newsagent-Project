@@ -5,31 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Driver extends DatabaseConnector {
-	// Method to submit the delivery docket
-	// Method to submit the delivery docket
-	public void submitDeliveryDocket() throws NataliaException {
-		try {
-			// Get today's date
-			LocalDate localDateNow = LocalDate.now();
-
-			// Update the status of delivered orders in the orders table
-			String updateQuery = "UPDATE orders SET status = 'delivered' WHERE DATE(dateCreated) = ?";
-
-			try (Connection connection = getConnection();
-					PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-
-				updateStatement.setString(1, localDateNow.toString());
-				int updatedRows = updateStatement.executeUpdate();
-
-				System.out.println(updatedRows + " orders marked as delivered.");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error submitting delivery docket: " + e.getMessage());
-		}
-	}
 	static Scanner in = new Scanner(System.in);
 
 	private int driverID;
@@ -218,5 +197,89 @@ public class Driver extends DatabaseConnector {
             throw new NataliaException("Error updating publication stock: " + e.getMessage());
         }
     }
+    public boolean isValidAreaCode(int areaCode) {
+        // Assuming each driver is assigned an area code from 1 to 12
+        return areaCode >= 1 && areaCode <= 12;
+    }
+ // Inside the Driver class
+public void submitDeliveryDocket() throws NataliaException {
+    try {
+        // Get today's date
+        LocalDate localDateNow = LocalDate.now();
+
+        System.out.println("Enter Area Code:");
+        int areaCodeSubmit = in.nextInt();
+
+        // Validate area code before submitting the delivery docket
+        if (isValidAreaCode(areaCodeSubmit)) {
+            // Display order details based on the area code
+            try {
+                docketCurrentDay(areaCodeSubmit);
+            } catch (SQLException e) {
+                // Handle the SQLException here (print a message, log, etc.)
+                System.out.println("Error fetching delivery docket: " + e.getMessage());
+            }
+
+            // Prompt the user to input an order ID (in a loop for robustness)
+            int orderID;
+            do {
+                System.out.println("Enter Order ID to submit delivery docket:");
+                try {
+                    orderID = in.nextInt();
+                    // Break the loop if a valid Order ID is entered
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Invalid input. Please enter a valid integer for the Order ID.");
+                    in.nextLine(); // Clear the buffer to avoid an infinite loop
+                }
+            } while (true);
+
+            // Update the publication stock associated with the given order ID
+            int updatedStock = updatePublicationStock(orderID);
+
+            System.out.println("Delivery docket submitted successfully!");
+            System.out.println("Updated Publication Stock: " + updatedStock);
+        } else {
+            System.out.println("Invalid area code. Please enter a valid area code.");
+        }
+    } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a valid integer for the area code.");
+        in.nextLine(); // Clear the buffer to avoid an infinite loop
+    }
+}
+
+    // Modify the existing updatePublicationStock method to return the updated stock
+    public int updatePublicationStock(int orderID) throws NataliaException {
+        try {
+            String query = "SELECT p.publicationID, p.stock " +
+                    "FROM orders o " +
+                    "INNER JOIN publications p ON o.publicationID = p.publicationID " +
+                    "WHERE o.orderID = ?";
+
+            try (Connection connection = getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
+
+                statement.setInt(1, orderID);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int publicationID = resultSet.getInt("publicationID");
+                        int stock = resultSet.getInt("stock");
+
+                        // Update the stock in the database
+                        updatePublicationStock(publicationID, stock + 1);
+
+                        return stock + 1; // Return the updated stock
+                    } else {
+                        System.out.println("Order ID not found.");
+                        return -1; // Indicate that order ID was not found
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error updating publication stock: " + e.getMessage());
+        }
+    }
+
 
 }//    end of class

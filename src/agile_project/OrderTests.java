@@ -14,7 +14,7 @@ public class OrderTests extends TestCase {
      */
     public void testValidOrderID() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             assertTrue(order.validOrderID(11));
         } catch (NataliaException e) {
             fail("Exception Not expected");
@@ -40,7 +40,7 @@ public class OrderTests extends TestCase {
      */
     public void testValidDate() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             assertTrue(order.validOrderDate(LocalDate.now()));
         } catch (NataliaException e) {
             fail("Exception Not expected");
@@ -55,7 +55,7 @@ public class OrderTests extends TestCase {
      */
     public void testValidType() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             assertTrue(order.validType("daily"));
             assertTrue(order.validType("weekly"));
             assertTrue(order.validType("monthly"));
@@ -72,7 +72,7 @@ public class OrderTests extends TestCase {
      */
     public void testInvalidType() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             order.validType("invalidType");
             fail("Expected NataliaException");
         } catch (NataliaException e) {
@@ -89,7 +89,7 @@ public class OrderTests extends TestCase {
      */
     public void testValidPubID() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             assertTrue(order.validPubID(5));
         } catch (NataliaException e) {
             fail("Exception Not expected");
@@ -104,7 +104,7 @@ public class OrderTests extends TestCase {
      */
     public void testValidTitle() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             assertTrue(order.validTitle("Sample Title within Length"));
         } catch (NataliaException e) {
             fail("Exception Not expected");
@@ -119,74 +119,12 @@ public class OrderTests extends TestCase {
      */
     public void testInvalidTitle() throws NataliaException{
         try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
+            Order order = new Order(0, null, null, 0, null, 0, null);
             order.validTitle("Short");
             fail("Expected NataliaException");
         } catch (NataliaException e) {
             // Expected exception
             assertEquals("Invalid title length: Short", e.getMessage());
-        }
-    }
-
-    /**
-     * Test #
-     * Objective: Verify if a provided price falls within a defined valid range.
-     * Input: Double representing a price within the expected valid range (e.g., 50.0).
-     * Output: Expects the method to return true for prices within the defined valid range.
-     */
-    public void testValidPrice() throws NataliaException{
-        try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
-            assertTrue(order.validPubPrice(50.0));
-        } catch (NataliaException e) {
-            fail("Exception Not expected");
-        }
-    }
-
-    /**
-     * Test #
-     * Objective: Validate if an exception is thrown for a price outside the defined valid range.
-     * Input: Double representing a price outside the valid range (e.g., -5.0).
-     * Output: Expects the method to throw 'NataliaException' for prices outside the valid range.
-     */
-    public void testInvalidPrice() throws NataliaException{
-        try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
-            order.validPubPrice(-5.0);
-            fail("Expected NataliaException");
-        } catch (NataliaException e) {
-            // Expected exception
-            assertEquals("Invalid price: -5.0", e.getMessage());
-        }
-    }
-
-    /**
-     * Test #
-     * Objective: Verify if the provided customer ID is recognized as valid.
-     * Input: Integer representing a customer ID (e.g., 15).
-     * Output: Expects the method to return true for a valid customer ID (assumed within a defined range).
-     */
-    public void testValidCustID() throws NataliaException{
-        try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
-            assertTrue(order.validCustID(11));
-        } catch (NataliaException e) {
-            fail("Exception Not expected");
-        }
-    }
-
-    /**
-     * Test #
-     * Objective: Validate if a customer name within a specific length is considered valid.
-     * Input: John.
-     * Output: Expects the method to return true for a customer name within the defined length limit.
-     */
-    public void testValidCustName() throws NataliaException{
-        try {
-            Order order = new Order(0, null, null, 0, null, 0, 0, null);
-            assertTrue(order.validCustName("John Doe"));
-        } catch (NataliaException e) {
-            fail("Exception Not expected");
         }
     }
 }

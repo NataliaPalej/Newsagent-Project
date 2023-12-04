@@ -1,10 +1,35 @@
+-- insert into customerdetails (firstName, lastName, address, phoneNo, areaCode) 
+-- values ("Natalia", "Palej", "123 Main St", "555-123-4567", 1);
+
+-- select * from customerdetails;
+-- delete from customerdetails;
+
+INSERT INTO customerdetails (custID, firstName, lastName, address, phoneNo, areaCode) VALUES
+(1, 'Natalia', 'Palej', '123 Main St', '555-123-4567', 1),
+(2, 'Ivan', 'Lapickij', '456 Elm St', '555-234-5678', 2),
+(3, 'Ronan', 'Harris', '789 Oak St', '555-345-6789', 3),
+(4, 'Lilly', 'Lola', '101 Pine St', '555-456-7890', 4),
+(5, 'Kevin', 'Murphy', '202 Maple St', '555-567-8901', 5),
+(6, 'Doja', 'Cot', '303 Cedar St', '555-678-9012', 6),
+(7, 'Miley', 'Cyrus', '404 Birch St', '555-789-0123', 7),
+(8, 'Selena', 'Gomez', '505 Redwood St', '555-890-1234', 8),
+(9, 'Cardi', 'B', '606 Sequoia St', '555-901-2345', 9),
+(10, 'Brad', 'Pitt', '707 Spruce St', '555-012-3456', 10),
+(11, 'Bond', '007', '008 Willow St', '555-001-2345', 11);
+
+-- select * from orders;
+-- select * from publications;
+-- select * from customerdetails;
+-- select * from invoices;
+
+
 DROP DATABASE IF EXISTS newsagentdb;
 CREATE DATABASE IF NOT EXISTS newsagentdb;
 USE newsagentdb;
 -- select * from userdetails;
 -- insert into userdetails values (null, "n", "n", "newsagent");
 -- insert into userdetails values (null,"d", "d", "driver");
--- insert into userdetails values (null,"a", "a", "admin");customerdetails
+-- insert into userdetails values (null,"a", "a", "admin");
 -- Create the 'userdetails' table for admins, drivers, and newsagents
 DROP TABLE IF EXISTS userdetails;
 CREATE TABLE IF NOT EXISTS userdetails (
@@ -43,28 +68,14 @@ CREATE TABLE publications (
     stock INT NOT NULL
 );
 
+-- drop table if exists publications;
 -- INSERT INTO PUBLICATIONS
 INSERT INTO publications (title, issueNo, author, price, stock) VALUES
-    ('Irish Independent', 100, 'John Doe', 2, 100),
-    ('Irish Times', 123, 'John Smith', 1, 350),
-    ('Time', 456, 'Jane Doe', 3, 500),
-    ('Offaly Topic', 789, 'Michael Johnson', 2, 200),
-    ('Irish Independent', 321, 'John Doe', 2, 150),
-    ('Irish Times', 234, 'John Smith', 1, 400),
-    ('Westmeath Independent', 567, 'Robert Green', 2, 300),
-    ('Vogue', 123, 'Emily White', 4, 600),
-    ('Time', 890, 'Jane Doe', 3, 250),
-    ('Irish Independent', 432, 'John Doe', 2, 350),
-    ('Irish Times', 765, 'John Smith', 1, 300),
-    ('Offaly Topic', 109, 'Michael Johnson', 2, 450),
-    ('Vogue', 543, 'Emily White', 4, 200),
-    ('Rolling Stone', 234, 'Liam Johnson', 1, 750),
-    ('Irish Times', 456, 'John Smith', 1, 300),
-    ('Offaly Topic', 654, 'Michael Johnson', 2, 400),
-    ('Vogue', 987, 'Emily White', 4, 350),
-    ('Irish Times', 234, 'John Smith', 1, 250),
-    ('Irish Independent', 402, 'John Doe', 2, 400),
-    ('Irish Times', 111, 'John Smith', 1, 280)
+    ('Daily', 100, 'John Doe', 2, 100),
+    ('Weekly', 123, 'John Smith', 1, 350),
+    ('Montly', 456, 'Jane Doe', 3, 500),
+    ('Kids', 789, 'Michael Johnson', 2, 200),
+    ('IT', 321, 'John Doe', 2, 150)
 ;
 
 -- Create the 'customerdetails' table
@@ -74,61 +85,16 @@ CREATE TABLE IF NOT EXISTS customerdetails (
     firstName VARCHAR(15) NOT NULL,
     lastName VARCHAR(15) NOT NULL,    
     address VARCHAR(50) NOT NULL,
-    phoneNo INT(15) DEFAULT NULL,
-    areaCode int(12) NOT NULL,
-    CONSTRAINT unique_customer_details UNIQUE (firstName, lastName, address, phoneNo)
+    phoneNo VARCHAR(15) DEFAULT NULL,
+    areaCode int NOT NULL
 );
-
--- INSERT INTO customers 
-INSERT INTO customerdetails (firstName, lastName, address, phoneNo, areaCode) VALUES
--- AREA BY CODE
--- 1.Carlow
--- 2.Dublin
--- 3.Kildare
--- 4.Kilkenny
--- 5.Laois
--- 6.Longford
--- 7.Louth
--- 8.Meath
--- 9.Offaly
--- 10Westmeath
--- 11.Wexford
--- 12.Wicklow
-('John', 'Doe',1, '123 Main St , Carlow', 555987254),
-('Alice', 'Smith',2, '456 Elm St, Dublin', 555987654),
-('Robert', 'Johnson',2, '789 Oak St, Dublin', 555555555),
-('Sara', 'Williams',2, '1122 Elm St, Dublin', 555777777),
-('Michael', 'Brown',3, '88 Oak St, Kildare', 555999999),
-('Emily', 'Miller',3, '321 Pine St,Kildare', 555333444),
-('Daniel', 'Clark',4, '789 Snow St, Kilkenny', 555555555),
-('Emanuel', 'Garcia', 5,'111 Three St, Laois', 555777777),
-('Ciara', 'Taylor',6, '222 River St, Longford', 555999999),
-('Mark', 'Johnson', 1, '789 Oak St, Carlow', 555444555),
-('Emma', 'Davis', 2, '456 Pine St, Dublin', 555333666),
-('Christopher', 'Lee', 3, '123 Maple St, Kildare', 555222777),
-('Olivia', 'Moore', 4, '987 Birch St, Kilkenny', 555111888),
-('James', 'White', 5, '654 Cedar St, Laois', 555777000),
-('Sophia', 'Hall', 6, '321 Redwood St, Longford', 555888999),
-('Liam', 'Jones', 7, '876 Willow St, Louth', 555999111),
-('Ava', 'Taylor', 8, '234 Oak St, Meath', 555222333),
-('Noah', 'Brown', 9, '567 Pine St, Offaly', 555444555),
-('Isabella', 'Wilson', 10, '876 Elm St, Westmeath', 555666777),
-('Logan', 'Anderson', 11, '543 Maple St, Wexford', 555888999),
-('Mia', 'Moore', 12, '789 Birch St, Wicklow', 555111222),
-('Ethan', 'Smith', 1, '432 Cedar St, Carlow', 555333444),
-('Aria', 'Johnson', 2, '765 Redwood St, Dublin', 555555777),
-('Lucas', 'Williams', 3, '987 Willow St, Kildare', 555777888),
-('Amelia', 'Martin', 4, '543 Pine St, Kilkenny', 555999111),
-('Jackson', 'Harris', 5, '876 Maple St, Laois', 555111222),
-('Ella', 'Scott', 6, '321 Elm St, Longford', 555333444),
-('Carter', 'Garcia', 7, '654 Cedar St, Louth', 555555666),
-('Grace', 'Davis', 8, '876 Redwood St, Meath', 555777888);
 
 -- Create the 'orders' table
 DROP TABLE IF EXISTS orders;
+-- select * from orders;
 CREATE TABLE orders (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
-    dateCreated date NOT NULL,
+    dateCreated DATE NOT NULL,
     custID INT NOT NULL,
     orderType ENUM('daily', 'weekly', 'monthly') NOT NULL,
     publicationID INT NOT NULL,
@@ -136,40 +102,46 @@ CREATE TABLE orders (
     FOREIGN KEY (publicationID) REFERENCES publications (publicationID) ON DELETE CASCADE
 );
 
+select * from customerdetails;
+select * from orders;
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(CURDATE(), 1, "weekly", 3),
+(CURDATE(), 1, "daily", 2),
+(CURDATE(), 1, "monthly", 1),
+(CURDATE(), 1, "daily", 4),
+(CURDATE(), 1, "weekly", 5),
+(CURDATE(), 2, "weekly", 1),
+(CURDATE(), 2, "monthly", 2),
+(CURDATE(), 2, "daily", 3),
+(CURDATE(), 2, "daily", 4),
+(CURDATE(), 2, "weekly", 5),
+(CURDATE(), 3, "monthly", 2),
+(CURDATE(), 3, "daily", 3),
+(CURDATE(), 3, "monthly", 4),
+(CURDATE(), 3, "daily", 5),
+(CURDATE(), 3, "weekly", 1),
+(CURDATE(), 11, "monthly", 3),
+(CURDATE(), 11, "daily", 4),
+(CURDATE(), 11, "monthly", 5),
+(CURDATE(), 11, "daily", 1),
+(CURDATE(), 11, "weekly", 2);
 
 -- INSERT INTO ORDERS
 INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES 
-('2023-10-10', 1, 'daily', 20),
-('2023-10-20', 2, 'weekly', 19),
-('2023-10-21', 3, 'monthly', 18),
-('2023-10-22', 4, 'daily', 17),
-('2023-10-23', 5, 'weekly', 16),
-('2023-10-24', 6, 'monthly', 15),
-('2023-10-25', 7, 'daily', 14),
-('2023-10-26', 8, 'weekly', 13), 
-('2023-10-27', 9, 'monthly', 12), 
-('2023-10-28', 10, 'daily', 11),
-('2023-11-13', 11, 'weekly', 10),
-('2023-11-13', 12, 'weekly', 9),
-('2023-11-13', 13, 'monthly', 8),
-('2023-11-13', 14, 'daily', 7),
-('2023-11-13', 15, 'weekly', 6),
-('2023-11-13', 16, 'monthly', 5),
-('2023-11-13', 17, 'daily', 4),
-('2023-11-13', 18, 'weekly', 3), 
-('2023-11-13', 19, 'monthly', 2), 
-('2023-11-13', 20, 'daily', 1),
-('2023-11-13', 21, 'weekly', 20),	
-('2023-11-13', 22, 'monthly', 19),
-('2023-11-13', 23, 'daily', 18),
-('2023-11-13', 24, 'weekly', 17),
-('2023-11-13', 25, 'monthly', 16),
-('2023-11-13', 26, 'daily', 15),
-('2023-11-13', 27, 'weekly', 14), 
-('2023-11-13', 28, 'monthly', 13), 
-('2023-11-13', 29, 'daily', 12),
-('2023-11-13', 2, 'weekly', 11),
-('2023-11-13', 1, 'monthly', 10);
+('2023-10-10', 1, 'daily', 1),
+('2023-10-20', 2, 'weekly', 1),
+('2023-10-21', 3, 'monthly', 1),
+('2023-10-22', 4, 'daily', 2),
+('2023-10-23', 5, 'weekly', 2),
+('2023-10-24', 6, 'monthly', 2),
+('2023-10-25', 7, 'daily', 2),
+('2023-10-26', 8, 'weekly', 2), 
+('2023-10-27', 9, 'monthly', 3), 
+('2023-10-28', 10, 'daily', 3),
+('2023-11-13', 11, 'weekly', 3),
+('2023-11-13', 2, 'weekly', 3),
+('2023-11-13', 1, 'monthly', 4);
 
 -- Temporary table to generate dates up to 06/12/2023
 CREATE TEMPORARY TABLE temp_dates AS (
@@ -232,7 +204,7 @@ INNER JOIN
 ORDER BY 
     o.orderID;
 
-
+drop table if exists invoices;
 -- Create the 'invoices' table
 CREATE TABLE IF NOT EXISTS invoices (
     invoiceID INT AUTO_INCREMENT PRIMARY KEY,
@@ -266,8 +238,9 @@ GROUP BY
 SELECT * FROM invoices ORDER BY custID;
 
 
-DROP TABLE IF EXISTS invoices;
-DROP TABLE IF EXISTS orders;
+
+
+
 
 
 -- Display data
@@ -276,5 +249,44 @@ SELECT * FROM customerdetails ORDER BY custID;
 SELECT * FROM publications ORDER BY publicationID;
 SELECT * FROM orders ORDER BY orderID;
 
-ALTER TABLE customerdetails drop foreign key custID;
-alter table customerdetails add constraint custID foreign key (custID) references customerdetails (custID) on delete cascade;
+
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 2, 'monthly', 1),
+(NOW(), 4, 'monthly', 1);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 2, 'weekly', 3),
+(NOW(), 2, 'monthly', 4);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 3, 'monthly', 5),
+(NOW(), 3, 'daily', 1);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 4, 'monthly', 2),
+(NOW(), 4, 'weekly', 3);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 5, 'daily', 4),
+(NOW(), 5, 'monthly', 5);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 6, 'weekly', 1),
+(NOW(), 6, 'daily', 2);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 7, 'monthly', 3),
+(NOW(), 7, 'weekly', 4);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 8, 'daily', 5),
+(NOW(), 8, 'monthly', 1);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 9, 'monthly', 2),
+(NOW(), 9, 'daily', 3);
+
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
+(NOW(), 10, 'weekly', 4),
+(NOW(), 10, 'monthly', 5);

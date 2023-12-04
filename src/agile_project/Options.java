@@ -13,6 +13,7 @@ public class Options extends DatabaseConnector {
 	private static Scanner in = new Scanner(System.in);
 
 	public Options() {
+
 	}
 
 	static void loginScreen() throws NataliaException, SQLException {
@@ -307,12 +308,10 @@ public class Options extends DatabaseConnector {
 			case 5:
 				newsagentOptions();
 				break;
-
-			default:
-				System.out.println("Invalid option.");
-				break;
 			}
-			break;}}
+		}
+	}
+
 
 	private void driverOptions() throws NataliaException, SQLException {
 		Driver driver = new Driver();

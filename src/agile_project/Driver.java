@@ -70,7 +70,27 @@ public class Driver extends DatabaseConnector {
 			// Get today's date
 			LocalDate localDateNow = LocalDate.now();
 
-			String query = "SELECT * FROM orders AND publications";
+			String query = "SELECT \r\n"
+					+ "    o.orderID,\r\n"
+					+ "    o.dateCreated,\r\n"
+					+ "    c.firstName,\r\n"
+					+ "    c.lastName,\r\n"
+					+ "    c.areaCode,\r\n"
+					+ "    c.address,\r\n"
+					+ "    p.title AS publicationTitle,\r\n"
+					+ "    p.issueNo AS publicationIssueNo\r\n"
+					+ "FROM \r\n"
+					+ "    orders o\r\n"
+					+ "INNER JOIN \r\n"
+					+ "    customerdetails c ON o.custID = c.custID\r\n"
+					+ "INNER JOIN \r\n"
+					+ "    publications p ON o.publicationID = p.publicationID\r\n"
+					+ "WHERE \r\n"
+					+ "    c.areaCode = ?\r\n"
+					+ "    AND o.dateCreated = ?\r\n"
+					+ "ORDER BY \r\n"
+					+ "    o.orderID;";
+
 
 			// Create a PreparedStatement
 			try (Connection connection = getConnection();
@@ -95,7 +115,57 @@ public class Driver extends DatabaseConnector {
 				}
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SQLException("Error executing SQL query: " + e.getMessage());
+		}
+	}
+
+
+	private void deductStock() throws NataliaException, SQLException {
+		Connection connection = getConnection();
+		try {
+			System.out.println("Enter Order ID:");
+			int orderID = in.nextInt();
+
+			// Check if the order exists and get the publication ID and quantity
+			String getOrderQuery = "SELECT publicationID FROM orders WHERE orderID = ?";
+			try (PreparedStatement getOrderStatement = connection.prepareStatement(getOrderQuery)) {
+				getOrderStatement.setInt(1, orderID);
+				ResultSet orderResultSet = getOrderStatement.executeQuery();
+
+				if (orderResultSet.next()) {
+					int publicationID = orderResultSet.getInt("publicationID");
+
+					// Check current stock
+					String getStockQuery = "SELECT stock FROM publications WHERE publicationID = ?";
+					try (PreparedStatement getStockStatement = connection.prepareStatement(getStockQuery)) {
+						getStockStatement.setInt(1, publicationID);
+						ResultSet stockResultSet = getStockStatement.executeQuery();
+
+						if (stockResultSet.next()) {
+							int currentStock = stockResultSet.getInt("stock");
+
+							// Update stock
+							String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+							try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+								updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
+								updateStockStatement.setInt(2, publicationID);
+								int rowsUpdated = updateStockStatement.executeUpdate();
+
+								if (rowsUpdated > 0) {
+									System.out.println("Stock deducted successfully.");
+								} else {
+									System.out.println("Failed to deduct stock.");
+								}
+							}
+						}
+					}
+				} else {
+					System.out.println("Order not found.");
+				}
+			}
+		} catch (Exception e) {
+			throw new SQLException("Error deducting stock: " + e.getMessage());
 		}
 	}
 

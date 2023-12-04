@@ -93,13 +93,55 @@ public class Admin extends User {
         }
     }
 	
+	public void createUser(String username, String password, String role) throws NataliaException, SQLException {
+        Connection connection = null;
+        try {
+        	if (!isValidUsername(username)) {
+                throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
+            }
+
+            if (!isValidPassword(password)) {
+                throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
+            }
+
+            if (!isValidRole(role)) {
+                throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
+            }
+        	
+            connection = DatabaseConnector.getConnection();
+            String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
+            stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+            	int userID = generatedKeys.getInt(1);
+                this.setID(userID);
+                this.setUsername(username);
+                this.setPassword(password);
+                this.setRole(role);
+                
+                System.out.println("User: " + this.getID() + " " + this.getUsername() + " was successfully created!");
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Couldn't create User.\n" + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+	
 	public void deleteUser(int id) throws NataliaException, SQLException {
 		
 		System.out.println("* --------------- *");
     	System.out.println("|   Delete User   |");
     	System.out.println("* --------------- *");
 		
-		System.out.println("Are you sure you want to delete user: " + id + "?");
+		System.out.println("Are you sure you want to delete user: " + id + "? (Y/N)");
 		String answer = in.next();
 		
 		Connection connection = null;
@@ -286,7 +328,7 @@ public class Admin extends User {
 	 * @param role: admin/newsagent/driver
 	 */
 	public boolean isValidUsername(String username) {
-		if (username.length() >= 1 && username.length() <= 10) {
+		if (username.length() > 1 && username.length() <= 10) {
 			return true;
 		}
 		return false;

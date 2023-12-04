@@ -98,15 +98,13 @@ public class Customer {
 	    try {
 			connection = DatabaseConnector.getConnection();
 			
-			String query = "SELECT * FROM customerdetails ORDER BY custID ASC";
+			String query = "SELECT * FROM customerdetails ORDER BY custID";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			
-			boolean customerList = false;
 			String allCustomersDetails = "";
 			
 			while (resultSet.next()) {
-				customerList = true;
 				String custID = resultSet.getString("custID");
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
@@ -121,17 +119,21 @@ public class Customer {
 	            String formattedPhoneNo = String.format("%-15s", phoneNo);
 	            String formattedAreaCode = String.format("%-15s", areaCode);
 	            
+	            allCustomersDetails += "Customer ID: " + custID +
+	                    "\tFirst Name: " + firstName +
+	                    "\tLast Name: " + lastName +
+	                    "\tAddress: " + address +
+	                    "\tPhone Number: " + phoneNo +
+	                    "\tArea Code: " + areaCode + "\n";
+	            
 	            System.out.println("Customer ID: " + formattedCustID +
 	                    "First Name: " + formattedFirstName +
 	                    "Last Name: " + formattedLastName +
 	                    "Address: " + formattedAddress +
 	                    "Phone Number: " + formattedPhoneNo +
-	                    "Area Code: " + formattedAreaCode);
+	                    "Area Code: " + formattedAreaCode + "\n");
 			}
-			if (!customerList) {
-	            throw new NataliaException("Customer database is empty or not found.");
-	        }
-			return allCustomersDetails.toString();
+			return allCustomersDetails;
 		} catch (SQLException error) {
 			throw new NataliaException("Database error.\n" + error.getMessage());
 		} finally {

@@ -5,7 +5,7 @@ import java.sql.*;
 public class DatabaseConnector {
 	
 	private static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static String JDBC_URL = "jdbc:mysql://localhost:3307/newsagentdb";
+	private static String JDBC_URL = "jdbc:mysql://localhost:3306/newsagentdb";
 	private static String USERNAME = "root";
 	private static String PASSWORD = "";
 	
@@ -14,7 +14,7 @@ public class DatabaseConnector {
 		if (!DB_DRIVER.equalsIgnoreCase("com.mysql.cj.jdbc.Driver")) {
 			throw new NataliaException("Invalid DB DRIVER.");
 		}
-		else if (!JDBC_URL.equalsIgnoreCase("jdbc:mysql://localhost:3307/newsagentdb")) {
+		else if (!JDBC_URL.equalsIgnoreCase("jdbc:mysql://localhost:3306/newsagentdb")) {
 			throw new NataliaException("Invalid JDBC URL.");
 		}
 		else if (!USERNAME.equalsIgnoreCase("root")) {

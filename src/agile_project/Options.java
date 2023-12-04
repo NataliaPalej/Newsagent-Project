@@ -321,6 +321,7 @@ public class Options extends DatabaseConnector {
                 int areaCode = in.nextInt();
                 // Fetch and display the delivery docket for the specified area code
                 driver.docketCurrentDay(areaCode);
+                deductStock();
                 break;
 
             case 2:
@@ -406,5 +407,51 @@ public class Options extends DatabaseConnector {
         authenticatedUser = null;
         // Return to the login screen
         loginScreen();
+    }
+    private void deductStock() throws NataliaException, SQLException {
+        try {
+            System.out.println("Enter Order ID:");
+            int orderID = in.nextInt();
+
+            // Check if the order exists and get the publication ID and quantity
+            String getOrderQuery = "SELECT publicationID FROM orders WHERE orderID = ?";
+            try (PreparedStatement getOrderStatement = connection.prepareStatement(getOrderQuery)) {
+                getOrderStatement.setInt(1, orderID);
+                ResultSet orderResultSet = getOrderStatement.executeQuery();
+
+                if (orderResultSet.next()) {
+                    int publicationID = orderResultSet.getInt("publicationID");
+
+                    // Check current stock
+                    String getStockQuery = "SELECT stock FROM publications WHERE publicationID = ?";
+                    try (PreparedStatement getStockStatement = connection.prepareStatement(getStockQuery)) {
+                        getStockStatement.setInt(1, publicationID);
+                        ResultSet stockResultSet = getStockStatement.executeQuery();
+
+                        if (stockResultSet.next()) {
+                            int currentStock = stockResultSet.getInt("stock");
+
+                            // Update stock
+                            String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+                            try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+                                updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
+                                updateStockStatement.setInt(2, publicationID);
+                                int rowsUpdated = updateStockStatement.executeUpdate();
+
+                                if (rowsUpdated > 0) {
+                                    System.out.println("Stock deducted successfully.");
+                                } else {
+                                    System.out.println("Failed to deduct stock.");
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("Order not found.");
+                }
+            }
+        } catch (Exception e) {
+            throw new SQLException("Error deducting stock: " + e.getMessage());
+        }
     }
 }

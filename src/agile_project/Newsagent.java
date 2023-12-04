@@ -284,7 +284,6 @@ public class Newsagent extends Customer {
 				System.out.println("Deletion cancelled.");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new NataliaException("Customer " + id + " doesn't exist.");
 		} finally {
 			connection.close();

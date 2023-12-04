@@ -1,36 +1,10 @@
-insert into customerdetails (firstName, lastName, address, phoneNo, areaCode) 
-values ("Natalia", "Palej", "123 Main St", "555-123-4567", 1);
-
-select * from customerdetails;
-delete from customerdetails;
-
-INSERT INTO customerdetails (custID, firstName, lastName, address, phoneNo, areaCode) VALUES
-(1, 'Natalia', 'Palej', '123 Main St', '555-123-4567', 1),
-(2, 'Ivan', 'Lapickij', '456 Elm St', '555-234-5678', 2),
-(3, 'Ronan', 'Harris', '789 Oak St', '555-345-6789', 3),
-(4, 'Lilly', 'Lola', '101 Pine St', '555-456-7890', 4),
-(5, 'Kevin', 'Murphy', '202 Maple St', '555-567-8901', 5),
-(6, 'Doja', 'Cot', '303 Cedar St', '555-678-9012', 6),
-(7, 'Miley', 'Cyrus', '404 Birch St', '555-789-0123', 7),
-(8, 'Selena', 'Gomez', '505 Redwood St', '555-890-1234', 8),
-(9, 'Cardi', 'B', '606 Sequoia St', '555-901-2345', 9),
-(10, 'Brad', 'Pitt', '707 Spruce St', '555-012-3456', 10),
-(11, 'Bond', '007', '008 Willow St', '555-001-2345', 11);
-
-select * from orders;
-select * from publications;
-select * from customerdetails;
-select * from invoices;
-
-
+-- CREATE DATABASE-- #################################################################
 DROP DATABASE IF EXISTS newsagentdb;
 CREATE DATABASE IF NOT EXISTS newsagentdb;
 USE newsagentdb;
-select * from userdetails;
-insert into userdetails values (null, "n", "n", "newsagent");
-insert into userdetails values (null,"d", "d", "driver");
-insert into userdetails values (null,"a", "a", "admin");
--- Create the 'userdetails' table for admins, drivers, and newsagents
+
+-- USERDETAILS#################################################################
+-- Create the 'userdetails' table for admins, drivers, and newsagents 
 DROP TABLE IF EXISTS userdetails;
 CREATE TABLE IF NOT EXISTS userdetails (
     userID INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,6 +31,36 @@ INSERT INTO userdetails (username, password, role) VALUES
 ('admin1', 'Admin1', 'admin'), 
 ('newsagent1', 'Newsagent1', 'newsagent');
 
+insert into userdetails values (null, "n", "n", "newsagent");
+insert into userdetails values (null,"d", "d", "driver");
+insert into userdetails values (null,"a", "a", "admin");
+
+-- CUSTOMER DETATAILS#################################################################
+DROP TABLE IF EXISTS customerdetails;
+-- Create the 'customerdetails' table
+DROP TABLE IF EXISTS customerdetails;
+CREATE TABLE IF NOT EXISTS customerdetails (
+    custID INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(15) NOT NULL,
+    lastName VARCHAR(15) NOT NULL,    
+    address VARCHAR(50) NOT NULL,
+    phoneNo VARCHAR(15) DEFAULT NULL,
+    areaCode int NOT NULL);
+INSERT INTO customerdetails (custID, firstName, lastName, address, phoneNo, areaCode) VALUES
+(1, 'Natalia', 'Palej', '123 Main St', '555-123-4567', 1),
+(2, 'Ivan', 'Lapickij', '456 Elm St', '555-234-5678', 2),
+(3, 'Ronan', 'Harris', '789 Oak St', '555-345-6789', 3),
+(4, 'Lilly', 'Lola', '101 Pine St', '555-456-7890', 4),
+(5, 'Kevin', 'Murphy', '202 Maple St', '555-567-8901', 5),
+(6, 'Doja', 'Cot', '303 Cedar St', '555-678-9012', 6),
+(7, 'Miley', 'Cyrus', '404 Birch St', '555-789-0123', 7),
+(8, 'Selena', 'Gomez', '505 Redwood St', '555-890-1234', 8),
+(9, 'Cardi', 'B', '606 Sequoia St', '555-901-2345', 9),
+(10, 'Brad', 'Pitt', '707 Spruce St', '555-012-3456', 10),
+(11, 'Bond', '007', '008 Willow St', '555-001-2345', 11),
+(12,"Natalia", "Palej", "123 Main St", "555-123-4567", 1);
+
+-- PUBLICATIONS#################################################################
 -- Create the 'publications' table
 DROP TABLE IF EXISTS publications;
 CREATE TABLE publications (
@@ -67,8 +71,6 @@ CREATE TABLE publications (
     price INT NOT NULL,
     stock INT NOT NULL
 );
-
-drop table if exists publications;
 -- INSERT INTO PUBLICATIONS
 INSERT INTO publications (title, issueNo, author, price, stock) VALUES
     ('Daily', 100, 'John Doe', 2, 100),
@@ -77,21 +79,9 @@ INSERT INTO publications (title, issueNo, author, price, stock) VALUES
     ('Kids', 789, 'Michael Johnson', 2, 200),
     ('IT', 321, 'John Doe', 2, 150)
 ;
-
--- Create the 'customerdetails' table
-DROP TABLE IF EXISTS customerdetails;
-CREATE TABLE IF NOT EXISTS customerdetails (
-    custID INT AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(15) NOT NULL,
-    lastName VARCHAR(15) NOT NULL,    
-    address VARCHAR(50) NOT NULL,
-    phoneNo VARCHAR(15) DEFAULT NULL,
-    areaCode int NOT NULL
-);
-
+-- ORDERS#################################################################
 -- Create the 'orders' table
 DROP TABLE IF EXISTS orders;
-select * from orders;
 CREATE TABLE orders (
     orderID INT AUTO_INCREMENT PRIMARY KEY,
     dateCreated DATE NOT NULL,
@@ -102,9 +92,22 @@ CREATE TABLE orders (
     FOREIGN KEY (publicationID) REFERENCES publications (publicationID) ON DELETE CASCADE
 );
 
-select * from customerdetails;
-select * from orders;
-
+-- INSERT INTO ORDERS OLD DATE
+INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES 
+('2023-10-10', 1, 'daily', 1),
+('2023-10-20', 2, 'weekly', 1),
+('2023-10-21', 3, 'monthly', 1),
+('2023-10-22', 4, 'daily', 2),
+('2023-10-23', 5, 'weekly', 2),
+('2023-10-24', 6, 'monthly', 2),
+('2023-10-25', 7, 'daily', 2),
+('2023-10-26', 8, 'weekly', 3), 
+('2023-10-27', 9, 'monthly', 3), 
+('2023-10-28', 10, 'daily', 3),
+('2023-11-13', 11, 'weekly', 4),
+('2023-11-13', 2, 'weekly', 1),
+('2023-11-13', 1, 'monthly', 1);
+-- CURRENT DATE-- 
 INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
 (CURDATE(), 1, "weekly", 3),
 (CURDATE(), 1, "daily", 2),
@@ -127,23 +130,9 @@ INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
 (CURDATE(), 11, "daily", 1),
 (CURDATE(), 11, "weekly", 2);
 
--- INSERT INTO ORDERS
-INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES 
-('2023-10-10', 1, 'daily', 1),
-('2023-10-20', 2, 'weekly', 1),
-('2023-10-21', 3, 'monthly', 1),
-('2023-10-22', 4, 'daily', 2),
-('2023-10-23', 5, 'weekly', 2),
-('2023-10-24', 6, 'monthly', 2),
-('2023-10-25', 7, 'daily', 2),
-('2023-10-26', 8, 'weekly', 3), 
-('2023-10-27', 9, 'monthly', 3), 
-('2023-10-28', 10, 'daily', 3),
-('2023-11-13', 11, 'weekly', 4),
-('2023-11-13', 2, 'weekly', 1),
-('2023-11-13', 1, 'monthly', 1);
-
 -- Temporary table to generate dates up to 06/12/2023
+-- Drop temporary table if Exists
+DROP TEMPORARY TABLE IF EXISTS temp_dates;
 CREATE TEMPORARY TABLE temp_dates AS (
     SELECT DATE_ADD('2023-10-29', INTERVAL t.seq DAY) AS order_date
     FROM (
@@ -156,101 +145,7 @@ CREATE TEMPORARY TABLE temp_dates AS (
     WHERE DATE_ADD('2023-10-29', INTERVAL t.seq DAY) <= '2023-12-06'
 );
 
--- Insert orders based on order frequency
-INSERT INTO orders (dateCreated, custID, orderType, publicationID)
-SELECT 
-    d.order_date,
-    o.custID,
-    o.orderType,
-    o.publicationID
-FROM 
-    temp_dates d
-JOIN 
-    orders o ON o.dateCreated <= d.order_date
-WHERE 
-    (
-        (o.orderType = 'daily' AND d.order_date > o.dateCreated) OR
-        (o.orderType = 'weekly' AND d.order_date = DATE_ADD(o.dateCreated, INTERVAL 7 DAY)) OR
-        (
-            o.orderType = 'monthly' AND (
-                DAY(d.order_date) = DAY(o.dateCreated) OR
-                (
-                    DAY(o.dateCreated) > 28 AND
-                    DAY(d.order_date) = DAY(LAST_DAY(DATE_SUB(d.order_date, INTERVAL 1 DAY)))
-                )
-            )
-        )
-    );
-    
--- Drop temporary table
-DROP TEMPORARY TABLE IF EXISTS temp_dates;
-
--- joining orders, customerdetails and publications
-SELECT 
-    o.orderID,
-    o.dateCreated,
-    c.firstName,
-    c.lastName,
-    c.areaCode,
-    c.address,
-    p.title AS publicationTitle,
-    p.issueNo AS publicationIssueNo
-FROM 
-    orders o
-INNER JOIN 
-    customerdetails c ON o.custID = c.custID
-INNER JOIN 
-    publications p ON o.publicationID = p.publicationID
-ORDER BY 
-    o.orderID;
-
-drop table if exists invoices;
--- Create the 'invoices' table
-CREATE TABLE IF NOT EXISTS invoices (
-    invoiceID INT AUTO_INCREMENT PRIMARY KEY,
-    custID INT,
-    totalPrice INT,
-    FOREIGN KEY (custID) REFERENCES customerdetails(custID) ON DELETE CASCADE
-);
-
--- INSERT INTO invoices
-INSERT INTO invoices (custID, totalPrice)
-SELECT
-    o.custID,
-    SUM(
-        CASE
-            WHEN o.orderType = 'daily' THEN p.price * 7
-            WHEN o.orderType = 'monthly' THEN p.price * 28
-            WHEN o.orderType = 'weekly' THEN p.price
-            ELSE 0
-        END
-    ) AS totalPrice
-FROM
-    orders o
-JOIN
-    publications p ON o.publicationID = p.publicationID
-WHERE
-    o.custID IS NOT NULL
-GROUP BY
-    o.custID;
-
--- Display data
-SELECT * FROM invoices ORDER BY custID;
-
-
-
-
-
-
-
--- Display data
-SELECT * FROM userdetails ORDER BY userID;
-SELECT * FROM customerdetails ORDER BY custID;
-SELECT * FROM publications ORDER BY publicationID;
-SELECT * FROM orders ORDER BY orderID;
-
-
-
+-- ORDERS CURRENT DAY
 INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
 (NOW(), 2, 'monthly', 1),
 (NOW(), 4, 'monthly', 1);
@@ -290,3 +185,88 @@ INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
 INSERT INTO orders (dateCreated, custID, orderType, publicationID) VALUES
 (NOW(), 10, 'weekly', 4),
 (NOW(), 10, 'monthly', 5);
+
+-- Insert orders based on order frequency DO WE NEED THIS?????????????????????????????????????????????????????????????????????????
+INSERT INTO orders (dateCreated, custID, orderType, publicationID)
+SELECT 
+    d.order_date,
+    o.custID,
+    o.orderType,
+    o.publicationID
+FROM 
+    temp_dates d
+JOIN 
+    orders o ON o.dateCreated <= d.order_date
+WHERE 
+    (
+        (o.orderType = 'daily' AND d.order_date > o.dateCreated) OR
+        (o.orderType = 'weekly' AND d.order_date = DATE_ADD(o.dateCreated, INTERVAL 7 DAY)) OR
+        (
+            o.orderType = 'monthly' AND (
+                DAY(d.order_date) = DAY(o.dateCreated) OR
+                (
+                    DAY(o.dateCreated) > 28 AND
+                    DAY(d.order_date) = DAY(LAST_DAY(DATE_SUB(d.order_date, INTERVAL 1 DAY)))
+                )
+            )
+        )
+    );
+ 
+
+-- joining orders, customerdetails and publications
+SELECT 
+    o.orderID,
+    o.dateCreated,
+    c.firstName,
+    c.lastName,
+    c.areaCode,
+    c.address,
+    p.title AS publicationTitle,
+    p.issueNo AS publicationIssueNo
+FROM 
+    orders o
+INNER JOIN 
+    customerdetails c ON o.custID = c.custID
+INNER JOIN 
+    publications p ON o.publicationID = p.publicationID
+ORDER BY 
+    o.orderID;
+
+
+-- INVOICES-- #################################################################
+DROP TABLE IF EXISTS invoices;
+-- Create the 'invoices' table
+CREATE TABLE IF NOT EXISTS invoices (
+    invoiceID INT AUTO_INCREMENT PRIMARY KEY,
+    custID INT,
+    totalPrice INT,
+    FOREIGN KEY (custID) REFERENCES customerdetails(custID) ON DELETE CASCADE
+);
+
+-- INSERT INTO invoices
+INSERT INTO invoices (custID, totalPrice)
+SELECT
+    o.custID,
+    SUM(
+        CASE
+            WHEN o.orderType = 'daily' THEN p.price * 7
+            WHEN o.orderType = 'monthly' THEN p.price * 28
+            WHEN o.orderType = 'weekly' THEN p.price
+            ELSE 0
+        END
+    ) AS totalPrice
+FROM
+    orders o
+JOIN
+    publications p ON o.publicationID = p.publicationID
+WHERE
+    o.custID IS NOT NULL
+GROUP BY
+    o.custID;
+
+-- Display data#################################################################
+SELECT * FROM invoices ORDER BY custID;
+SELECT * FROM userdetails ORDER BY userID;
+SELECT * FROM customerdetails ORDER BY custID;
+SELECT * FROM publications ORDER BY publicationID;
+SELECT * FROM orders ORDER BY orderID;

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Driver extends DatabaseConnector {
@@ -59,115 +61,143 @@ public class Driver extends DatabaseConnector {
 	}
 
 	/**
-	 * Won't return anything unless update todays date of orders in dataBase.!!!!!!!!
 	 * Methods
-	 * +docketCurrentDay
+	 * +docketCurrentDay -> this also counts how many books to be delivered per areaCode
 	 * +submitDeliveryDocket
 	 */
 
-	public void docketCurrentDay(int areaCode) throws NataliaException, SQLException {
-		try {
-			// Get today's date
-			LocalDate localDateNow = LocalDate.now();
+	// Modify the method to count books delivered per title
+    public void docketCurrentDay(int areaCode) throws NataliaException, SQLException {
+        try {
+            // Get today's date
+            LocalDate localDateNow = LocalDate.now();
 
-			String query = "SELECT \r\n"
-					+ "    o.orderID,\r\n"
-					+ "    o.dateCreated,\r\n"
-					+ "    c.firstName,\r\n"
-					+ "    c.lastName,\r\n"
-					+ "    c.areaCode,\r\n"
-					+ "    c.address,\r\n"
-					+ "    p.title AS publicationTitle,\r\n"
-					+ "    p.issueNo AS publicationIssueNo\r\n"
-					+ "FROM \r\n"
-					+ "    orders o\r\n"
-					+ "INNER JOIN \r\n"
-					+ "    customerdetails c ON o.custID = c.custID\r\n"
-					+ "INNER JOIN \r\n"
-					+ "    publications p ON o.publicationID = p.publicationID\r\n"
-					+ "WHERE \r\n"
-					+ "    c.areaCode = ?\r\n"
-					+ "    AND o.dateCreated = ?\r\n"
-					+ "ORDER BY \r\n"
-					+ "    o.orderID;";
+            String query = "SELECT \r\n"
+                    + "    o.orderID,\r\n"
+                    + "    o.dateCreated,\r\n"
+                    + "    c.firstName,\r\n"
+                    + "    c.lastName,\r\n"
+                    + "    c.areaCode,\r\n"
+                    + "    c.address,\r\n"
+                    + "    p.title AS publicationTitle,\r\n"
+                    + "    p.issueNo AS publicationIssueNo\r\n"
+                    + "FROM \r\n"
+                    + "    orders o\r\n"
+                    + "INNER JOIN \r\n"
+                    + "    customerdetails c ON o.custID = c.custID\r\n"
+                    + "INNER JOIN \r\n"
+                    + "    publications p ON o.publicationID = p.publicationID\r\n"
+                    + "WHERE \r\n"
+                    + "    c.areaCode = ?\r\n"
+                    + "    AND o.dateCreated = ?\r\n"
+                    + "ORDER BY \r\n"
+                    + "    o.orderID;";
 
+            // Use a Map to count books delivered per title
+            Map<String, Integer> booksDeliveredCount = new HashMap<>();
 
-			// Create a PreparedStatement
-			try (Connection connection = getConnection();
-					PreparedStatement statement = connection.prepareStatement(query)) {
+            // Create a PreparedStatement
+            try (Connection connection = getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
 
-				statement.setInt(1, areaCode);
-				statement.setString(2, localDateNow.toString());
+                statement.setInt(1, areaCode);
+                statement.setString(2, localDateNow.toString());
 
-				// Execute the query
-				try (ResultSet resultSet = statement.executeQuery()) {
-					// Process the results
-					while (resultSet.next()) {
-						// Extract and display the information
-						System.out.println("Order ID: " + resultSet.getInt("orderID"));
-						System.out.println("Date: " + resultSet.getString("dateCreated"));
-						System.out.println("Customer Name: " + resultSet.getString("firstName") + " " + resultSet.getString("lastName"));
-						System.out.println("Address: " + resultSet.getString("address"));
-						System.out.println("Title: " + resultSet.getString("publicationTitle"));
-						System.out.println("Publication Issue No.: " + resultSet.getString("publicationIssueNo"));
-						System.out.println("------------------------------");
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new SQLException("Error executing SQL query: " + e.getMessage());
-		}
+                // Execute the query
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    // Process the results
+                    while (resultSet.next()) {
+                        // Extract and display the information
+                        System.out.println("Order ID: " + resultSet.getInt("orderID"));
+                        System.out.println("Date: " + resultSet.getString("dateCreated"));
+                        System.out.println("Customer Name: " + resultSet.getString("firstName") + " " + resultSet.getString("lastName"));
+                        System.out.println("Address: " + resultSet.getString("address"));
+                        String publicationTitle = resultSet.getString("publicationTitle");
+                        System.out.println("Title: " + publicationTitle);
+                        System.out.println("Publication Issue No.: " + resultSet.getString("publicationIssueNo"));
+                        System.out.println("------------------------------");
+
+                        // Update the count for the current title in the Map
+                        booksDeliveredCount.put(publicationTitle, booksDeliveredCount.getOrDefault(publicationTitle, 0) + 1);
+                    }
+                }
+            }
+
+            // Print the count for each title
+            System.out.println("Books Delivered Count:");
+            for (Map.Entry<String, Integer> entry : booksDeliveredCount.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error executing SQL query: " + e.getMessage());
+        }
+    }
+	
+	// Deduct stock quantity by book's title
+	void deductStock() throws NataliaException, SQLException {
+	    Connection connection = getConnection();
+
+	    try {
+	        System.out.println("Enter Book Title: ");
+	        String bookTitle = in.nextLine();
+
+	        // Check if the book exists and get the publication ID and quantity
+	        String getPublicationQuery = "SELECT publicationID, stock FROM publications WHERE title = ?";
+	        try (PreparedStatement getPublicationStatement = connection.prepareStatement(getPublicationQuery)) {
+	            getPublicationStatement.setString(1, bookTitle);
+	            ResultSet publicationResultSet = getPublicationStatement.executeQuery();
+
+	            if (publicationResultSet.next()) {
+	                int publicationID = publicationResultSet.getInt("publicationID");
+	                int currentStock = publicationResultSet.getInt("stock");
+
+	                if (isValidStock(currentStock)) {
+	                    System.out.println("Enter how many books were delivered: ");
+	                    int booksDelivered = in.nextInt();
+
+	                    // Update stock
+	                    String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+	                    try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+	                        updateStockStatement.setInt(1, currentStock - booksDelivered);
+	                        updateStockStatement.setInt(2, publicationID);
+	                        int rowsUpdated = updateStockStatement.executeUpdate();
+
+	                        if (rowsUpdated > 0) {
+	                            System.out.println("Stock deducted successfully. Current stock for " + bookTitle + ": " + (currentStock - booksDelivered));
+	                        } else {
+	                            System.out.println("Failed to deduct stock.");
+	                        }
+	                    } catch (SQLException e) {
+	                        System.out.println("Error while deducting stock.\n" + e.getMessage());
+	                    }
+	                } else {
+	                    System.out.println("Book: " + bookTitle + " is OUT OF STOCK.");
+	                }
+	            } else {
+	                System.out.println("Book title not found.");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new SQLException("Error deducting stock: " + e.getMessage());
+	    }
 	}
 
-
-	private void deductStock() throws NataliaException, SQLException {
-		Connection connection = getConnection();
-		try {
-			System.out.println("Enter Order ID:");
-			int orderID = in.nextInt();
-
-			// Check if the order exists and get the publication ID and quantity
-			String getOrderQuery = "SELECT publicationID FROM orders WHERE orderID = ?";
-			try (PreparedStatement getOrderStatement = connection.prepareStatement(getOrderQuery)) {
-				getOrderStatement.setInt(1, orderID);
-				ResultSet orderResultSet = getOrderStatement.executeQuery();
-
-				if (orderResultSet.next()) {
-					int publicationID = orderResultSet.getInt("publicationID");
-
-					// Check current stock
-					String getStockQuery = "SELECT stock FROM publications WHERE publicationID = ?";
-					try (PreparedStatement getStockStatement = connection.prepareStatement(getStockQuery)) {
-						getStockStatement.setInt(1, publicationID);
-						ResultSet stockResultSet = getStockStatement.executeQuery();
-
-						if (stockResultSet.next()) {
-							int currentStock = stockResultSet.getInt("stock");
-
-							// Update stock
-							String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
-							try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
-								updateStockStatement.setInt(1, currentStock - 1); // Deduct 1 from stock
-								updateStockStatement.setInt(2, publicationID);
-								int rowsUpdated = updateStockStatement.executeUpdate();
-
-								if (rowsUpdated > 0) {
-									System.out.println("Stock deducted successfully.");
-								} else {
-									System.out.println("Failed to deduct stock.");
-								}
-							}
-						}
-					}
-				} else {
-					System.out.println("Order not found.");
-				}
-			}
-		} catch (Exception e) {
-			throw new SQLException("Error deducting stock: " + e.getMessage());
+	
+	/**
+	 * VALIDATION METHODS
+	 * isValidStock
+	 */
+	private boolean isValidStock(int stock) {
+		if (stock > 0) {
+			return true;
 		}
+		return false;
 	}
+	
+	/**
+	 * GETTERS AND SETTERS
+	 */
 
 	public int getDriverID() {
 		return driverID;
@@ -200,6 +230,4 @@ public class Driver extends DatabaseConnector {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
-	// Add other methods here
 }

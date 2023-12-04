@@ -151,4 +151,72 @@ public class Driver extends DatabaseConnector {
 	}
 
 	// Add other methods here
-}
+    public void printDocketAndUpdateStock(int areaCode) throws NataliaException {
+        try {
+            // Get today's date
+            LocalDate localDateNow = LocalDate.now();
+
+            String query = "SELECT p.publicationID, p.title, p.stock " +
+                    "FROM orders o " +
+                    "INNER JOIN customerdetails c ON o.custID = c.custID " +
+                    "INNER JOIN publications p ON o.publicationID = p.publicationID " +
+                    "WHERE c.areaCode = ? AND o.dateCreated = ?";
+
+            try (Connection connection = getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
+
+                statement.setInt(1, areaCode);
+                statement.setString(2, localDateNow.toString());
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int publicationID = resultSet.getInt("publicationID");
+                        String title = resultSet.getString("title");
+                        int stock = resultSet.getInt("stock");
+
+                        System.out.println("Publication ID: " + publicationID);
+                        System.out.println("Title: " + title);
+                        System.out.println("Stock before update: " + stock);
+
+                        // Update the stock in the database
+                        if (stock > 0) {
+                            updatePublicationStock(publicationID, stock - 1);
+                            System.out.println("Stock updated to: " + (stock - 1));
+                        } else {
+                            System.out.println("Out of stock: " + title);
+                        }
+
+                        System.out.println("------------------------------");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error printing docket and updating stock: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Update the stock of a publication in the database.
+     *
+     * @param publicationID The ID of the publication.
+     * @param newStock      The new stock value.
+     * @throws NataliaException If there is an issue with the data or execution.
+     */
+    public void updatePublicationStock(int publicationID, int newStock) throws NataliaException {
+        try {
+            String updateQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+
+            try (Connection connection = getConnection();
+                 PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+
+                updateStatement.setInt(1, newStock);
+                updateStatement.setInt(2, publicationID);
+
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new NataliaException("Error updating publication stock: " + e.getMessage());
+        }
+    }
+
+}//    end of class

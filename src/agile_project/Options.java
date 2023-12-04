@@ -291,6 +291,11 @@ public class Options extends DatabaseConnector {
                 break;
         }
     }
+    private boolean isValidAreaCode(int areaCode) {
+        // Assuming each driver is assigned an area code from 1 to 12
+        return areaCode >= 1 && areaCode <= 12;
+    }
+
 
     private void driverOptions() throws NataliaException, SQLException, RonanException {
         Driver driver = new Driver();
@@ -299,35 +304,46 @@ public class Options extends DatabaseConnector {
         System.out.println("\n\tDriver MENU:\t");
         System.out.println("1. Read Delivery Docket");
         System.out.println("2. Submit Delivery Docket");
-        System.out.println("3. LOG OUT");
+        System.out.println("3. Print Docket and Update Publication Stock");
+        System.out.println("4. LOG OUT");
 
         int menuOption = in.nextInt();
 
         switch (menuOption) {
-            case 1:
-                // READ DOCKET
-                System.out.println("* ------------------ *");
-                System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
-                System.out.println("* ------------------ *");
+        case 1:
+            // READ DOCKET
+            System.out.println("* ------------------ *");
+            System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
+            System.out.println("* ------------------ *");
 
-                System.out.println("Enter Area Code:");
-                int areaCode = in.nextInt();
-                // Fetch and display the delivery docket for the specified area code
-                driver.docketCurrentDay(areaCode);
-                break;
+            System.out.println("Enter Area Code:");
+            int areaCodeRead = in.nextInt();
 
-            case 2:
-                // SUBMIT DOCKET
-                driver.submitDeliveryDocket();
-                break;
+            // Validate area code before fetching the delivery docket
+            if (isValidAreaCode(areaCodeRead)) {
+                driver.docketCurrentDay(areaCodeRead);
+            } else {
+                System.out.println("Invalid area code. Please enter a valid area code.");
+            }
+            break;
 
-            case 3:
-                logOut();
-                break;
+        case 3:
+            // New case for printing the docket and updating publication stock
+            System.out.println("* ------------------ *");
+            System.out.println("|  Today's " + localDateNow + " Delivery Docket |");
+            System.out.println("* ------------------ *");
 
-            default:
-                System.out.println("Invalid option.");
-                break;
+            System.out.println("Enter Area Code:");
+            int areaCodePrint = in.nextInt();
+
+            // Validate area code before printing the docket and updating stock
+            if (isValidAreaCode(areaCodePrint)) {
+                driver.printDocketAndUpdateStock(areaCodePrint);
+            } else {
+                System.out.println("Invalid area code. Please enter a valid area code.");
+            }
+            break;
+
         }
         driverOptions();
     }

@@ -72,21 +72,21 @@ CREATE TABLE publications (
 );
 -- INSERT INTO PUBLICATIONS
 INSERT INTO publications (title, issueNo, author, price, stock) VALUES
-    ('Westmeath Independant', 100, 'John Doe', 2.99, 100),
+    ('Westmeath Independant', 100, 'John Doe', 2.99, 5),
     ('Cosmopolitan', 123, 'John Smith', 1.99, 350),
-    ('Galactic Discoveries Digest', 456, 'Jane Doe', 3.99, 500),
-    ('AI Advancements Almanac', 789, 'Michael Johnson', 2.99, 200),
+    ('Galactic Discoveries Digest', 456, 'Jane Doe', 3.99, 4),
+    ('AI Advancements Almanac', 789, 'Michael Johnson', 2.99, 10),
     ('Health Horizon Herald', 321, 'John Doe', 2.99, 150),
-    ('Quantum Insights Quarterly', 50, 'Alice White', 5.99, 75),
+    ('Quantum Insights Quarterly', 50, 'Alice White', 5.99, 6),
     ('EcoTech Innovator', 200, 'David Green', 3.99, 250),
-    ('Stellar Science Journal', 789, 'Emily Brown', 4.99, 300),
-    ('Global Perspectives Gazette', 150, 'Robert Black', 2.50, 200),
-    ('BioTech Breakthrough Bulletin', 300, 'Sophia Gray', 3.50, 180),
-    ('Cultural Chronicles Chronicle', 75, 'Daniel Lee', 2.75, 120),
-    ('Cybernetic Trends Tribune', 400, 'Olivia Davis', 4.99, 220),
-    ('Sustainable Solutions Review', 250, 'Matthew Johnson', 3.99, 180),
-    ('Robotic Revolution Report', 600, 'Ava Robinson', 3.75, 250),
-    ('Psyche & Society Sentinel', 100, 'Liam Miller', 2.25, 130);
+    ('Stellar Science Journal', 789, 'Emily Brown', 4.99, 4),
+    ('Global Perspectives Gazette', 150, 'Robert Black', 2.50, 2),
+    ('BioTech Breakthrough Bulletin', 300, 'Sophia Gray', 3.50, 0),
+    ('Cultural Chronicles Chronicle', 75, 'Daniel Lee', 2.75, 5),
+    ('Cybernetic Trends Tribune', 400, 'Olivia Davis', 4.99, 10),
+    ('Sustainable Solutions Review', 250, 'Matthew Johnson', 3.99, 15),
+    ('Robotic Revolution Report', 600, 'Ava Robinson', 3.75, 16),
+    ('Psyche & Society Sentinel', 100, 'Liam Miller', 2.25, 22);
 
 -- ORDERS#################################################################
 -- Create the 'orders' table

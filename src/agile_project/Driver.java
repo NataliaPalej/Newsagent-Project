@@ -6,32 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Driver extends DatabaseConnector {
-	// Method to submit the delivery docket
-	// Method to submit the delivery docket
-	public void submitDeliveryDocket() throws NataliaException {
-		try {
-			// Get today's date
-			LocalDate localDateNow = LocalDate.now();
 
-			// Update the status of delivered orders in the orders table
-			String updateQuery = "UPDATE orders SET status = 'delivered' WHERE DATE(dateCreated) = ?";
-
-			try (Connection connection = getConnection();
-					PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-
-				updateStatement.setString(1, localDateNow.toString());
-				int updatedRows = updateStatement.executeUpdate();
-
-				System.out.println(updatedRows + " orders marked as delivered.");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error submitting delivery docket: " + e.getMessage());
-		}
-	}
 	static Scanner in = new Scanner(System.in);
 
 	private int driverID;
@@ -63,7 +43,8 @@ public class Driver extends DatabaseConnector {
 	/**
 	 * Methods
 	 * +docketCurrentDay -> this also counts how many books to be delivered per areaCode
-	 * +submitDeliveryDocket
+	 * +deductStock
+	 * +increaseStock
 	 */
 
 	// Modify the method to count books delivered per title
@@ -132,8 +113,8 @@ public class Driver extends DatabaseConnector {
             e.printStackTrace();
             throw new SQLException("Error executing SQL query: " + e.getMessage());
         }
+        
     }
-	
 	// Deduct stock quantity by book's title
 	void deductStock() throws NataliaException, SQLException {
 	    Connection connection = getConnection();
@@ -180,6 +161,63 @@ public class Driver extends DatabaseConnector {
 	        }
 	    } catch (SQLException e) {
 	        throw new SQLException("Error deducting stock: " + e.getMessage());
+	    }catch(InputMismatchException e) {
+	        System.out.println("Please enter Integer");
+
+	    }
+	}
+	
+	// Increase stock quantity by book's title
+	void increaseStock() throws NataliaException, SQLException {
+	    Connection connection = getConnection();
+
+	    try {
+	        System.out.println("Enter Publication Title: ");
+	        String bookTitle = in.nextLine();
+
+	        // Check if the book exists and get the publication ID and quantity
+	        String getPublicationQuery = "SELECT publicationID, stock FROM publications WHERE title = ?";
+	        try (PreparedStatement getPublicationStatement = connection.prepareStatement(getPublicationQuery)) {
+	            getPublicationStatement.setString(1, bookTitle);
+	            ResultSet publicationResultSet = getPublicationStatement.executeQuery();
+
+	            if (publicationResultSet.next()) {
+	                int publicationID = publicationResultSet.getInt("publicationID");
+	                int currentStock = publicationResultSet.getInt("stock");
+
+	                if (isValidStock(currentStock)) {
+	                    System.out.println("Enter how many publications want to return: ");
+	                    int booksDelivered = in.nextInt();
+	                    
+	                    // Update stock
+	                    String updateStockQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
+	                    try (PreparedStatement updateStockStatement = connection.prepareStatement(updateStockQuery)) {
+	                        updateStockStatement.setInt(1, currentStock + booksDelivered);
+	                        updateStockStatement.setInt(2, publicationID);
+	                        int rowsUpdated = updateStockStatement.executeUpdate();
+
+	                        if (rowsUpdated > 0) {
+	                            System.out.println("Stock increased successfully. Current stock for " + bookTitle + ": " + (currentStock + booksDelivered));
+	                        } else {
+	                            System.out.println("Failed to increase stock.");
+	                        }
+	                    } catch (SQLException e) {
+	                        System.out.println("Error while increasing stock.\n" + e.getMessage());
+	                    }
+	                    
+	                } else {
+	                    System.out.println("Book: " + bookTitle + " is OUT OF STOCK.");
+	                }
+	            } else {
+	                System.out.println("Book title not found.");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new SQLException("Error deducting stock: " + e.getMessage());
+	    }
+	    catch(InputMismatchException e) {
+	        System.out.println("Please enter Integer");
+
 	    }
 	}
 
@@ -194,6 +232,14 @@ public class Driver extends DatabaseConnector {
 		}
 		return false;
 	}
+	public boolean isValidAreaCode(int areaCode) {
+        // Assuming each driver is assigned an area code from 1 to 12
+        return areaCode >= 1 && areaCode <= 12;
+    }
+    public boolean isValidDriverID(int driverID) {
+        // Assuming each driver have assigned id from 1 to 12
+        return driverID >= 1 && driverID <= 12;
+    }
 	
 	/**
 	 * GETTERS AND SETTERS

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Options extends DatabaseConnector {
@@ -307,8 +308,8 @@ public class Options extends DatabaseConnector {
 
         System.out.println("\n\tDriver MENU:\t");
         System.out.println("1. Read Delivery Docket");
-        System.out.println("2. Submit Delivery Docket");
-        System.out.println("3. Deduct Stock");
+        System.out.println("2. Take Publications");
+        System.out.println("3. Return Publications");
         System.out.println("4. LOG OUT");
 
         int menuOption = in.nextInt();
@@ -324,17 +325,17 @@ public class Options extends DatabaseConnector {
                 int areaCode = in.nextInt();
                 // Fetch and display the delivery docket for the specified area code
                 driver.docketCurrentDay(areaCode);
+                
                 break;
-
+   
             case 2:
-                // SUBMIT DOCKET
-                driver.submitDeliveryDocket();
-                break;
-            case 3:
-                // DEDUCT DOCKET
+                // Take Publications
             	driver.deductStock();
                 break;
-                
+            case 3:
+            	// Return Publications
+            	driver.increaseStock();
+                break;
 
             case 4:
                 logOut();

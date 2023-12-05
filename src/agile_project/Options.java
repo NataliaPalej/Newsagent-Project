@@ -350,10 +350,46 @@ public class Options extends DatabaseConnector {
 
             break;
          // Submit DOCKET
+         // Submit DOCKET
         case 2:
-        	driver.submitDeliveryDocket();
-        	
-        	break;
+            try {
+                System.out.println("Enter Area Code:");
+                int areaCodeSubmit = in.nextInt();
+
+                // Validate area code before submitting the delivery docket
+                if (driver.isValidAreaCode(areaCodeSubmit)) {
+                    // Display order details based on the area code
+                    try {
+                        driver.docketCurrentDay(areaCodeSubmit);
+                    } catch (SQLException e) {
+                        System.out.println("Error fetching delivery docket: " + e.getMessage());
+                    }
+
+                    // Prompt the user to input an order ID
+                    int orderIDSubmit;
+                    do {
+                        System.out.println("Enter Order ID to submit delivery docket:");
+                        try {
+                            orderIDSubmit = in.nextInt();
+                            // Break the loop if a valid Order ID is entered
+                            break;
+                        } catch (InputMismatchException ex) {
+                            System.out.println("Invalid input. Please enter a valid integer for the Order ID.");
+                            in.nextLine(); // Clear the buffer to avoid an infinite loop
+                        }
+                    } while (true);
+
+                    // Call the submitDeliveryDocket method with the provided values
+                    driver.submitDeliveryDocket(areaCodeSubmit, orderIDSubmit);
+                } else {
+                    System.out.println("Invalid area code. Please enter a valid area code.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer for the area code.");
+                in.nextLine(); // Clear the buffer to avoid an infinite loop
+            }
+            break;
+
         case 3:
             // New case for printing the docket and updating publication stock
             System.out.println("* ------------------ *");

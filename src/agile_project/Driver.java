@@ -9,22 +9,24 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Driver extends DatabaseConnector {
+	
 	static Scanner in = new Scanner(System.in);
 
 	private int driverID;
 	private String username, password, role;
-
-	public Driver(int driverID, String username, String password, String role) throws NataliaException {
-		if (driverID < 0) {
-			throw new NataliaException("Invalid ID. ID must be greater than 0.");
-		}
+	/**
+	 * Constructors
+	 * Driver(String username, String password, String role)
+	 * Driver()
+	 */
+	public Driver(String username, String password, String role) throws NataliaException {
 		if (username.isEmpty() || username.length() < 1 || username.length() > 10) {
 			throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
 		}
 		if (password.isEmpty() || password.length() < 6 || password.length() > 10 || !password.matches(".*\\d.*")) {
 			throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one digit and uppercase letter.");
 		}
-		if (role.equalsIgnoreCase("driver") || role.equalsIgnoreCase("newsagent") || role.equalsIgnoreCase("admin")) {
+		if (role.equalsIgnoreCase("driver")) {
 			this.username = username;
 			this.password = password;
 			this.role = role;
@@ -32,17 +34,19 @@ public class Driver extends DatabaseConnector {
 			throw new NataliaException("Invalid role. Available roles: driver/newsagent/admin.");
 		}
 	}
-
+//##############################################################################
 	public Driver() {
 
 	}
-
+	
 	/**
-	 * Won't return anything unless update todays date of orders in dataBase.!!!!!!!!
 	 * Methods
 	 * +docketCurrentDay
 	 * +submitDeliveryDocket
+	 * +updatePublicationStock
+	 * +printDocketAndUpdateStock
 	 */
+//##############################################################################
 
 	public void docketCurrentDay(int areaCode) throws NataliaException, SQLException {
 		try {
@@ -96,40 +100,7 @@ public class Driver extends DatabaseConnector {
 			throw new SQLException("Error executing SQL query: " + e.getMessage());
 		}
 	}
-
-	public int getDriverID() {
-		return driverID;
-	}
-
-	public void setDriverID(int driverID) {
-		this.driverID = driverID;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	// Add other methods here
+//##############################################################################
     public void printDocketAndUpdateStock(int areaCode) throws NataliaException {
         try {
             // Get today's date
@@ -173,14 +144,7 @@ public class Driver extends DatabaseConnector {
             throw new NataliaException("Error printing docket and updating stock: " + e.getMessage());
         }
     }
-
-    /**
-     * Update the stock of a publication in the database.
-     *
-     * @param publicationID The ID of the publication.
-     * @param newStock      The new stock value.
-     * @throws NataliaException If there is an issue with the data or execution.
-     */
+//##############################################################################
     public void updatePublicationStock(int publicationID, int newStock) throws NataliaException {
         try {
             String updateQuery = "UPDATE publications SET stock = ? WHERE publicationID = ?";
@@ -197,42 +161,13 @@ public class Driver extends DatabaseConnector {
             throw new NataliaException("Error updating publication stock: " + e.getMessage());
         }
     }
-    public boolean isValidAreaCode(int areaCode) {
-        // Assuming each driver is assigned an area code from 1 to 12
-        return areaCode >= 1 && areaCode <= 12;
-    }
- // Inside the Driver class
-public void submitDeliveryDocket() throws NataliaException {
-    try {
-        // Get today's date
-        LocalDate localDateNow = LocalDate.now();
+ //##############################################################################
 
-        System.out.println("Enter Area Code:");
-        int areaCodeSubmit = in.nextInt();
-
+    public void submitDeliveryDocket(int areaCodeSubmit, int orderID) throws NataliaException, SQLException {
         // Validate area code before submitting the delivery docket
         if (isValidAreaCode(areaCodeSubmit)) {
             // Display order details based on the area code
-            try {
-                docketCurrentDay(areaCodeSubmit);
-            } catch (SQLException e) {
-                // Handle the SQLException here (print a message, log, etc.)
-                System.out.println("Error fetching delivery docket: " + e.getMessage());
-            }
-
-            // Prompt the user to input an order ID (in a loop for robustness)
-            int orderID;
-            do {
-                System.out.println("Enter Order ID to submit delivery docket:");
-                try {
-                    orderID = in.nextInt();
-                    // Break the loop if a valid Order ID is entered
-                    break;
-                } catch (InputMismatchException ex) {
-                    System.out.println("Invalid input. Please enter a valid integer for the Order ID.");
-                    in.nextLine(); // Clear the buffer to avoid an infinite loop
-                }
-            } while (true);
+            docketCurrentDay(areaCodeSubmit);
 
             // Update the publication stock associated with the given order ID
             int updatedStock = updatePublicationStock(orderID);
@@ -242,13 +177,8 @@ public void submitDeliveryDocket() throws NataliaException {
         } else {
             System.out.println("Invalid area code. Please enter a valid area code.");
         }
-    } catch (InputMismatchException e) {
-        System.out.println("Invalid input. Please enter a valid integer for the area code.");
-        in.nextLine(); // Clear the buffer to avoid an infinite loop
     }
-}
-
-    // Modify the existing updatePublicationStock method to return the updated stock
+//##############################################################################
     public int updatePublicationStock(int orderID) throws NataliaException {
         try {
             String query = "SELECT p.publicationID, p.stock " +
@@ -280,6 +210,106 @@ public void submitDeliveryDocket() throws NataliaException {
             throw new NataliaException("Error updating publication stock: " + e.getMessage());
         }
     }
+//##############################################################################
+	/** 
+	 * Validation methods
+	 * @param int driverID >0;
+	 * @param password between 6-10 characters + at least one number&upper case
+	 * @param role: admin/newsagent/driver
+	 */
+    public boolean isValidAreaCode(int areaCode) {
+        // Assuming each driver is assigned an area code from 1 to 12
+        return areaCode >= 1 && areaCode <= 12;
+    }
+    public boolean isValidDriverID(int driverID) {
+        // Assuming each driver have assigned id from 1 to 12
+        return driverID >= 1 && driverID <= 12;
+    }
+	public boolean isValidName(String name) {
+		if (name.length() <= 15 && name.length() > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean isValidAddress(String address) {
+		if (address.length() <= 20 && address.length() > 1) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isValidUsername(String username) {
+		if (username.length() >= 1 && username.length() <= 10) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isValidPassword(String password) {
+		if (password.length() < 6 || password.length() > 10) {
+			System.out.println("Password length must be between 6-10 characters.");
+			return false;
+		} // Check if password contains at least one digit
+		if (!password.matches(".*\\d.*")) {
+			System.out.println("Password must contain at least one digit.");
+			return false;
+		} // Check if the password contains at least one uppercase letter
+		if (!password.matches(".*[A-Z].*")) {
+			System.out.println("Password must contain at least one uppercase letter.");
+	        return false;
+	    }
+		return true;
+	}
+	public boolean isValidRole(String role) {
+		if (role.equalsIgnoreCase("driver")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	private boolean isValidUpdate(String updateColumn, String newValue) {
+	    // Validation logic for the updateColumn and newValue
+	    if (updateColumn.equals("username")) {
+	        return isValidUsername(newValue);
+	    } else if (updateColumn.equals("password")) {
+	        return isValidPassword(newValue);
+	    } else if (updateColumn.equals("role")) {
+	        return isValidRole(newValue);
+	    }
+	    return false;
+	}
+    /**
+	 * Setters & Getters
+	 */
+	public int getDriverID() {
+		return driverID;
+	}
 
+	public void setDriverID(int driverID) {
+		this.driverID = driverID;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 }//    end of class

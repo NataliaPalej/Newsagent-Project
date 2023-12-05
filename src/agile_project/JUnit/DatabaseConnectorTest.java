@@ -1,6 +1,9 @@
-package agile_project;
+package agile_project.JUnit;
 
 import java.sql.Connection;
+
+import agile_project.DatabaseConnector;
+import agile_project.Exceptions.NataliaException;
 import junit.framework.TestCase;
 
 public class DatabaseConnectorTest extends TestCase {

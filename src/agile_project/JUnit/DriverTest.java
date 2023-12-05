@@ -1,12 +1,12 @@
-package agile_project;
+package agile_project.JUnit;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 
-import agile_project.NataliaException;
-
+import agile_project.Driver;
+import agile_project.Exceptions.NataliaException;
 import junit.framework.TestCase;
 
 public class DriverTest extends TestCase {

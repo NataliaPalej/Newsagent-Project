@@ -1,6 +1,8 @@
 package agile_project;
 import java.sql.*;
 
+import agile_project.Exceptions.NataliaException;
+
 public class User {
 	
 	private int userID;

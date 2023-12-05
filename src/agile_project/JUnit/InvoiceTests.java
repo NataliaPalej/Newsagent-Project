@@ -1,8 +1,11 @@
-package agile_project;
+package agile_project.JUnit;
 
 import junit.framework.TestCase;
 
 import java.time.LocalDate;
+
+import agile_project.Invoice;
+import agile_project.Exceptions.NataliaException;
 
 public class InvoiceTests extends TestCase {
 

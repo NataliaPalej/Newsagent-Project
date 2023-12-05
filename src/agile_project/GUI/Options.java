@@ -1,12 +1,22 @@
-package agile_project;
+package agile_project.GUI;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import agile_project.Admin;
+import agile_project.DatabaseConnector;
+import agile_project.Driver;
+import agile_project.Invoice;
+import agile_project.Newsagent;
+import agile_project.Order;
+import agile_project.Publication;
+import agile_project.User;
+import agile_project.Exceptions.NataliaException;
+import agile_project.Exceptions.RonanException;
 
 public class Options extends DatabaseConnector {
 
@@ -307,9 +317,9 @@ public class Options extends DatabaseConnector {
         LocalDate localDateNow = LocalDate.now();
 
         System.out.println("\n\tDriver MENU:\t");
-        System.out.println("1. Read Delivery Docket");
-        System.out.println("2. Take Publications");
-        System.out.println("3. Return Publications");
+        System.out.println("1. READ Delivery Docket");
+        System.out.println("2. UPDATE Publications Stock");
+        System.out.println("3. RETURN Publications");
         System.out.println("4. LOG OUT");
 
         int menuOption = in.nextInt();
@@ -329,11 +339,11 @@ public class Options extends DatabaseConnector {
                 break;
    
             case 2:
-                // Take Publications
+                // Deduct Publications from stock
             	driver.deductStock();
                 break;
             case 3:
-            	// Return Publications
+            	// Return Publications back to stock
             	driver.increaseStock();
                 break;
 

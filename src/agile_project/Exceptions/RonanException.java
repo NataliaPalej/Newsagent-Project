@@ -1,4 +1,4 @@
-package agile_project;
+package agile_project.Exceptions;
 
 public class RonanException extends Exception{
 

@@ -1,6 +1,10 @@
-package agile_project;
+package agile_project.JUnit;
 
 import java.sql.SQLException;
+
+import agile_project.Customer;
+import agile_project.Newsagent;
+import agile_project.Exceptions.NataliaException;
 import junit.framework.TestCase;
 
 /**

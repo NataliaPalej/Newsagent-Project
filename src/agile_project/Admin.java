@@ -3,6 +3,8 @@ package agile_project;
 import java.sql.*;
 import java.util.Scanner;
 
+import agile_project.Exceptions.NataliaException;
+
 public class Admin extends User {
 	private int adminID;
 	
@@ -47,25 +49,35 @@ public class Admin extends User {
         	System.out.println("| Create New User |");
         	System.out.println("* --------------- *");
         	
-        	System.out.print("Enter username: ");
-        	String username = in.next();
-        	if (!isValidUsername(username)) {
-        		//System.out.println("Invalid username. Username must be between 1-10 characters.");
-                throw new NataliaException("Invalid username. Username must be between 1-10 characters.");
-            }
-        	System.out.print("Enter password: ");
-        	String password = in.next();
-            if (!isValidPassword(password)) {
-            	//System.out.println("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
-                throw new NataliaException("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
-            }
-            System.out.print("Enter role: ");
-        	String role = in.next();
-            if (!isValidRole(role)) {
-            	//System.out.println("Invalid role. Available roles: admin/newsagent/driver.");
-                throw new NataliaException("Invalid role. Available roles: admin/newsagent/driver.");
-            }
-        	
+        	 String username;
+             while (true) {
+                 System.out.print("Enter username: ");
+                 username = in.next();
+                 if (isValidUsername(username)) {
+                     break; // Exit the loop if the username is valid
+                 }
+                 System.out.println("Invalid username. Username must be between 1-10 characters.");
+             }
+             
+             String password;
+             while (true) {
+                 System.out.print("Enter password: ");
+                 password = in.next();
+                 if (isValidPassword(password)) {
+                     break; // Exit the loop if the password is valid
+                 }
+                 System.out.println("Invalid password. Password must be between 6-10 characters, include at least one uppercase letter and one digit.");
+             }
+             
+             String role;
+             while (true) {
+                 System.out.print("Enter role: ");
+                 role = in.next();
+                 if (isValidRole(role)) {
+                     break; // Exit the loop if the role is valid
+                 }
+                 System.out.println("Invalid role. Available roles: admin/newsagent/driver.");
+             }
             connection = DatabaseConnector.getConnection();
             String query = "INSERT INTO userdetails (username, password, role) VALUES (?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -211,10 +223,6 @@ public class Admin extends User {
 	@SuppressWarnings("resource")
 	public void updateUser(int id) throws NataliaException, SQLException {
 		
-		System.out.println("* --------------- *");
-    	System.out.println("|   Update User   |");
-    	System.out.println("* --------------- *");
-		
 		String query = "SELECT * FROM userdetails WHERE userID = ?";
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
@@ -229,6 +237,10 @@ public class Admin extends User {
 	    if (resultSet.next()) {
 	    	String userID = resultSet.getString("userID");
             String username = resultSet.getString("username");
+            
+            System.out.println("* --------------- *");
+        	System.out.println("|   Update User   |");
+        	System.out.println("* --------------- *");
             
             System.out.println("Are you sure you want to update user " + userID + ": " + username + "? (Y/N)");
             String answer = in.next();

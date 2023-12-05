@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import agile_project.Exceptions.NataliaException;
+
 public class Order {
 	private int orderID, pubID, custID;
 	private LocalDate orderDate;

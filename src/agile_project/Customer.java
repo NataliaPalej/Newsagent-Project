@@ -3,6 +3,8 @@ package agile_project;
 import java.sql.*;
 import java.sql.SQLException;
 
+import agile_project.Exceptions.NataliaException;
+
 public class Customer {
 	
 	protected int custID, areaCode;

@@ -10,6 +10,8 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
+import agile_project.Exceptions.NataliaException;
+
 public class Driver extends DatabaseConnector {
 
 	static Scanner in = new Scanner(System.in);
@@ -116,7 +118,7 @@ public class Driver extends DatabaseConnector {
         
     }
 	// Deduct stock quantity by book's title
-	void deductStock() throws NataliaException, SQLException {
+	public void deductStock() throws NataliaException, SQLException {
 	    Connection connection = getConnection();
 
 	    try {
@@ -168,7 +170,7 @@ public class Driver extends DatabaseConnector {
 	}
 	
 	// Increase stock quantity by book's title
-	void increaseStock() throws NataliaException, SQLException {
+	public void increaseStock() throws NataliaException, SQLException {
 	    Connection connection = getConnection();
 
 	    try {

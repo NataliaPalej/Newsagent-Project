@@ -1,6 +1,10 @@
-package agile_project;
+package agile_project.GUI;
 
 import java.sql.*;
+
+import agile_project.DatabaseConnector;
+import agile_project.Exceptions.NataliaException;
+import agile_project.Exceptions.RonanException;
 
 public class Application_Newsagent extends DatabaseConnector {
 

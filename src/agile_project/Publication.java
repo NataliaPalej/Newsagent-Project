@@ -8,13 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import agile_project.Exceptions.NataliaException;
+import agile_project.Exceptions.RonanException;
+
 public class Publication {
 
 	private int id;
 	private String title;
 	private int issueNo;
 	private String author;
-	private double price;
+	private int price;
 	private int stock;
 
 	static Scanner in = new Scanner(System.in);
@@ -128,6 +131,65 @@ public class Publication {
 		}
 	}
 
+	public void createPublication(String title, int issueNo, String author, int price, int stock) throws RonanException, SQLException, NataliaException{
+
+		System.out.println("* ---------------------- *");
+		System.out.println("|   Create Publication   |");
+		System.out.println("* ---------------------- *");
+
+
+		if (!isValidString(title)) {
+			throw new RonanException("Invalid title. Name must be between 1-50 characters.");
+		}
+
+		if (!isValidInt(issueNo)) {
+			throw new RonanException("Invalid last name. Issue No. must be greater than 0.");
+		}
+
+		if (!isValidString(author)) {
+			throw new RonanException("Invalid author. Author must be between 1-50 characters.");
+		}
+
+		if (!isValidInt(price)) {
+			throw new RonanException("Invalid Price. Price must be greater than 0.");
+		}
+
+		if (!isValidInt(stock)) {
+			throw new RonanException("Invalid Stock. Stock must be greater than 0.");
+		}
+
+		Connection connection = null;
+		try {
+			connection = DatabaseConnector.getConnection();
+			String query = "INSERT INTO publications (title, issueNo, author, price, stock) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, title);
+			stmt.setInt(2, issueNo);
+			stmt.setString(3, author);
+			stmt.setDouble(4, price);
+			stmt.setInt(5, stock);
+			stmt.executeUpdate();
+
+			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int publicationId = generatedKeys.getInt(1);
+				this.setId(publicationId);
+				this.setTitle(title);
+				this.setIssueNo(issueNo);
+				this.setAuthor(author);
+				this.setPrice(price);
+				this.setStock(stock);
+
+				System.out.println("Publication: " + this.getId() + ", " + this.getTitle() + " #" + this.getIssueNo() + " was successfully created!");
+			}
+		} catch (SQLException e) {
+			throw new RonanException("Couldn't create Publication.\n" + e.getMessage());
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
 
 	@SuppressWarnings("resource")
 	public void updatePublication(int id) throws RonanException, SQLException, NataliaException {
@@ -251,7 +313,7 @@ public class Publication {
 				publicationObj.setTitle(resultSet.getString("title"));
 				publicationObj.setIssueNo(resultSet.getInt("issueNo"));
 				publicationObj.setAuthor(resultSet.getString("author"));
-				publicationObj.setPrice(resultSet.getDouble("price"));
+				publicationObj.setPrice(resultSet.getInt("price"));
 				publicationObj.setStock(resultSet.getInt("stock"));
 
 
@@ -434,12 +496,12 @@ public class Publication {
 	}
 
 
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
 
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 

@@ -1,6 +1,10 @@
-package agile_project;
+package agile_project.JUnit;
 
 import java.sql.SQLException;
+
+import agile_project.Admin;
+import agile_project.User;
+import agile_project.Exceptions.NataliaException;
 import junit.framework.TestCase;
 
 /**

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import agile_project.Exceptions.NataliaException;
+
 public class DeliveryDocket extends Order {
 
 

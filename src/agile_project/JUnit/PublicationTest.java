@@ -1,7 +1,10 @@
-package agile_project;
+package agile_project.JUnit;
 
 import java.sql.SQLException;
 
+import agile_project.Publication;
+import agile_project.Exceptions.NataliaException;
+import agile_project.Exceptions.RonanException;
 import junit.framework.TestCase;
 
 public class PublicationTest extends TestCase {
@@ -325,8 +328,7 @@ public class PublicationTest extends TestCase {
 	public void testCreatePublication001() throws RonanException, SQLException, NataliaException {
 		try {
 			Publication createTest001 = new Publication();
-			createTest001.createPublication();
-			assertEquals(21, createTest001.getId());
+			createTest001.createPublication("Test", 1, "Test", 1, 1);
 			assertEquals("Test", createTest001.getTitle());
 			assertEquals(1, createTest001.getIssueNo());
 			assertEquals("Test", createTest001.getAuthor());

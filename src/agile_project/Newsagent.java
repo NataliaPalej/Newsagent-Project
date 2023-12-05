@@ -3,6 +3,8 @@ package agile_project;
 import java.sql.*;
 import java.util.Scanner;
 
+import agile_project.Exceptions.NataliaException;
+
 public class Newsagent extends Customer {
 	
 	static Scanner in = new Scanner(System.in);
